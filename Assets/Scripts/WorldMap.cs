@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class WorldMap : ScriptableObject
+	public class WorldMap : MonoBehaviour
 	{
 		private int size;
 		public int Size { get => size; set => size = value; }
@@ -35,6 +35,18 @@ namespace MMH
 		public int2 IdToPosition(int id)
 		{
 			return new int2(id % Width - HalfWidth, id / Width - HalfWidth);
+		}
+
+		public Vector3 GridToWorld(int2 gridPosition)
+		{
+			Vector3 screenPosition = new Vector3
+			{
+				x = (gridPosition.x - gridPosition.y) * 1,
+				y = (gridPosition.x + gridPosition.y) / 2,
+				z = 0,
+			};
+
+			return screenPosition;
 		}
 
 		public Cell GetCell(int x, int y)

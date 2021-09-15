@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace MMH
 {
-	public class PlayerController : MonoBehaviour
+	public class PlayerManager : MonoBehaviour
 	{
 		private float panSpeed = 8.0f;
 		private float zoomSpeed = 8.0f;
@@ -18,14 +18,12 @@ namespace MMH
 		private InputAction zoom;
 		private InputAction select;
 
-		public WorldMap worldMap;
-
-		private void Awake()
+		void Awake()
 		{
 			playerInputActions = new PlayerInputActions();
 		}
 
-		private void OnEnable()
+		void OnEnable()
 		{
 			playerCamera = GetComponentInChildren<Camera>();
 
@@ -40,14 +38,14 @@ namespace MMH
 			select.Enable();
 		}
 
-		private void OnDisable()
+		void OnDisable()
 		{
 			pan.Disable();
 			zoom.Disable();
 			select.Disable();
 		}
 
-		private void Update()
+		void Update()
 		{
 			Vector2 panValue = pan.ReadValue<Vector2>();
 			Vector3 panDisplacement = panSpeed * panValue;

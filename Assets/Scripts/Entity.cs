@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class Cell : ScriptableObject
+	public class Entity : ScriptableObject
 	{
 		public int Id;
+
 		public int2 Position;
 
-		public OverlayType OverlayType;
-		public StructureType StructureType;
-		public GroundType GroundType;
+		public EntityRenderData EntityRenderData;
 	}
 }

@@ -10,6 +10,7 @@ namespace MMH
     public class WorldMapManager : MonoBehaviour
     {
         private WorldMap worldMap;
+        public WorldMap WorldMap => worldMap;
 
         private Dictionary<string, OverlayType> overlayTypes;
         private Dictionary<string, StructureType> structureTypes;
@@ -19,8 +20,8 @@ namespace MMH
         private Tilemap structureTilemap;
         private Tilemap groundTilemap;
 
-        void Start()
-        {
+		private void Awake()
+		{
             overlayTypes = new Dictionary<string, OverlayType>();
             structureTypes = new Dictionary<string, StructureType>();
             groundTypes = new Dictionary<string, GroundType>();
@@ -29,20 +30,23 @@ namespace MMH
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
             groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
 
-            SetupCellResources();
+            worldMap = gameObject.AddComponent<WorldMap>();
 
-            GenerateWorldMap();
-            
-            UpdateRenderData();
+            SetupCellResources();
         }
 
+		void Start()
+        {
+            GenerateWorldMap();
+            UpdateRenderData();
+        }
 
         void Update()
         {
 
         }
 
-        void SetupCellResources()
+        private void SetupCellResources()
 		{
             DirectoryInfo overlayDirectoryInfo = new DirectoryInfo("Assets/Resources/Types/OverlayTypes");
             FileInfo[] overlayFileInfoList = overlayDirectoryInfo.GetFiles("*.asset");
@@ -75,23 +79,23 @@ namespace MMH
 			}
         }
 
-		void GenerateWorldMap()
+		private void GenerateWorldMap()
 		{
-            worldMap = ScriptableObject.CreateInstance<WorldMap>();
             worldMap.InitMap(40);
 
             for (int id = 0; id < worldMap.Area; id++)
 			{
-                Cell cell = new Cell()
-                {
-                    Id = id,
-                    OverlayType = null,
-                    StructureType = null,
-                    GroundType = groundTypes["Floor1"],
-                };
+                Cell cell = ScriptableObject.CreateInstance<Cell>();
+                cell.Id = id;
+                cell.OverlayType = null;
+                cell.StructureType = null;
+                cell.GroundType = groundTypes["Floor1"];
 
                 worldMap.Cells.Add(cell);
             }
+
+            Cell cellCenter = worldMap.GetCell(0, 0);
+            cellCenter.OverlayType = overlayTypes["Outline2"];
 
             Cell cellNW = worldMap.GetCell(0, 20);
             cellNW.StructureType = structureTypes["Wall1"];
@@ -118,7 +122,7 @@ namespace MMH
             cellEE.StructureType = structureTypes["Wall2"];
         }
 
-        void UpdateRenderData()
+        private void UpdateRenderData()
 		{
             foreach (Cell cell in worldMap.Cells)
 			{
