@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -15,7 +16,8 @@ namespace MMH
         private GameObject guyPrefab;
         private GameObject kailtPrefab;
         private GameObject taylorPrefab;
-
+        
+        private Dictionary<string, Direction> directions;
         private Dictionary<string, NationType> nationTypes;
 
         private WorldMap worldMap;
@@ -27,8 +29,24 @@ namespace MMH
             numberOfCitizens = 20;
             citizens = new List<Citizen>(numberOfCitizens);
 
+            SetupEntityResources();
             SetupCitizenResources();
 		}
+
+        void SetupEntityResources()
+		{
+            directions = new Dictionary<string, Direction>();
+
+            DirectoryInfo directoryInfo = new DirectoryInfo("Assets/Resources/Types/MapTypes");
+            FileInfo[] fileInfoList = directoryInfo.GetFiles("*.asset");
+
+            foreach (FileInfo fileInfo in fileInfoList)
+			{
+                string basename = Path.GetFileNameWithoutExtension(fileInfo.Name);
+
+                directions[basename] = Resources.Load<Direction>($"Types/MapTypes/{basename}");
+            }
+        }
 
         void SetupCitizenResources()
 		{
@@ -50,6 +68,7 @@ namespace MMH
 
             Citizen testGuyCitizen = ScriptableObject.CreateInstance<Citizen>();
             testGuyCitizen.Position = new int2(2, 2);
+            testGuyCitizen.Direction = directions["SE"];
             testGuyCitizen.NationType = nationTypes["Guy"];
 
             testGuyCitizen.EntityRenderData = ScriptableObject.CreateInstance<EntityRenderData>();
@@ -58,11 +77,14 @@ namespace MMH
                 worldMap.GridToWorld(testGuyCitizen.Position),
                 Quaternion.identity
             );
+            testGuyCitizen.EntityRenderData.Animator = testGuyCitizen.EntityRenderData.WorldGameObject.GetComponent<Animator>();
+            testGuyCitizen.EntityRenderData.Animator.Play($"Base Layer.guys-idle-{testGuyCitizen.Direction.name.ToLower()}");
 
             citizens.Add(testGuyCitizen);
 
             Citizen testTaylorCitizen = ScriptableObject.CreateInstance<Citizen>();
             testTaylorCitizen.Position = new int2(-2, -2);
+            testTaylorCitizen.Direction = directions["EE"];
             testTaylorCitizen.NationType = nationTypes["Taylor"];
 
             testTaylorCitizen.EntityRenderData = ScriptableObject.CreateInstance<EntityRenderData>();
@@ -71,6 +93,8 @@ namespace MMH
                 worldMap.GridToWorld(testTaylorCitizen.Position),
                 Quaternion.identity
             );
+            testTaylorCitizen.EntityRenderData.Animator = testTaylorCitizen.EntityRenderData.WorldGameObject.GetComponent<Animator>();
+            testTaylorCitizen.EntityRenderData.Animator.Play($"Base Layer.taylor-idle-{testTaylorCitizen.Direction.name.ToLower()}");
 
             citizens.Add(testTaylorCitizen);
 

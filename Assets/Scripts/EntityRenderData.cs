@@ -7,5 +7,6 @@ namespace MMH
 	public class EntityRenderData : ScriptableObject
 	{
 		public GameObject WorldGameObject;
+		public Animator Animator;
 	}
 }
