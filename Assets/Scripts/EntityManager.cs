@@ -80,7 +80,7 @@ namespace MMH
             testGuyCitizen.EntityRenderData.Animator = testGuyCitizen.EntityRenderData.WorldGameObject.GetComponent<Animator>();
             testGuyCitizen.EntityRenderData.Animator.Play($"Base Layer.guys-idle-{testGuyCitizen.Direction.name.ToLower()}");
 
-            citizens.Add(testGuyCitizen);
+            AddCitizen(testGuyCitizen);
 
             Citizen testTaylorCitizen = ScriptableObject.CreateInstance<Citizen>();
             testTaylorCitizen.Position = new int2(-2, -2);
@@ -96,7 +96,7 @@ namespace MMH
             testTaylorCitizen.EntityRenderData.Animator = testTaylorCitizen.EntityRenderData.WorldGameObject.GetComponent<Animator>();
             testTaylorCitizen.EntityRenderData.Animator.Play($"Base Layer.taylor-idle-{testTaylorCitizen.Direction.name.ToLower()}");
 
-            citizens.Add(testTaylorCitizen);
+            AddCitizen(testTaylorCitizen);
 
             /*           for (int i = 0; i < numberOfCitizens; i++)
                        {
@@ -152,6 +152,13 @@ namespace MMH
                                citizens.Add(taylorCitizen);
                            }
                        }*/
+        }
+
+        void AddCitizen(Citizen citizen)
+		{
+            citizen.EntityRenderData.WorldGameObject.transform.parent = citizensObject.transform;
+
+            citizens.Add(citizen);
         }
 
         void Update()
