@@ -67,7 +67,7 @@ namespace MMH
 
             worldMap = GameObject.Find("World Map").GetComponent<WorldMap>();
 
-            Citizen testGuyCitizen = ScriptableObject.CreateInstance<Citizen>();
+            Citizen testGuyCitizen = new Citizen();
             testGuyCitizen.Position = new int2(2, 2);
             testGuyCitizen.Direction = directions["SE"];
             testGuyCitizen.NationType = nationTypes["Guy"];
@@ -83,7 +83,7 @@ namespace MMH
 
             AddCitizen(testGuyCitizen);
 
-            Citizen testTaylorCitizen = ScriptableObject.CreateInstance<Citizen>();
+            Citizen testTaylorCitizen = new Citizen();
             testTaylorCitizen.Position = new int2(-2, -2);
             testTaylorCitizen.Direction = directions["EE"];
             testTaylorCitizen.NationType = nationTypes["Taylor"];
@@ -166,15 +166,20 @@ namespace MMH
         {
         
         }
-        
-        private void UpdateRenderData()
+
+		private void OnDisable()
+		{
+            TimeSystem.OnTurn -= OnTurn;
+		}
+
+		private void UpdateRenderData()
 		{
 
 		}
 
         private void OnTurn(object sender, TimeSystem.OnTurnEventArgs eventArgs)
         {
-            Debug.Log("Turn Complete");
+            Debug.Log("Turn " + eventArgs.turn);
         }
     }
 }

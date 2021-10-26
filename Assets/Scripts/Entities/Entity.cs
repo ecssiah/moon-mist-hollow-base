@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class Entity : ScriptableObject
+	public class Entity
 	{
 		public int Id;
 

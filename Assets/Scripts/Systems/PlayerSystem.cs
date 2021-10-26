@@ -45,6 +45,8 @@ namespace MMH
 			pan.Disable();
 			zoom.Disable();
 			select.Disable();
+
+			TimeSystem.OnTick -= OnTick;
 		}
 
 		void Update()
@@ -77,7 +79,6 @@ namespace MMH
 
 		private void OnTick(object sender, TimeSystem.OnTickEventArgs onTickEventArgs)
 		{
-			Debug.Log("Tick " + onTickEventArgs.tick);
 		}
 	}
 }

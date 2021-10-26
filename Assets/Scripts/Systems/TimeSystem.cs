@@ -12,6 +12,7 @@ namespace MMH
 
 		public class OnTurnEventArgs : EventArgs
 		{
+			public int turn;
 		}
 
 		public static event EventHandler<OnTickEventArgs> OnTick;
@@ -23,9 +24,12 @@ namespace MMH
 		private int tick;
 		private float tickTimer;
 
+		private int turn;
+
 		private void Awake()
 		{
 			tick = 0;
+			turn = 0;
 		}
 
 		private void Update()
@@ -42,8 +46,9 @@ namespace MMH
 				if (tick >= TICKS_PER_TURN)
 				{
 					tick = 0;
+					turn++;
 
-					OnTurn?.Invoke(this, new OnTurnEventArgs { });
+					OnTurn?.Invoke(this, new OnTurnEventArgs { turn = turn });
 				}
 			}
 		}
