@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace MMH
 {
-	public class PlayerManager : MonoBehaviour
+	public class PlayerSystem : MonoBehaviour
 	{
 		private float panSpeed = 8.0f;
 		private float zoomSpeed = 8.0f;
@@ -21,6 +18,11 @@ namespace MMH
 		void Awake()
 		{
 			playerInputActions = new PlayerInputActions();
+		}
+
+		private void Start()
+		{
+			TimeSystem.OnTick += OnTick;
 		}
 
 		void OnEnable()
@@ -71,6 +73,11 @@ namespace MMH
 		private void Select(InputAction.CallbackContext obj)
 		{
 			Debug.Log("Select!");
+		}
+
+		private void OnTick(object sender, TimeSystem.OnTickEventArgs onTickEventArgs)
+		{
+			Debug.Log("Tick " + onTickEventArgs.tick);
 		}
 	}
 }

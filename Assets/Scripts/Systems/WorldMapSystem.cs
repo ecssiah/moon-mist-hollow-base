@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.Mathematics;
@@ -7,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace MMH
 {
-    public class WorldMapManager : MonoBehaviour
+    public class WorldMapSystem : MonoBehaviour
     {
         private WorldMap worldMap;
         public WorldMap WorldMap => worldMap;
@@ -38,6 +37,7 @@ namespace MMH
 		void Start()
         {
             GenerateWorldMap();
+
             UpdateRenderData();
         }
 
@@ -85,13 +85,15 @@ namespace MMH
 
             for (int id = 0; id < worldMap.Area; id++)
 			{
-                Cell cell = ScriptableObject.CreateInstance<Cell>();
-                cell.Id = id;
-                cell.OverlayType = null;
-                cell.StructureType = null;
-                cell.GroundType = groundTypes["Floor1"];
+				Cell cell = new Cell
+				{
+					Id = id,
+					OverlayType = null,
+					StructureType = null,
+					GroundType = groundTypes["Floor1"]
+				};
 
-                worldMap.Cells.Add(cell);
+				worldMap.Cells.Add(cell);
             }
 
             Cell cellCenter = worldMap.GetCell(0, 0);
@@ -100,26 +102,27 @@ namespace MMH
             Cell cellNW = worldMap.GetCell(0, 20);
             cellNW.StructureType = structureTypes["Wall1"];
 
-            Cell cellNN = worldMap.GetCell(15, 15);
+            Cell cellNN = worldMap.GetCell(14, 14);
             cellNN.StructureType = structureTypes["Wall2"];
 
             Cell cellNE = worldMap.GetCell(20, 0);
             cellNE.StructureType = structureTypes["Wall1"];
 
-            Cell cellWW = worldMap.GetCell(15, -15);
+            Cell cellWW = worldMap.GetCell(14, -14);
             cellWW.StructureType = structureTypes["Wall2"];
 
             Cell cellSW = worldMap.GetCell(0, -20);
             cellSW.StructureType = structureTypes["Wall1"];
 
-            Cell cellSS = worldMap.GetCell(-15, -15);
+            Cell cellSS = worldMap.GetCell(-14, -14);
             cellSS.StructureType = structureTypes["Wall2"];
 
             Cell cellSE = worldMap.GetCell(-20, 0);
             cellSE.StructureType = structureTypes["Wall1"];
 
-            Cell cellEE = worldMap.GetCell(-15, 15);
+            Cell cellEE = worldMap.GetCell(-14, 14);
             cellEE.StructureType = structureTypes["Wall2"];
+
         }
 
         private void UpdateRenderData()
@@ -134,24 +137,21 @@ namespace MMH
 
                 if (overlayType)
                 {
-                    Tile overlayTile = overlayType.Tile;
-                    overlayTilemap.SetTile(tilemapPosition, overlayTile);
+                    overlayTilemap.SetTile(tilemapPosition, overlayType.Tile);
                 }
 
                 StructureType structureType = worldMap.Cells[cell.Id].StructureType;
 
                 if (structureType)
                 {
-                    Tile structureTile = structureType.Tile;
-                    structureTilemap.SetTile(tilemapPosition, structureTile);
+                    structureTilemap.SetTile(tilemapPosition, structureType.Tile);
                 }
 
                 GroundType groundType = worldMap.Cells[cell.Id].GroundType;
 
                 if (groundType)
                 {
-                    Tile groundTile = groundType.Tile;
-                    groundTilemap.SetTile(tilemapPosition, groundTile);
+                    groundTilemap.SetTile(tilemapPosition, groundType.Tile);
                 }
             }
 		}

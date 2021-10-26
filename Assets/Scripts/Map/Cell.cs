@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class Cell : ScriptableObject
+	public class Cell
 	{
 		public int Id;
 		public int2 Position;

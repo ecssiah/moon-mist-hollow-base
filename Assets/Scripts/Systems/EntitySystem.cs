@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.Mathematics;
@@ -6,12 +5,12 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class EntityManager : MonoBehaviour
+    public class EntitySystem : MonoBehaviour
     {
         private GameObject citizensObject;
 
         private int numberOfCitizens;
-        private List<Citizen> citizens;
+        private List<Citizen> citizenList;
 
         private GameObject guyPrefab;
         private GameObject kailtPrefab;
@@ -24,10 +23,10 @@ namespace MMH
 
 		private void Awake()
 		{
-            citizensObject = GameObject.Find("Citizens");
-
             numberOfCitizens = 20;
-            citizens = new List<Citizen>(numberOfCitizens);
+            
+            citizensObject = GameObject.Find("Citizens");
+            citizenList = new List<Citizen>(numberOfCitizens);
 
             SetupEntityResources();
             SetupCitizenResources();
@@ -64,6 +63,8 @@ namespace MMH
 
 		void Start()
         {
+            TimeSystem.OnTurn += OnTurn;
+
             worldMap = GameObject.Find("World Map").GetComponent<WorldMap>();
 
             Citizen testGuyCitizen = ScriptableObject.CreateInstance<Citizen>();
@@ -158,7 +159,7 @@ namespace MMH
 		{
             citizen.EntityRenderData.WorldGameObject.transform.parent = citizensObject.transform;
 
-            citizens.Add(citizen);
+            citizenList.Add(citizen);
         }
 
         void Update()
@@ -170,5 +171,10 @@ namespace MMH
 		{
 
 		}
+
+        private void OnTurn(object sender, TimeSystem.OnTurnEventArgs eventArgs)
+        {
+            Debug.Log("Turn Complete");
+        }
     }
 }

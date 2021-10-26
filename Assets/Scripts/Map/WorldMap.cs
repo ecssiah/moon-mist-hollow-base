@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -42,7 +41,7 @@ namespace MMH
 			Vector3 screenPosition = new Vector3
 			{
 				x = (gridPosition.x - gridPosition.y) * 1,
-				y = (gridPosition.x + gridPosition.y) / 2 + 0.25f,
+				y = (gridPosition.x + gridPosition.y) * 1/2f + 1/4f,
 				z = 0,
 			};
 
