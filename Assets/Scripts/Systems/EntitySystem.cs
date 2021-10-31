@@ -17,7 +17,8 @@ namespace MMH
         private GameObject taylorPrefab;
         
         private Dictionary<string, Direction> directions;
-        private Dictionary<string, NationType> nationTypes;
+        private Dictionary<string, Nation> nationTypes;
+        private Dictionary<string, Behavior> behaviorTypes;
 
         private WorldMap worldMap;
 
@@ -36,15 +37,19 @@ namespace MMH
 		{
             directions = new Dictionary<string, Direction>();
 
-            DirectoryInfo directoryInfo = new DirectoryInfo("Assets/Resources/Types/MapTypes");
+            DirectoryInfo directoryInfo = new DirectoryInfo("Assets/Resources/Map/Type/Direction");
             FileInfo[] fileInfoList = directoryInfo.GetFiles("*.asset");
 
             foreach (FileInfo fileInfo in fileInfoList)
 			{
                 string basename = Path.GetFileNameWithoutExtension(fileInfo.Name);
 
-                directions[basename] = Resources.Load<Direction>($"Types/MapTypes/{basename}");
+                directions[basename] = Resources.Load<Direction>($"Map/Type/Direction/{basename}");
             }
+
+            behaviorTypes = new Dictionary<string, Behavior>();
+
+            behaviorTypes["Simple Wander"] = Resources.Load<Wander>($"Entity/Type/Behavior/Simple Wander");
         }
 
         void SetupCitizenResources()
@@ -53,11 +58,11 @@ namespace MMH
             kailtPrefab = Resources.Load<GameObject>("Prefabs/Kailt");
             taylorPrefab = Resources.Load<GameObject>("Prefabs/Taylor");
 
-            nationTypes = new Dictionary<string, NationType>
+            nationTypes = new Dictionary<string, Nation>
             {
-                ["Guy"] = Resources.Load<NationType>("Types/EntityTypes/Guy"),
-                ["Kailt"] = Resources.Load<NationType>("Types/EntityTypes/Kailt"),
-                ["Taylor"] = Resources.Load<NationType>("Types/EntityTypes/Taylor")
+                ["Guy"] = Resources.Load<Nation>("Entity/Type/Nation/Guy"),
+                ["Kailt"] = Resources.Load<Nation>("Entity/Type/Nation/Kailt"),
+                ["Taylor"] = Resources.Load<Nation>("Entity/Type/Nation/Taylor")
             };
         }
 
@@ -72,14 +77,14 @@ namespace MMH
             testGuyCitizen.Direction = directions["SE"];
             testGuyCitizen.NationType = nationTypes["Guy"];
 
-            testGuyCitizen.EntityRenderData = ScriptableObject.CreateInstance<EntityRenderData>();
-            testGuyCitizen.EntityRenderData.WorldGameObject = Instantiate(
+            testGuyCitizen.RenderData = new RenderData();
+            testGuyCitizen.RenderData.WorldGameObject = Instantiate(
                 guyPrefab,
                 worldMap.GridToWorld(testGuyCitizen.Position),
                 Quaternion.identity
             );
-            testGuyCitizen.EntityRenderData.Animator = testGuyCitizen.EntityRenderData.WorldGameObject.GetComponent<Animator>();
-            testGuyCitizen.EntityRenderData.Animator.Play($"Base Layer.guys-idle-{testGuyCitizen.Direction.name.ToLower()}");
+            testGuyCitizen.RenderData.Animator = testGuyCitizen.RenderData.WorldGameObject.GetComponent<Animator>();
+            testGuyCitizen.RenderData.Animator.Play($"Base Layer.guys-idle-{testGuyCitizen.Direction.name.ToLower()}");
 
             AddCitizen(testGuyCitizen);
 
@@ -88,14 +93,14 @@ namespace MMH
             testTaylorCitizen.Direction = directions["EE"];
             testTaylorCitizen.NationType = nationTypes["Taylor"];
 
-            testTaylorCitizen.EntityRenderData = ScriptableObject.CreateInstance<EntityRenderData>();
-            testTaylorCitizen.EntityRenderData.WorldGameObject = Instantiate(
+            testTaylorCitizen.RenderData = new RenderData();
+            testTaylorCitizen.RenderData.WorldGameObject = Instantiate(
                 taylorPrefab,
                 worldMap.GridToWorld(testTaylorCitizen.Position),
                 Quaternion.identity
             );
-            testTaylorCitizen.EntityRenderData.Animator = testTaylorCitizen.EntityRenderData.WorldGameObject.GetComponent<Animator>();
-            testTaylorCitizen.EntityRenderData.Animator.Play($"Base Layer.taylor-idle-{testTaylorCitizen.Direction.name.ToLower()}");
+            testTaylorCitizen.RenderData.Animator = testTaylorCitizen.RenderData.WorldGameObject.GetComponent<Animator>();
+            testTaylorCitizen.RenderData.Animator.Play($"Base Layer.taylor-idle-{testTaylorCitizen.Direction.name.ToLower()}");
 
             AddCitizen(testTaylorCitizen);
 
@@ -157,7 +162,7 @@ namespace MMH
 
         void AddCitizen(Citizen citizen)
 		{
-            citizen.EntityRenderData.WorldGameObject.transform.parent = citizensObject.transform;
+            citizen.RenderData.WorldGameObject.transform.parent = citizensObject.transform;
 
             citizenList.Add(citizen);
         }
@@ -174,8 +179,21 @@ namespace MMH
 
 		private void UpdateRenderData()
 		{
+            foreach (Citizen citizen in citizenList)
+			{
+                citizen.RenderData = new RenderData();
+                citizen.RenderData.WorldGameObject.transform.SetPositionAndRotation(
+                    worldMap.GridToWorld(citizen.Position), 
+                    Quaternion.identity
+                );
 
-		}
+
+
+                citizen.RenderData.Animator = citizen.RenderData.WorldGameObject.GetComponent<Animator>();
+                citizen.RenderData.Animator.Play($"Base Layer.taylor-idle-{citizen.Direction.name.ToLower()}");
+
+            }
+        }
 
         private void OnTurn(object sender, TimeSystem.OnTurnEventArgs eventArgs)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class EntityRenderData : ScriptableObject
+	public class RenderData
 	{
 		public GameObject WorldGameObject;
 		public Animator Animator;

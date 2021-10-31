@@ -10,8 +10,8 @@ namespace MMH
 		public int Id;
 		public int2 Position;
 
-		public OverlayType OverlayType;
-		public StructureType StructureType;
-		public GroundType GroundType;
+		public Overlay OverlayType;
+		public Structure StructureType;
+		public Ground GroundType;
 	}
 }

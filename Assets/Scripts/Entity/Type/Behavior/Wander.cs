@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class Wander : BehaviorType
+	[CreateAssetMenu(fileName = "New Wander Behavior", menuName = "MMH/Entity/Type/Behavior/Wander")]
+	public class Wander : Behavior
 	{
 		public override void Act(Entity entity)
 		{

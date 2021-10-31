@@ -12,6 +12,6 @@ namespace MMH
 		public int2 Position;
 		public Direction Direction;
 
-		public EntityRenderData EntityRenderData;
+		public RenderData RenderData;
 	}
 }
