@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5292b6692ceabe49a2e3084b91f612f, type: 3}
   m_Name: Taylor
   m_EditorClassIdentifier: 
+  Prefab: {fileID: 2299781289481974790, guid: 9d13d91b94e561946bb95306b2deb308, type: 3}

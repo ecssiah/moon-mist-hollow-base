@@ -6,39 +6,29 @@ using UnityEngine.Tilemaps;
 
 namespace MMH
 {
-    public class WorldMapSystem : MonoBehaviour
+    public class MapSystem : MonoBehaviour
     {
         private WorldMap worldMap;
-        public WorldMap WorldMap => worldMap;
-
+        
         private Dictionary<string, Overlay> overlayTypes;
         private Dictionary<string, Structure> structureTypes;
         private Dictionary<string, Ground> groundTypes;
 
-        private Tilemap overlayTilemap;
-        private Tilemap structureTilemap;
-        private Tilemap groundTilemap;
-
 		private void Awake()
 		{
+            worldMap = new WorldMap(40);
+
             overlayTypes = new Dictionary<string, Overlay>();
             structureTypes = new Dictionary<string, Structure>();
             groundTypes = new Dictionary<string, Ground>();
 
-            overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
-            structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
-            groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
-
-            worldMap = gameObject.AddComponent<WorldMap>();
-
             SetupCellResources();
+
+            GenerateWorldMap();
         }
 
-		void Start()
+        void Start()
         {
-            GenerateWorldMap();
-
-            UpdateRenderData();
         }
 
         void Update()
@@ -81,8 +71,6 @@ namespace MMH
 
 		private void GenerateWorldMap()
 		{
-            worldMap.InitMap(40);
-
             for (int id = 0; id < worldMap.Area; id++)
 			{
 				Cell cell = new Cell
@@ -93,67 +81,85 @@ namespace MMH
 					GroundType = groundTypes["Floor1"]
 				};
 
-				worldMap.Cells.Add(cell);
+                worldMap.Cells.Add(cell);
             }
 
-            Cell cellCenter = worldMap.GetCell(0, 0);
+            Cell cellCenter = GetCell(0, 0);
             cellCenter.OverlayType = overlayTypes["Outline2"];
 
-            Cell cellNW = worldMap.GetCell(0, 20);
+            Cell cellNW = GetCell(0, 20);
             cellNW.StructureType = structureTypes["Wall1"];
 
-            Cell cellNN = worldMap.GetCell(14, 14);
+            Cell cellNN = GetCell(14, 14);
             cellNN.StructureType = structureTypes["Wall2"];
 
-            Cell cellNE = worldMap.GetCell(20, 0);
+            Cell cellNE = GetCell(20, 0);
             cellNE.StructureType = structureTypes["Wall1"];
 
-            Cell cellWW = worldMap.GetCell(14, -14);
+            Cell cellWW = GetCell(14, -14);
             cellWW.StructureType = structureTypes["Wall2"];
 
-            Cell cellSW = worldMap.GetCell(0, -20);
+            Cell cellSW = GetCell(0, -20);
             cellSW.StructureType = structureTypes["Wall1"];
 
-            Cell cellSS = worldMap.GetCell(-14, -14);
+            Cell cellSS = GetCell(-14, -14);
             cellSS.StructureType = structureTypes["Wall2"];
 
-            Cell cellSE = worldMap.GetCell(-20, 0);
+            Cell cellSE = GetCell(-20, 0);
             cellSE.StructureType = structureTypes["Wall1"];
 
-            Cell cellEE = worldMap.GetCell(-14, 14);
+            Cell cellEE = GetCell(-14, 14);
             cellEE.StructureType = structureTypes["Wall2"];
 
         }
 
-        private void UpdateRenderData()
+        public int PositionToId(int x, int y)
+        {
+            return (x + worldMap.HalfWidth) + worldMap.Width * (y + worldMap.HalfWidth);
+        }
+
+        public int PositionToId(int2 position)
+        {
+            return PositionToId(position.x, position.y);
+        }
+
+        public int2 IdToPosition(int id)
+        {
+            return new int2(id % worldMap.Width - worldMap.HalfWidth, id / worldMap.Width - worldMap.HalfWidth);
+        }
+
+        public Vector3 GridToWorld(int2 gridPosition)
+        {
+            Vector3 screenPosition = new Vector3
+            {
+                x = (gridPosition.x - gridPosition.y) * 1,
+                y = (gridPosition.x + gridPosition.y) * 1/2f + 1/4f,
+                z = 0,
+            };
+
+            return screenPosition;
+        }
+
+        public List<Cell> GetCells()
 		{
-            foreach (Cell cell in worldMap.Cells)
-			{
-                int2 cellPosition = worldMap.IdToPosition(cell.Id);
-
-                Vector3Int tilemapPosition = new Vector3Int(cellPosition.x, cellPosition.y, 0);
-
-                Overlay overlayType = worldMap.Cells[cell.Id].OverlayType;
-
-                if (overlayType)
-                {
-                    overlayTilemap.SetTile(tilemapPosition, overlayType.Tile);
-                }
-
-                Structure structureType = worldMap.Cells[cell.Id].StructureType;
-
-                if (structureType)
-                {
-                    structureTilemap.SetTile(tilemapPosition, structureType.Tile);
-                }
-
-                Ground groundType = worldMap.Cells[cell.Id].GroundType;
-
-                if (groundType)
-                {
-                    groundTilemap.SetTile(tilemapPosition, groundType.Tile);
-                }
-            }
+            return worldMap.Cells;
 		}
+
+        public Cell GetCell(int id)
+        {
+            return worldMap.Cells[id];
+        }
+
+        public Cell GetCell(int x, int y)
+        {
+            int cellId = PositionToId(new int2(x, y));
+
+            return GetCell(cellId);
+        }
+
+        public Cell GetCell(int2 position)
+        {
+            return GetCell(position.x, position.y);
+        }
     }
 }

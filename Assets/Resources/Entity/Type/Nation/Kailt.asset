@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5292b6692ceabe49a2e3084b91f612f, type: 3}
   m_Name: Kailt
   m_EditorClassIdentifier: 
+  Prefab: {fileID: 5613573716685647561, guid: 000d30fabb3d4cd4a9a50a2455fb230d, type: 3}

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5292b6692ceabe49a2e3084b91f612f, type: 3}
   m_Name: Guy
   m_EditorClassIdentifier: 
+  Prefab: {fileID: 5313537787508113415, guid: e748d87587f41204e8eca98996331cb0, type: 3}
