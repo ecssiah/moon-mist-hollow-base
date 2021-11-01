@@ -9,15 +9,9 @@ namespace MMH
     {
         private RenderSystem renderSystem;
 
-        private GameObject citizensObject;
-
         private int numberOfCitizens;
         private List<Citizen> citizenList;
 
-        private GameObject guyPrefab;
-        private GameObject kailtPrefab;
-        private GameObject taylorPrefab;
-        
         private Dictionary<string, Direction> directions;
         private Dictionary<string, Nation> nationTypes;
         private Dictionary<string, Behavior> behaviorTypes;
@@ -26,7 +20,6 @@ namespace MMH
 		{
             numberOfCitizens = 20;
             
-            citizensObject = GameObject.Find("Citizens");
             citizenList = new List<Citizen>(numberOfCitizens);
 
             SetupMapResources();
@@ -52,10 +45,6 @@ namespace MMH
 
         void SetupEntityResources()
 		{
-            guyPrefab = Resources.Load<GameObject>("Prefabs/Guy");
-            kailtPrefab = Resources.Load<GameObject>("Prefabs/Kailt");
-            taylorPrefab = Resources.Load<GameObject>("Prefabs/Taylor");
-
             nationTypes = new Dictionary<string, Nation>
             {
                 ["Guy"] = Resources.Load<Nation>("Entity/Type/Nation/Guy"),
