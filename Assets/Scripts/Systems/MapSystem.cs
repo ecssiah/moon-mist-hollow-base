@@ -76,6 +76,7 @@ namespace MMH
 				Cell cell = new Cell
 				{
 					Id = id,
+                    Position = IdToPosition(id),
 					OverlayType = null,
 					StructureType = null,
 					GroundType = groundTypes["Floor1"]

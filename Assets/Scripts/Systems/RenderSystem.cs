@@ -28,7 +28,6 @@ namespace MMH
 	    void Start()
         {
             UpdateMapRenderData();
-            //UpdateEntityRenderData();
         }
 
         void Update()
@@ -40,25 +39,23 @@ namespace MMH
         {
             foreach (Cell cell in mapSystem.GetCells())
             {
-                int2 cellPosition = mapSystem.IdToPosition(cell.Id);
+                Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
-                Vector3Int tilemapPosition = new Vector3Int(cellPosition.x, cellPosition.y, 0);
-
-                Overlay overlayType = mapSystem.GetCell(cell.Id).OverlayType;
+                Overlay overlayType = cell.OverlayType;
 
                 if (overlayType)
                 {
                     overlayTilemap.SetTile(tilemapPosition, overlayType.Tile);
                 }
 
-                Structure structureType = mapSystem.GetCell(cell.Id).StructureType;
+                Structure structureType = cell.StructureType;
 
                 if (structureType)
                 {
                     structureTilemap.SetTile(tilemapPosition, structureType.Tile);
                 }
 
-                Ground groundType = mapSystem.GetCell(cell.Id).GroundType;
+                Ground groundType = cell.GroundType;
 
                 if (groundType)
                 {
