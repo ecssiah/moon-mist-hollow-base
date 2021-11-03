@@ -1,4 +1,6 @@
 using System.Collections;
+
+
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -43,24 +45,15 @@ namespace MMH
 
                 Overlay overlayType = cell.OverlayType;
 
-                if (overlayType)
-                {
-                    overlayTilemap.SetTile(tilemapPosition, overlayType.Tile);
-                }
+                overlayTilemap.SetTile(tilemapPosition, overlayType ? overlayType.Tile : null);
 
                 Structure structureType = cell.StructureType;
 
-                if (structureType)
-                {
-                    structureTilemap.SetTile(tilemapPosition, structureType.Tile);
-                }
+                structureTilemap.SetTile(tilemapPosition, structureType ? structureType.Tile : null);
 
                 Ground groundType = cell.GroundType;
-
-                if (groundType)
-                {
-                    groundTilemap.SetTile(tilemapPosition, groundType.Tile);
-                }
+                
+                groundTilemap.SetTile(tilemapPosition, groundType ? groundType.Tile : null);
             }
         }
 
