@@ -18,11 +18,12 @@ namespace MMH
 		void Awake()
 		{
 			playerInputActions = new PlayerInputActions();
+
+			TimeSystem.OnTick += OnTick;
 		}
 
 		private void Start()
 		{
-			TimeSystem.OnTick += OnTick;
 		}
 
 		void OnEnable()

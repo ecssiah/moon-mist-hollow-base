@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Unity.Mathematics;
@@ -7,16 +8,23 @@ namespace MMH
 {
     public class EntitySystem : MonoBehaviour
     {
-        private RenderSystem renderSystem;
-
         private int numberOfCitizens;
         private List<Citizen> citizenList;
 
         private Dictionary<string, Direction> directions;
-        private Dictionary<string, Nation> nationTypes;
+        private Dictionary<string, NationType> nationTypes;
         private Dictionary<string, Behavior> behaviorTypes;
 
-		private void Awake()
+		public List<Citizen> CitizenList { get => citizenList; }
+
+        public class OnCreateCitizenEventArgs : EventArgs
+        {
+            public Citizen citizen;
+        }
+
+        public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
+
+        private void Awake()
 		{
             numberOfCitizens = 20;
             
@@ -25,8 +33,8 @@ namespace MMH
             SetupMapResources();
             SetupEntityResources();
 
-            CreateEntities();
-		}
+            TimeSystem.OnTurn += OnTurn;
+        }
 
         void SetupMapResources()
 		{
@@ -45,11 +53,11 @@ namespace MMH
 
         void SetupEntityResources()
 		{
-            nationTypes = new Dictionary<string, Nation>
+            nationTypes = new Dictionary<string, NationType>
             {
-                ["Guy"] = Resources.Load<Nation>("Entity/Type/Nation/Guy"),
-                ["Kailt"] = Resources.Load<Nation>("Entity/Type/Nation/Kailt"),
-                ["Taylor"] = Resources.Load<Nation>("Entity/Type/Nation/Taylor")
+                ["Guys"] = Resources.Load<NationType>("Entity/Type/Nation/Guys"),
+                ["Kailt"] = Resources.Load<NationType>("Entity/Type/Nation/Kailt"),
+                ["Taylor"] = Resources.Load<NationType>("Entity/Type/Nation/Taylor")
             };
 
             behaviorTypes = new Dictionary<string, Behavior>();
@@ -59,24 +67,28 @@ namespace MMH
 
         void CreateEntities()
 		{
-            Citizen testGuyCitizen = new Citizen();
-            testGuyCitizen.Position = new int2(2, 2);
-            testGuyCitizen.Direction = directions["SE"];
-            testGuyCitizen.NationType = nationTypes["Guy"];
+            Citizen testGuysCitizen = new Citizen();
+            testGuysCitizen.Position = new int2(2, 2);
+            testGuysCitizen.Direction = directions["SE"];
+            testGuysCitizen.NationType = nationTypes["Guys"];
 
-            citizenList.Add(testGuyCitizen);
+            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
+
+            citizenList.Add(testGuysCitizen);
 
             Citizen testTaylorCitizen = new Citizen();
             testTaylorCitizen.Position = new int2(-2, -2);
             testTaylorCitizen.Direction = directions["EE"];
             testTaylorCitizen.NationType = nationTypes["Taylor"];
 
+            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
+
             citizenList.Add(testTaylorCitizen);
         }
 
         void Start()
         {
-            TimeSystem.OnTurn += OnTurn;
+            CreateEntities();
         }
 
         void Update()

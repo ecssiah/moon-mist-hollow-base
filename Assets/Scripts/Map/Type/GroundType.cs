@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "New Overlay Type", menuName = "MMH/Map/Type/Overlay")]
-public class Overlay : ScriptableObject
+[CreateAssetMenu(fileName = "New Ground Type", menuName = "MMH/Map/Type/GroundType")]
+public class GroundType : ScriptableObject
 {
 	public Tile Tile;
 }

@@ -7,11 +7,16 @@ namespace MMH
 {
 	public class Entity
 	{
+		private static int currentId = 0;
+
 		public int Id;
 
 		public int2 Position;
 		public Direction Direction;
 
-		public RenderData RenderData;
+		public Entity()
+		{
+			Id = currentId++;
+		}
 	}
 }

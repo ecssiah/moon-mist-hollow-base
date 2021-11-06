@@ -1,6 +1,5 @@
 using System.Collections;
 
-
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -17,6 +16,8 @@ namespace MMH
         private Tilemap structureTilemap;
         private Tilemap groundTilemap;
 
+        private Dictionary<int, RenderData> citizenRenderData;
+
         private void Awake()
 	    {
             mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
@@ -25,9 +26,13 @@ namespace MMH
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
             groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+
+            citizenRenderData = new Dictionary<int, RenderData>();
+
+            EntitySystem.OnCreateCitizen += OnCreateCitizen;
         }
 
-	    void Start()
+        void Start()
         {
             UpdateMapRenderData();
         }
@@ -37,29 +42,47 @@ namespace MMH
         
         }
 
-        private void UpdateMapRenderData()
+		private void OnDisable()
+		{
+            EntitySystem.OnCreateCitizen -= OnCreateCitizen;
+		}
+
+		private void UpdateMapRenderData()
         {
             foreach (Cell cell in mapSystem.GetCells())
             {
                 Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
-                Overlay overlayType = cell.OverlayType;
+                Tile overlayTile = cell.OverlayType ? cell.OverlayType.Tile : null;
 
-                overlayTilemap.SetTile(tilemapPosition, overlayType ? overlayType.Tile : null);
+                overlayTilemap.SetTile(tilemapPosition, overlayTile);
 
-                Structure structureType = cell.StructureType;
+                Tile structureTile = cell.StructureType ? cell.StructureType.Tile : null;
 
-                structureTilemap.SetTile(tilemapPosition, structureType ? structureType.Tile : null);
+                structureTilemap.SetTile(tilemapPosition, structureTile);
 
-                Ground groundType = cell.GroundType;
-                
-                groundTilemap.SetTile(tilemapPosition, groundType ? groundType.Tile : null);
+                Tile groundTile = cell.GroundType ? cell.GroundType.Tile : null;
+
+                groundTilemap.SetTile(tilemapPosition, groundTile);
             }
         }
 
-        private void UpdateEntityRenderData()
-		{
-            //citizen.RenderData.WorldGameObject.transform.parent = citizensObject.transform;
+        private void OnCreateCitizen(object sender, EntitySystem.OnCreateCitizenEventArgs eventArgs)
+        {
+            RenderData renderData = new RenderData();
+
+            renderData.WorldGameObject = Instantiate(
+                eventArgs.citizen.NationType.Prefab,
+                mapSystem.GridToWorld(eventArgs.citizen.Position),
+                Quaternion.identity
+            );
+
+            renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
+            renderData.Animator.Play(
+                $"Base Layer.{eventArgs.citizen.NationType.name.ToLower()}-idle-{eventArgs.citizen.Direction.name.ToLower()}"
+            );
+
+            citizenRenderData[eventArgs.citizen.Id] = renderData;
         }
     }
 }

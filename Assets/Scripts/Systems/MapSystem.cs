@@ -10,17 +10,17 @@ namespace MMH
     {
         private WorldMap worldMap;
         
-        private Dictionary<string, Overlay> overlayTypes;
-        private Dictionary<string, Structure> structureTypes;
-        private Dictionary<string, Ground> groundTypes;
+        private Dictionary<string, OverlayType> overlayTypes;
+        private Dictionary<string, StructureType> structureTypes;
+        private Dictionary<string, GroundType> groundTypes;
 
 		private void Awake()
 		{
             worldMap = new WorldMap(40);
 
-            overlayTypes = new Dictionary<string, Overlay>();
-            structureTypes = new Dictionary<string, Structure>();
-            groundTypes = new Dictionary<string, Ground>();
+            overlayTypes = new Dictionary<string, OverlayType>();
+            structureTypes = new Dictionary<string, StructureType>();
+            groundTypes = new Dictionary<string, GroundType>();
 
             SetupCellResources();
 
@@ -45,7 +45,7 @@ namespace MMH
             {
                 string basename = Path.GetFileNameWithoutExtension(fileInfo.Name);
 
-                overlayTypes[basename] = Resources.Load<Overlay>($"Map/Type/Overlay/{basename}");
+                overlayTypes[basename] = Resources.Load<OverlayType>($"Map/Type/Overlay/{basename}");
             }
 
             DirectoryInfo structureDirectoryInfo = new DirectoryInfo("Assets/Resources/Map/Type/Structure");
@@ -55,7 +55,7 @@ namespace MMH
             {
                 string basename = Path.GetFileNameWithoutExtension(fileInfo.Name);
 
-                structureTypes[basename] = Resources.Load<Structure>($"Map/Type/Structure/{basename}");
+                structureTypes[basename] = Resources.Load<StructureType>($"Map/Type/Structure/{basename}");
             }
 
             DirectoryInfo groundDirectoryInfo = new DirectoryInfo("Assets/Resources/Map/Type/Ground");
@@ -65,7 +65,7 @@ namespace MMH
 			{
 				string basename = Path.GetFileNameWithoutExtension(fileInfo.Name);
 
-				groundTypes[basename] = Resources.Load<Ground>($"Map/Type/Ground/{basename}");
+				groundTypes[basename] = Resources.Load<GroundType>($"Map/Type/Ground/{basename}");
 			}
         }
 

@@ -7,6 +7,6 @@ namespace MMH
 {
     public class Citizen : Entity
     {
-        public Nation NationType;
+        public NationType NationType;
     }
 }
