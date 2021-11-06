@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-nw
+  m_Name: Taylor-Idle-NW
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -33,7 +33,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-ww
+  m_Name: Taylor-Walk-WW
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -85,7 +85,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-se
+  m_Name: Taylor-Walk-SE
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -111,7 +111,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-ee
+  m_Name: Taylor-Walk-EE
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -137,7 +137,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-sw
+  m_Name: Taylor-Idle-SW
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -163,7 +163,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-nw
+  m_Name: Taylor-Walk-NW
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -189,7 +189,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-nn
+  m_Name: Taylor-Walk-NN
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -215,7 +215,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-ee
+  m_Name: Taylor-Idle-EE
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -330,7 +330,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-ww
+  m_Name: Taylor-Idle-WW
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -356,7 +356,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-se
+  m_Name: Taylor-Idle-SE
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -382,7 +382,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-nn
+  m_Name: Taylor-Idle-NN
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -408,7 +408,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-sw
+  m_Name: Taylor-Walk-SW
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -434,7 +434,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-ss
+  m_Name: Taylor-Idle-SS
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -460,7 +460,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-walk-ss
+  m_Name: Taylor-Walk-SS
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []
@@ -486,7 +486,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: taylor-idle-ne
+  m_Name: Taylor-Idle-NE
   m_Speed: 0.34
   m_CycleOffset: 0
   m_Transitions: []

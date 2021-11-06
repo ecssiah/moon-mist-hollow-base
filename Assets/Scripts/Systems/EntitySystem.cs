@@ -9,12 +9,8 @@ namespace MMH
     public class EntitySystem : MonoBehaviour
     {
         private int numberOfCitizens;
+
         private List<Citizen> citizenList;
-
-        private Dictionary<string, Direction> directions;
-        private Dictionary<string, NationType> nationTypes;
-        private Dictionary<string, CitizenBehavior> citizenBehaviorTypes;
-
 		public List<Citizen> CitizenList { get => citizenList; }
 
         public class OnCreateCitizenEventArgs : EventArgs
@@ -30,60 +26,30 @@ namespace MMH
             
             citizenList = new List<Citizen>(numberOfCitizens);
 
-            SetupMapResources();
-            SetupEntityResources();
-
             TimeSystem.OnTurn += OnTurn;
-        }
-
-        void SetupMapResources()
-		{
-            directions = new Dictionary<string, Direction>();
-
-            DirectoryInfo directoryInfo = new DirectoryInfo("Assets/Resources/Map/Type/Direction");
-            FileInfo[] fileInfoList = directoryInfo.GetFiles("*.asset");
-
-            foreach (FileInfo fileInfo in fileInfoList)
-            {
-                string basename = Path.GetFileNameWithoutExtension(fileInfo.Name);
-
-                directions[basename] = Resources.Load<Direction>($"Map/Type/Direction/{basename}");
-            }
-        }
-
-        void SetupEntityResources()
-		{
-            nationTypes = new Dictionary<string, NationType>
-            {
-                ["Guys"] = Resources.Load<NationType>("Entity/Type/Nation/Guys"),
-                ["Kailt"] = Resources.Load<NationType>("Entity/Type/Nation/Kailt"),
-                ["Taylor"] = Resources.Load<NationType>("Entity/Type/Nation/Taylor")
-            };
-
-            citizenBehaviorTypes = new Dictionary<string, CitizenBehavior>();
-
-            citizenBehaviorTypes["SimpleWander"] = Resources.Load<Wander>($"Entity/Type/CitizenBehavior/SimpleWander");
         }
 
         void CreateEntities()
 		{
-            Citizen testGuysCitizen = new Citizen();
-            testGuysCitizen.Position = new int2(2, 2);
-            testGuysCitizen.Direction = directions["SE"];
-            testGuysCitizen.NationType = nationTypes["Guys"];
-            testGuysCitizen.CitizenBehavior = citizenBehaviorTypes["SimpleWander"];
+			Citizen testGuysCitizen = new Citizen
+			{
+				Position = new int2(2, 2),
+				Direction = Direction.EE,
+				Nation = Nation.Guys,
+			};
 
-            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
+			OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
 
             citizenList.Add(testGuysCitizen);
 
-            Citizen testTaylorCitizen = new Citizen();
-            testTaylorCitizen.Position = new int2(-2, -2);
-            testTaylorCitizen.Direction = directions["EE"];
-            testTaylorCitizen.NationType = nationTypes["Taylor"];
-            testTaylorCitizen.CitizenBehavior = citizenBehaviorTypes["SimpleWander"];
+			Citizen testTaylorCitizen = new Citizen
+			{
+				Position = new int2(-2, -2),
+				Direction = Direction.SE,
+				Nation = Nation.Taylor,
+			};
 
-            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
+			OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
 
             citizenList.Add(testTaylorCitizen);
         }
@@ -105,10 +71,6 @@ namespace MMH
 
         private void OnTurn(object sender, TimeSystem.OnTurnEventArgs eventArgs)
         {
-            foreach (Citizen citizen in citizenList)
-			{
-                citizen.CitizenBehavior?.Act(citizen);
-			}
         }
     }
 }

@@ -1,7 +1,4 @@
-using System.Collections;
-
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,6 +13,12 @@ namespace MMH
         private Tilemap structureTilemap;
         private Tilemap groundTilemap;
 
+        private Dictionary<OverlayType, Tile> overlayTiles;
+        private Dictionary<StructureType, Tile> structureTiles;
+        private Dictionary<GroundType, Tile> groundTiles;
+
+        private Dictionary<Nation, GameObject> nationPrefabs;
+
         private Dictionary<int, RenderData> citizenRenderData;
 
         private void Awake()
@@ -28,6 +31,34 @@ namespace MMH
             groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
 
             citizenRenderData = new Dictionary<int, RenderData>();
+
+			nationPrefabs = new Dictionary<Nation, GameObject>
+			{
+				[Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
+				[Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
+				[Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
+			};
+
+            overlayTiles = new Dictionary<OverlayType, Tile>
+            {
+                [OverlayType.None] = null,
+                [OverlayType.Outline1] = Resources.Load<Tile>("Tiles/outline-1"),
+                [OverlayType.Outline2] = Resources.Load<Tile>("Tiles/outline-2"),
+            };
+
+            structureTiles = new Dictionary<StructureType, Tile>
+            {
+                [StructureType.None] = null,
+                [StructureType.Wall1] = Resources.Load<Tile>("Tiles/wall-1"),
+                [StructureType.Wall2] = Resources.Load<Tile>("Tiles/wall-2"),
+            };
+
+            groundTiles = new Dictionary<GroundType, Tile>
+            {
+                [GroundType.None] = null,
+                [GroundType.Floor1] = Resources.Load<Tile>("Tiles/floor-1"),
+                [GroundType.Floor2] = Resources.Load<Tile>("Tiles/floor-2"),
+            };
 
             EntitySystem.OnCreateCitizen += OnCreateCitizen;
         }
@@ -53,17 +84,9 @@ namespace MMH
             {
                 Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
-                Tile overlayTile = cell.OverlayType ? cell.OverlayType.Tile : null;
-
-                overlayTilemap.SetTile(tilemapPosition, overlayTile);
-
-                Tile structureTile = cell.StructureType ? cell.StructureType.Tile : null;
-
-                structureTilemap.SetTile(tilemapPosition, structureTile);
-
-                Tile groundTile = cell.GroundType ? cell.GroundType.Tile : null;
-
-                groundTilemap.SetTile(tilemapPosition, groundTile);
+                overlayTilemap.SetTile(tilemapPosition, overlayTiles[cell.OverlayType]);
+                structureTilemap.SetTile(tilemapPosition, structureTiles[cell.StructureType]);
+                groundTilemap.SetTile(tilemapPosition, groundTiles[cell.GroundType]);
             }
         }
 
@@ -72,14 +95,14 @@ namespace MMH
             RenderData renderData = new RenderData();
 
             renderData.WorldGameObject = Instantiate(
-                eventArgs.citizen.NationType.Prefab,
+                nationPrefabs[eventArgs.citizen.Nation],
                 mapSystem.GridToWorld(eventArgs.citizen.Position),
                 Quaternion.identity
             );
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
             renderData.Animator.Play(
-                $"Base Layer.{eventArgs.citizen.NationType.name.ToLower()}-idle-{eventArgs.citizen.Direction.name.ToLower()}"
+                $"Base Layer.{eventArgs.citizen.Nation}-Idle-{eventArgs.citizen.Direction}"
             );
 
             citizenRenderData[eventArgs.citizen.Id] = renderData;

@@ -1,20 +1,14 @@
+
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace MMH
 {
-	public enum Direction
+	public enum Nation
 	{
-		EE,
-		NE,
-		NN,
-		NW,
-		WW,
-		SW,
-		SS,
-		SE,
+		Guys,
+		Kailt,
+		Taylor,
 	}
 }
-

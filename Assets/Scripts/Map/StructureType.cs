@@ -1,20 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace MMH
 {
-	public enum Direction
+	public enum StructureType
 	{
-		EE,
-		NE,
-		NN,
-		NW,
-		WW,
-		SW,
-		SS,
-		SE,
+		None,
+		Wall1,
+		Wall2,
 	}
 }
-
