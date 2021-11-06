@@ -6,6 +6,6 @@ namespace MMH
 {
     public class BehaviorComponent : MonoBehaviour
     {
-        public Behavior behavior;
+        public CitizenBehavior behavior;
     }
 }

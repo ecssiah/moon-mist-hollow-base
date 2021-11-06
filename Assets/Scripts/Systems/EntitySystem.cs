@@ -13,7 +13,7 @@ namespace MMH
 
         private Dictionary<string, Direction> directions;
         private Dictionary<string, NationType> nationTypes;
-        private Dictionary<string, Behavior> behaviorTypes;
+        private Dictionary<string, CitizenBehavior> citizenBehaviorTypes;
 
 		public List<Citizen> CitizenList { get => citizenList; }
 
@@ -60,9 +60,9 @@ namespace MMH
                 ["Taylor"] = Resources.Load<NationType>("Entity/Type/Nation/Taylor")
             };
 
-            behaviorTypes = new Dictionary<string, Behavior>();
+            citizenBehaviorTypes = new Dictionary<string, CitizenBehavior>();
 
-            behaviorTypes["Simple Wander"] = Resources.Load<Wander>($"Entity/Type/Behavior/Simple Wander");
+            citizenBehaviorTypes["SimpleWander"] = Resources.Load<Wander>($"Entity/Type/CitizenBehavior/SimpleWander");
         }
 
         void CreateEntities()
@@ -71,6 +71,7 @@ namespace MMH
             testGuysCitizen.Position = new int2(2, 2);
             testGuysCitizen.Direction = directions["SE"];
             testGuysCitizen.NationType = nationTypes["Guys"];
+            testGuysCitizen.CitizenBehavior = citizenBehaviorTypes["SimpleWander"];
 
             OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
 
@@ -80,6 +81,7 @@ namespace MMH
             testTaylorCitizen.Position = new int2(-2, -2);
             testTaylorCitizen.Direction = directions["EE"];
             testTaylorCitizen.NationType = nationTypes["Taylor"];
+            testTaylorCitizen.CitizenBehavior = citizenBehaviorTypes["SimpleWander"];
 
             OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
 
@@ -103,7 +105,10 @@ namespace MMH
 
         private void OnTurn(object sender, TimeSystem.OnTurnEventArgs eventArgs)
         {
-            Debug.Log("Turn " + eventArgs.turn);
+            foreach (Citizen citizen in citizenList)
+			{
+                citizen.CitizenBehavior?.Act(citizen);
+			}
         }
     }
 }

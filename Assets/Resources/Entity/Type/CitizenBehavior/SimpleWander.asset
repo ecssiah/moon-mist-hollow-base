@@ -10,5 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb536ce06c5874a4eab4c5422a2c0732, type: 3}
-  m_Name: Simple Wander
+  m_Name: SimpleWander
   m_EditorClassIdentifier: 
+  Cooldown: 2
