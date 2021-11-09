@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -96,7 +97,7 @@ namespace MMH
 
             renderData.WorldGameObject = Instantiate(
                 nationPrefabs[eventArgs.citizen.Nation],
-                mapSystem.GridToWorld(eventArgs.citizen.Position),
+                GridToWorld(eventArgs.citizen.Position),
                 Quaternion.identity
             );
 
@@ -106,6 +107,18 @@ namespace MMH
             );
 
             citizenRenderData[eventArgs.citizen.Id] = renderData;
+        }
+
+        private Vector3 GridToWorld(int2 gridPosition)
+        {
+            Vector3 screenPosition = new Vector3
+            {
+                x = (gridPosition.x - gridPosition.y) * 1,
+                y = (gridPosition.x + gridPosition.y) * 1 / 2f + 1 / 4f,
+                z = 0,
+            };
+
+            return screenPosition;
         }
     }
 }

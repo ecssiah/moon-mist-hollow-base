@@ -8,6 +8,8 @@ namespace MMH
 {
     public class EntitySystem : MonoBehaviour
     {
+        private MapSystem mapSystem;
+
         private int numberOfCitizens;
 
         private List<Citizen> citizenList;
@@ -22,6 +24,8 @@ namespace MMH
 
         private void Awake()
 		{
+            mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
+
             numberOfCitizens = 20;
             
             citizenList = new List<Citizen>(numberOfCitizens);
@@ -36,6 +40,7 @@ namespace MMH
 				Position = new int2(2, 2),
 				Direction = Direction.EE,
 				Nation = Nation.Guys,
+                WorldMap = mapSystem.GetWorldMap(),
 			};
 
 			OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
