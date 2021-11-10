@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace MMH
 {
-    public class EntitySystem : MonoBehaviour
+    public class CitizenSystem : MonoBehaviour
     {
         private MapSystem mapSystem;
 
@@ -33,7 +32,7 @@ namespace MMH
             TimeSystem.OnTurn += OnTurn;
         }
 
-        void CreateEntities()
+        void CreateCitizens()
 		{
 			Citizen testGuysCitizen = new Citizen
 			{
@@ -61,7 +60,7 @@ namespace MMH
 
         void Start()
         {
-            CreateEntities();
+            CreateCitizens();
         }
 
         void Update()

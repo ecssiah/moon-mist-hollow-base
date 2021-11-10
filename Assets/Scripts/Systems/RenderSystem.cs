@@ -8,7 +8,7 @@ namespace MMH
     public class RenderSystem : MonoBehaviour
     {
         private MapSystem mapSystem;
-        private EntitySystem entitySystem;
+        private CitizenSystem citizenSystem;
 
         private Tilemap overlayTilemap;
         private Tilemap structureTilemap;
@@ -25,7 +25,7 @@ namespace MMH
         private void Awake()
 	    {
             mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
-            entitySystem = GameObject.Find("EntitySystem").GetComponent<EntitySystem>();
+            citizenSystem = GameObject.Find("CitizenSystem").GetComponent<CitizenSystem>();
 
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
@@ -61,7 +61,7 @@ namespace MMH
                 [GroundType.Floor2] = Resources.Load<Tile>("Tiles/floor-2"),
             };
 
-            EntitySystem.OnCreateCitizen += OnCreateCitizen;
+            CitizenSystem.OnCreateCitizen += OnCreateCitizen;
         }
 
         void Start()
@@ -76,7 +76,7 @@ namespace MMH
 
 		private void OnDisable()
 		{
-            EntitySystem.OnCreateCitizen -= OnCreateCitizen;
+            CitizenSystem.OnCreateCitizen -= OnCreateCitizen;
 		}
 
 		private void UpdateMapRenderData()
@@ -91,7 +91,7 @@ namespace MMH
             }
         }
 
-        private void OnCreateCitizen(object sender, EntitySystem.OnCreateCitizenEventArgs eventArgs)
+        private void OnCreateCitizen(object sender, CitizenSystem.OnCreateCitizenEventArgs eventArgs)
         {
             RenderData renderData = new RenderData();
 

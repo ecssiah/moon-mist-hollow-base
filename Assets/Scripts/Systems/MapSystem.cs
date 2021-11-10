@@ -32,6 +32,7 @@ namespace MMH
                 {
                     Id = id,
                     Position = IdToPosition(id),
+                    Solid = false,
                     OverlayType = OverlayType.None,
                     StructureType = StructureType.None,
                     GroundType = GroundType.Floor1,
@@ -83,21 +84,28 @@ namespace MMH
 
         private void SetCell(int2 position, OverlayType overlayType)
 		{
-            Cell cellCenter = GetCell(position);
-            cellCenter.OverlayType = overlayType;
+            Cell cell = GetCell(position);
+            cell.OverlayType = overlayType;
         }
 
         private void SetCell(int2 position, StructureType structureType)
         {
-            Cell cellCenter = GetCell(position);
-            cellCenter.StructureType = structureType;
+            Cell cell = GetCell(position);
+            cell.StructureType = structureType;
+            cell.Solid = true;
         }
 
         private void SetCell(int2 position, GroundType groundType)
         {
-            Cell cellCenter = GetCell(position);
-            cellCenter.GroundType = groundType;
+            Cell cell = GetCell(position);
+            cell.GroundType = groundType;
         }
+
+        private void SetCellSolid(int x, int y, bool solid)
+		{
+            Cell cell = GetCell(x, y);
+            cell.Solid = solid;
+		}
 
         public WorldMap GetWorldMap()
 		{
