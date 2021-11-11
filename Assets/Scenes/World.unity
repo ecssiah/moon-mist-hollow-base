@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 666855775}
   - component: {fileID: 666855776}
   m_Layer: 0
-  m_Name: EntitySystem
+  m_Name: CitizenSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
