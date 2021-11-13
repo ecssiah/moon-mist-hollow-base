@@ -7,6 +7,11 @@ namespace MMH
 {
     public class CitizenSystem : MonoBehaviour
     {
+        
+        public static Dictionary<CitizenStateType, CitizenState> States;
+        
+        public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
+
         private MapSystem mapSystem;
 
         private int numberOfCitizens;
@@ -19,8 +24,6 @@ namespace MMH
             public Citizen citizen;
         }
 
-        public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
-
         private void Awake()
 		{
             mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
@@ -29,52 +32,42 @@ namespace MMH
             
             citizenList = new List<Citizen>(numberOfCitizens);
 
-            TimeSystem.OnTurn += OnTurn;
+            States = new Dictionary<CitizenStateType, CitizenState>
+            {
+                [CitizenStateType.CitizenIdle] = new CitizenIdle(mapSystem),
+                [CitizenStateType.CitizenWander] = new CitizenWander(mapSystem)
+            };
         }
-
-        void CreateCitizens()
-		{
-			Citizen testGuysCitizen = new Citizen
-			{
-				Position = new int2(2, 2),
-				Direction = Direction.EE,
-				Nation = Nation.Guys,
-                WorldMap = mapSystem.GetWorldMap(),
-			};
-
-			OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
-
-            citizenList.Add(testGuysCitizen);
-
-			Citizen testTaylorCitizen = new Citizen
-			{
-				Position = new int2(-2, -2),
-				Direction = Direction.SE,
-				Nation = Nation.Taylor,
-			};
-
-			OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
-
-            citizenList.Add(testTaylorCitizen);
-        }
-
+		
         void Start()
         {
             CreateCitizens();
         }
 
-        void Update()
+        void CreateCitizens()
         {
-        
+            Citizen testGuysCitizen = new Citizen
+            {
+                Position = new int2(2, 2),
+                Direction = Direction.EE,
+                Nation = Nation.Guys,
+            };
+
+            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
+
+            citizenList.Add(testGuysCitizen);
+
+            Citizen testTaylorCitizen = new Citizen
+            {
+                Position = new int2(-2, -2),
+                Direction = Direction.SE,
+                Nation = Nation.Taylor,
+            };
+
+            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
+
+            citizenList.Add(testTaylorCitizen);
         }
 
-		private void OnDisable()
-		{
-            TimeSystem.OnTurn -= OnTurn;
-		}
-
-        private void OnTurn(object sender, TimeSystem.OnTurnEventArgs eventArgs)
-        {
-        }
     }
 }

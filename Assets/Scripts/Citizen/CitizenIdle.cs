@@ -4,9 +4,16 @@ namespace MMH
 {
 	public class CitizenIdle : CitizenState
 	{
-		public override void OnTick()
+		private MapSystem mapSystem;
+
+		public CitizenIdle(MapSystem mapSystem)
 		{
-			Debug.Log("Idle ticking");
+			this.mapSystem = mapSystem;
+		}
+
+		public override void Tick()
+		{
+			Debug.Log(mapSystem.GetCells().Count);
 		}
 	}
 }

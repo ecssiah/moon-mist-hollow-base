@@ -4,7 +4,14 @@ namespace MMH
 {
 	public class CitizenWander : CitizenState
 	{
-		public override void OnTick()
+		private MapSystem mapSystem;
+
+		public CitizenWander(MapSystem mapSystem)
+		{
+			this.mapSystem = mapSystem;
+		}
+
+		public override void Tick()
 		{
 			Debug.Log("Wander Ticking");
 		}

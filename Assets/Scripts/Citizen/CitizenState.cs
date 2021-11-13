@@ -6,6 +6,6 @@ namespace MMH
 {
 	public abstract class CitizenState
 	{
-		public abstract void OnTick();
+		public abstract void Tick();
 	}
 }

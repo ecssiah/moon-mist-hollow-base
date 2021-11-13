@@ -17,11 +17,6 @@ namespace MMH
         {
         }
 
-        void Update()
-        {
-
-        }
-
         private void GenerateWorldMap()
         {
             worldMap = new WorldMap(40);
@@ -105,11 +100,6 @@ namespace MMH
 		{
             Cell cell = GetCell(x, y);
             cell.Solid = solid;
-		}
-
-        public WorldMap GetWorldMap()
-		{
-            return worldMap;
 		}
 
         public List<Cell> GetCells()
