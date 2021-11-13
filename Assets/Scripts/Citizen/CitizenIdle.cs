@@ -11,9 +11,9 @@ namespace MMH
 			this.mapSystem = mapSystem;
 		}
 
-		public override void Tick()
+		public override void Tick(Citizen citizen)
 		{
-			Debug.Log(mapSystem.GetCells().Count);
+			Debug.Log(citizen.Id);
 		}
 	}
 }

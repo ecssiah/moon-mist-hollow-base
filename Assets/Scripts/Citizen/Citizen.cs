@@ -7,9 +7,11 @@ namespace MMH
     {
 		private static int nextID = 0;
 
-		private CitizenState currentState;
+		private MapSystem mapSystem;
 
-		public WorldMap WorldMap;
+		private Dictionary<CitizenStateType, CitizenState> states;
+
+		private CitizenState currentState;
 
 		public int Id;
 		public int2 Position;
@@ -17,23 +19,31 @@ namespace MMH
 
 		public Nation Nation;
 
-        public Citizen()
+		public CitizenAttributes Attributes;
+
+        public Citizen(MapSystem mapSystem)
 		{
 			TimeSystem.OnTick += OnTick;
 
 			Id = nextID++;
 
-			currentState = CitizenSystem.States[CitizenStateType.CitizenIdle];
+			states = new Dictionary<CitizenStateType, CitizenState>
+			{
+				[CitizenStateType.CitizenIdle] = new CitizenIdle(mapSystem),
+				[CitizenStateType.CitizenWander] = new CitizenWander(mapSystem)
+			};
+
+			currentState = states[CitizenStateType.CitizenWander];
 		}
-		
+
 		public void SetState(CitizenStateType citizenStateType)
 		{
-			currentState = CitizenSystem.States[citizenStateType];
+			currentState = states[citizenStateType];
 		}
 
 		private void OnTick(object sender, TimeSystem.OnTickEventArgs eventArgs)
 		{
-			currentState.Tick();
+			currentState.Tick(this);
 		}
 	}
 }

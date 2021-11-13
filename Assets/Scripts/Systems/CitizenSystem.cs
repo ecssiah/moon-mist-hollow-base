@@ -7,9 +7,6 @@ namespace MMH
 {
     public class CitizenSystem : MonoBehaviour
     {
-        
-        public static Dictionary<CitizenStateType, CitizenState> States;
-        
         public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
 
         private MapSystem mapSystem;
@@ -32,11 +29,7 @@ namespace MMH
             
             citizenList = new List<Citizen>(numberOfCitizens);
 
-            States = new Dictionary<CitizenStateType, CitizenState>
-            {
-                [CitizenStateType.CitizenIdle] = new CitizenIdle(mapSystem),
-                [CitizenStateType.CitizenWander] = new CitizenWander(mapSystem)
-            };
+            
         }
 		
         void Start()
@@ -46,22 +39,34 @@ namespace MMH
 
         void CreateCitizens()
         {
-            Citizen testGuysCitizen = new Citizen
+            Citizen testGuysCitizen = new Citizen(mapSystem)
             {
                 Position = new int2(2, 2),
                 Direction = Direction.EE,
                 Nation = Nation.Guys,
+                Attributes = new CitizenAttributes
+                {
+                    Strength = 1,
+                    Intelligence = 1,
+                    Speed = 1,
+				}
             };
 
             OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
 
             citizenList.Add(testGuysCitizen);
 
-            Citizen testTaylorCitizen = new Citizen
+            Citizen testTaylorCitizen = new Citizen(mapSystem)
             {
                 Position = new int2(-2, -2),
                 Direction = Direction.SE,
                 Nation = Nation.Taylor,
+                Attributes = new CitizenAttributes
+                {
+                    Strength = 1,
+                    Intelligence = 1,
+                    Speed = 1,
+                }
             };
 
             OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });

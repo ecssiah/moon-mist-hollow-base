@@ -6,14 +6,29 @@ namespace MMH
 	{
 		private MapSystem mapSystem;
 
+		private int tickCounter;
+
 		public CitizenWander(MapSystem mapSystem)
 		{
 			this.mapSystem = mapSystem;
+
+			tickCounter = 0;
 		}
 
-		public override void Tick()
+		public override void Tick(Citizen citizen)
 		{
-			Debug.Log("Wander Ticking");
+			tickCounter++;
+
+			if (tickCounter > 20)
+			{
+				tickCounter = 0;
+
+				Direction direction = Utils.RandomEnumValue<Direction>();
+
+				citizen.Direction = direction;
+
+				Debug.Log($"{citizen.Id} {citizen.Direction}");
+			}
 		}
 	}
 }
