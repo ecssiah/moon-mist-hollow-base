@@ -8,6 +8,7 @@ namespace MMH
     public class CitizenSystem : MonoBehaviour
     {
         public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
+        public static event EventHandler<OnUpdateCitizenEventArgs> OnUpdateCitizen;
 
         private MapSystem mapSystem;
 
@@ -21,6 +22,11 @@ namespace MMH
             public Citizen citizen;
         }
 
+        public class OnUpdateCitizenEventArgs : EventArgs
+		{
+            public Citizen citizen;
+		}
+
         private void Awake()
 		{
             mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
@@ -28,8 +34,6 @@ namespace MMH
             numberOfCitizens = 20;
             
             citizenList = new List<Citizen>(numberOfCitizens);
-
-            
         }
 		
         void Start()
@@ -39,7 +43,7 @@ namespace MMH
 
         void CreateCitizens()
         {
-            Citizen testGuysCitizen = new Citizen(mapSystem)
+            Citizen testGuysCitizen = new Citizen(this, mapSystem)
             {
                 Position = new int2(2, 2),
                 Direction = Direction.EE,
@@ -56,10 +60,10 @@ namespace MMH
 
             citizenList.Add(testGuysCitizen);
 
-            Citizen testTaylorCitizen = new Citizen(mapSystem)
+            Citizen testTaylorCitizen = new Citizen(this, mapSystem)
             {
                 Position = new int2(-2, -2),
-                Direction = Direction.SE,
+                Direction = Direction.SS,
                 Nation = Nation.Taylor,
                 Attributes = new CitizenAttributes
                 {
@@ -74,5 +78,9 @@ namespace MMH
             citizenList.Add(testTaylorCitizen);
         }
 
+        public void UpdateCitizen(Citizen citizen)
+		{
+            OnUpdateCitizen?.Invoke(this, new OnUpdateCitizenEventArgs { citizen = citizen });
+		}
     }
 }

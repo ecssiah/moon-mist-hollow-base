@@ -62,6 +62,7 @@ namespace MMH
             };
 
             CitizenSystem.OnCreateCitizen += OnCreateCitizen;
+            CitizenSystem.OnUpdateCitizen += OnUpdateCitizen;
         }
 
         void Start()
@@ -77,6 +78,7 @@ namespace MMH
 		private void OnDisable()
 		{
             CitizenSystem.OnCreateCitizen -= OnCreateCitizen;
+            CitizenSystem.OnUpdateCitizen -= OnUpdateCitizen;
 		}
 
 		private void UpdateMapRenderData()
@@ -107,6 +109,16 @@ namespace MMH
             );
 
             citizenRenderData[eventArgs.citizen.Id] = renderData;
+        }
+
+        private void OnUpdateCitizen(object sender, CitizenSystem.OnUpdateCitizenEventArgs eventArgs)
+		{
+            RenderData renderData = citizenRenderData[eventArgs.citizen.Id];
+
+            renderData.WorldGameObject.transform.position = GridToWorld(eventArgs.citizen.Position);
+            renderData.Animator.Play(
+                $"Base Layer.{eventArgs.citizen.Nation}-Idle-{eventArgs.citizen.Direction}"
+            );
         }
 
         private Vector3 GridToWorld(int2 gridPosition)

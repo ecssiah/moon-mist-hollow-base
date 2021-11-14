@@ -6,7 +6,6 @@ namespace MMH
 	{
 		public int Size;
 		public int Width => 2 * Size + 1;
-		public int HalfWidth => Width / 2;
 		public int Area => Width * Width;
 
 		public List<Cell> Cells;

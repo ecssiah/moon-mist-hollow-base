@@ -6,10 +6,24 @@ namespace MMH
 {
     public class MapSystem : MonoBehaviour
     {
+        public static Dictionary<Direction, int2> DirectionVectors;
+
         private WorldMap worldMap;
 
         private void Awake()
         {
+            DirectionVectors = new Dictionary<Direction, int2>
+            {
+                [Direction.EE] = new int2(1, 0),
+                [Direction.NE] = new int2(1, 1),
+                [Direction.NN] = new int2(0, 1),
+                [Direction.NW] = new int2(-1, 1),
+                [Direction.WW] = new int2(-1, 0),
+                [Direction.SW] = new int2(-1, -1),
+                [Direction.SS] = new int2(0, -1),
+                [Direction.SE] = new int2(1, -1),
+            };
+
             GenerateWorldMap();
         }
 
@@ -49,7 +63,7 @@ namespace MMH
 
         public int PositionToId(int x, int y)
         {
-            return (x + worldMap.HalfWidth) + worldMap.Width * (y + worldMap.HalfWidth);
+            return (x + worldMap.Size) + worldMap.Width * (y + worldMap.Size);
         }
 
         public int PositionToId(int2 position)
@@ -59,7 +73,7 @@ namespace MMH
 
         public int2 IdToPosition(int id)
         {
-            return new int2(id % worldMap.Width - worldMap.HalfWidth, id / worldMap.Width - worldMap.HalfWidth);
+            return new int2(id % worldMap.Width - worldMap.Size, id / worldMap.Width - worldMap.Size);
         }
         
         private void SetCell(int x, int y, OverlayType overlayType)
@@ -102,6 +116,18 @@ namespace MMH
             cell.Solid = solid;
 		}
 
+        public bool IsSolid(int x, int y)
+		{
+            Cell cell = GetCell(x, y);
+
+            return cell.Solid;
+		}
+
+        public bool IsSolid(int2 position)
+		{
+            return IsSolid(position.x, position.y);
+		}
+
         public List<Cell> GetCells()
 		{
             return worldMap.Cells;
@@ -123,5 +149,13 @@ namespace MMH
         {
             return GetCell(position.x, position.y);
         }
+        
+        public bool OnMap(int2 position)
+		{
+            bool insideHorizontalLimits = position.x <= worldMap.Size && position.x >= -worldMap.Size;
+            bool insideVerticalLimits = position.y <= worldMap.Size && position.y >= -worldMap.Size;
+
+            return insideHorizontalLimits && insideVerticalLimits;
+		}
     }
 }

@@ -1,15 +1,18 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MMH
 {
 	public class CitizenWander : CitizenState
 	{
+		private CitizenSystem citizenSystem;
 		private MapSystem mapSystem;
 
 		private int tickCounter;
 
-		public CitizenWander(MapSystem mapSystem)
+		public CitizenWander(CitizenSystem citizenSystem, MapSystem mapSystem)
 		{
+			this.citizenSystem = citizenSystem;
 			this.mapSystem = mapSystem;
 
 			tickCounter = 0;
@@ -27,7 +30,14 @@ namespace MMH
 
 				citizen.Direction = direction;
 
-				Debug.Log($"{citizen.Id} {citizen.Direction}");
+				int2 testPosition = citizen.Position + MapSystem.DirectionVectors[direction];
+
+				if (!mapSystem.IsSolid(testPosition) && mapSystem.OnMap(testPosition))
+				{
+					citizen.Position = testPosition;
+
+					citizenSystem.UpdateCitizen(citizen);
+				}
 			}
 		}
 	}
