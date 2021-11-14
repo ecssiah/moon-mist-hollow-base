@@ -15,7 +15,6 @@ namespace MMH
 
 		public override void Tick(Citizen citizen)
 		{
-			Debug.Log(citizen.Id);
 		}
 	}
 }

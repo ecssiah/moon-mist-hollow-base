@@ -45,8 +45,8 @@ namespace MMH
         {
             Citizen testGuysCitizen = new Citizen(this, mapSystem)
             {
-                Position = new int2(2, 2),
-                Direction = Direction.EE,
+                Position = new int2(0, 2),
+                Direction = Direction.SS,
                 Nation = Nation.Guys,
                 Attributes = new CitizenAttributes
                 {
@@ -62,8 +62,8 @@ namespace MMH
 
             Citizen testTaylorCitizen = new Citizen(this, mapSystem)
             {
-                Position = new int2(-2, -2),
-                Direction = Direction.SS,
+                Position = new int2(2, 0),
+                Direction = Direction.WW,
                 Nation = Nation.Taylor,
                 Attributes = new CitizenAttributes
                 {

@@ -125,8 +125,8 @@ namespace MMH
         {
             Vector3 screenPosition = new Vector3
             {
-                x = (gridPosition.x - gridPosition.y) * 1,
-                y = (gridPosition.x + gridPosition.y) * 1/2f + 1/4f,
+                x = (gridPosition.x - gridPosition.y) * 1/2f,
+                y = (gridPosition.x + gridPosition.y) * 1/4f + 1/4f,
                 z = 0,
             };
 

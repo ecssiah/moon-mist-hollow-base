@@ -14,14 +14,14 @@ namespace MMH
         {
             DirectionVectors = new Dictionary<Direction, int2>
             {
-                [Direction.EE] = new int2(1, 0),
-                [Direction.NE] = new int2(1, 1),
-                [Direction.NN] = new int2(0, 1),
-                [Direction.NW] = new int2(-1, 1),
-                [Direction.WW] = new int2(-1, 0),
+                [Direction.EE] = new int2(+1, +0),
+                [Direction.NE] = new int2(+1, +1),
+                [Direction.NN] = new int2(+0, +1),
+                [Direction.NW] = new int2(-1, +1),
+                [Direction.WW] = new int2(-1, +0),
                 [Direction.SW] = new int2(-1, -1),
-                [Direction.SS] = new int2(0, -1),
-                [Direction.SE] = new int2(1, -1),
+                [Direction.SS] = new int2(+0, -1),
+                [Direction.SE] = new int2(+1, -1),
             };
 
             GenerateWorldMap();
