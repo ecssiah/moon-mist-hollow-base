@@ -69,7 +69,7 @@ namespace MMH
                 {
                     Strength = 1,
                     Intelligence = 1,
-                    Speed = 1,
+                    Speed = 3,
                 }
             };
 

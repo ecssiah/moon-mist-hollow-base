@@ -22,7 +22,9 @@ namespace MMH
 		{
 			tickCounter++;
 
-			if (tickCounter > 20)
+			int tickLimit = (int)math.clamp(20 - citizen.Attributes.Speed, 1, 20);
+
+			if (tickCounter > tickLimit)
 			{
 				tickCounter = 0;
 
