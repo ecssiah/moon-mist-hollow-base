@@ -23,9 +23,7 @@ namespace MMH
 
 				citizen.Direction = direction;
 
-				int2 testPosition = citizen.Position + MapSystem.DirectionVectors[direction];
-
-				if (!MapSystem.Instance.IsSolid(testPosition) && MapSystem.Instance.OnMap(testPosition))
+				if (MapSystem.Instance.IsPassable(citizen.Position, direction))
 				{
 					OnUpdateCitizenPositionEventArgs eventArgs = new OnUpdateCitizenPositionEventArgs
 					{
@@ -34,7 +32,7 @@ namespace MMH
 						Citizen = citizen
 					};
 
-					citizen.Position = testPosition;
+					citizen.Position += MapSystem.DirectionVectors[direction];
 					citizen.Cooldown = eventArgs.Ticks;
 
 					OnUpdateCitizenPosition?.Invoke(this, eventArgs);

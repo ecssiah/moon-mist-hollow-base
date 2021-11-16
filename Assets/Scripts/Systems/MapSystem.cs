@@ -105,7 +105,7 @@ namespace MMH
         {
             return new int2(id % worldMap.Width - worldMap.Size, id / worldMap.Width - worldMap.Size);
         }
-        
+
         private void SetCell(int x, int y, OverlayType overlayType)
         {
             SetCell(new int2(x, y), overlayType);
@@ -122,7 +122,7 @@ namespace MMH
         }
 
         private void SetCell(int2 position, OverlayType overlayType)
-		{
+        {
             Cell cell = GetCell(position);
             cell.OverlayType = overlayType;
         }
@@ -141,22 +141,62 @@ namespace MMH
         }
 
         private void SetCellSolid(int x, int y, bool solid)
-		{
+        {
             Cell cell = GetCell(x, y);
             cell.Solid = solid;
-		}
+        }
 
         public bool IsSolid(int x, int y)
-		{
+        {
             Cell cell = GetCell(x, y);
 
             return cell.Solid;
-		}
+        }
 
         public bool IsSolid(int2 position)
-		{
+        {
             return IsSolid(position.x, position.y);
-		}
+        }
+
+        public bool IsPassable(int2 startPosition, Direction direction)
+        {
+            int2 endPosition = startPosition + DirectionVectors[direction];
+
+            if (!OnMap(endPosition) || IsSolid(endPosition)) return false;
+
+            bool cardinalMove = direction == Direction.EE || direction == Direction.NN || direction == Direction.WW || direction == Direction.SS;
+
+            if (cardinalMove)
+			{
+                return true;
+			}
+            else
+			{
+                bool eastCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.EE]);
+                bool northCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.NN]);
+                bool westCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.WW]);
+                bool southCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.SS]);
+
+                if (direction == Direction.NE)
+				{
+                    return northCellPassable && eastCellPassable;
+				}
+                else if (direction == Direction.NW)
+				{
+                    return northCellPassable && westCellPassable;
+				}
+                else if (direction == Direction.SE)
+				{
+                    return southCellPassable && eastCellPassable;
+				}
+                else if (direction == Direction.SW)
+				{
+                    return southCellPassable && westCellPassable;
+				}
+			}
+
+            return false;
+        }
 
         public List<Cell> GetCells()
 		{

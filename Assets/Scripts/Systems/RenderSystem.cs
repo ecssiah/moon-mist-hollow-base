@@ -122,22 +122,22 @@ namespace MMH
 
         private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionEventArgs eventArgs)
 		{
-            RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
-            
-            renderData.Animator.Play(
-                $"Base Layer.{eventArgs.Citizen.Nation}-Walk-{eventArgs.Citizen.Direction}"
-            );
-
-            StartCoroutine(MoveCitizen(renderData, eventArgs));
+            StartCoroutine(MoveCitizen(eventArgs));
         }
 
-        private IEnumerator MoveCitizen(RenderData renderData, OnUpdateCitizenPositionEventArgs eventArgs)
+        private IEnumerator MoveCitizen(OnUpdateCitizenPositionEventArgs eventArgs)
 		{
+            RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
+
             float timer = 0;
             float duration = TimeSystem.TICK_DURATION * eventArgs.Ticks;
 
             Vector3 startPosition = GridToWorld(eventArgs.PreviousPosition);
             Vector3 endPosition = GridToWorld(eventArgs.Citizen.Position);
+
+            renderData.Animator.Play(
+                $"Base Layer.{eventArgs.Citizen.Nation}-Walk-{eventArgs.Citizen.Direction}"
+            );
 
             while (timer < duration)
 			{
@@ -148,12 +148,12 @@ namespace MMH
                 yield return null;
 			}
 
-            renderData.WorldGameObject.transform.position = endPosition;
-
             renderData.Animator.Play(
                 $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
             );
-        }
+
+            renderData.WorldGameObject.transform.position = endPosition;
+		}
 
         private Vector3 GridToWorld(int2 gridPosition)
         {
