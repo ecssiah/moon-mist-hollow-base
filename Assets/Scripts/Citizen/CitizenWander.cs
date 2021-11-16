@@ -6,6 +6,7 @@ namespace MMH
 {
 	public partial class CitizenWander : CitizenState
 	{
+		public static event EventHandler<OnUpdateCitizenDirectionEventArgs> OnUpdateCitizenDirection;
 		public static event EventHandler<OnUpdateCitizenPositionEventArgs> OnUpdateCitizenPosition;
 
 		private Citizen citizen;
@@ -19,23 +20,32 @@ namespace MMH
 		{
 			if (citizen.Cooldown <= 0)
 			{
-				Direction direction = Utils.RandomEnumValue<Direction>();
+				citizen.Direction = Utils.RandomEnumValue<Direction>();
 
-				citizen.Direction = direction;
-
-				if (MapSystem.Instance.IsPassable(citizen.Position, direction))
+				if (MapSystem.Instance.IsPassable(citizen.Position, citizen.Direction))
 				{
 					OnUpdateCitizenPositionEventArgs eventArgs = new OnUpdateCitizenPositionEventArgs
 					{
-						Ticks = MapSystem.DirectionCosts[direction],
+						Ticks = MapSystem.DirectionCosts[citizen.Direction],
 						PreviousPosition = citizen.Position,
 						Citizen = citizen
 					};
 
-					citizen.Position += MapSystem.DirectionVectors[direction];
+					citizen.Position += MapSystem.DirectionVectors[citizen.Direction];
 					citizen.Cooldown = eventArgs.Ticks;
 
 					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
+				}
+				else
+				{
+					citizen.Cooldown = 4;
+
+					OnUpdateCitizenDirectionEventArgs eventArgs = new OnUpdateCitizenDirectionEventArgs
+					{
+						Citizen = citizen
+					};
+
+					OnUpdateCitizenDirection?.Invoke(this, eventArgs);
 				}
 			}
 		}

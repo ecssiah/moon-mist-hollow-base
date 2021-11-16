@@ -89,6 +89,11 @@ namespace MMH
             SetCell(4, -4, StructureType.Wall1);
             SetCell(-4, 4, StructureType.Wall1);
             SetCell(-4, -4, StructureType.Wall1);
+
+            SetCell(4, 0, StructureType.Wall2);
+            SetCell(-4, 0, StructureType.Wall2);
+            SetCell(0, 4, StructureType.Wall2);
+            SetCell(0, -4, StructureType.Wall2);
         }
 
         public int PositionToId(int x, int y)

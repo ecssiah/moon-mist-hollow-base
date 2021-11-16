@@ -70,6 +70,7 @@ namespace MMH
 
             CitizenSystem.OnCreateCitizen += OnCreateCitizen;
 
+            CitizenWander.OnUpdateCitizenDirection += OnUpdateCitizenDirection;
             CitizenWander.OnUpdateCitizenPosition += OnUpdateCitizenPosition;
         }
 
@@ -118,6 +119,15 @@ namespace MMH
             );
 
             citizenRenderData[eventArgs.Citizen.Id] = renderData;
+        }
+
+        private void OnUpdateCitizenDirection(object sender, OnUpdateCitizenDirectionEventArgs eventArgs)
+		{
+            RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
+
+            renderData.Animator.Play(
+                $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
+            );
         }
 
         private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionEventArgs eventArgs)
