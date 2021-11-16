@@ -7,8 +7,8 @@ namespace MMH
 {
     public class RenderSystem : MonoBehaviour
     {
-        private MapSystem mapSystem;
-        private CitizenSystem citizenSystem;
+        private static RenderSystem _instance;
+        public static RenderSystem Instance { get { return _instance; } }
 
         private Tilemap overlayTilemap;
         private Tilemap structureTilemap;
@@ -24,8 +24,14 @@ namespace MMH
 
         private void Awake()
 	    {
-            mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
-            citizenSystem = GameObject.Find("CitizenSystem").GetComponent<CitizenSystem>();
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
 
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
@@ -62,7 +68,8 @@ namespace MMH
             };
 
             CitizenSystem.OnCreateCitizen += OnCreateCitizen;
-            CitizenSystem.OnUpdateCitizen += OnUpdateCitizen;
+
+            CitizenWander.OnUpdateCitizenPosition += OnUpdateCitizenPosition;
         }
 
         void Start()
@@ -78,12 +85,13 @@ namespace MMH
 		private void OnDisable()
 		{
             CitizenSystem.OnCreateCitizen -= OnCreateCitizen;
-            CitizenSystem.OnUpdateCitizen -= OnUpdateCitizen;
+            
+            CitizenWander.OnUpdateCitizenPosition -= OnUpdateCitizenPosition;
 		}
 
 		private void UpdateMapRenderData()
         {
-            foreach (Cell cell in mapSystem.GetCells())
+            foreach (Cell cell in MapSystem.Instance.GetCells())
             {
                 Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
@@ -98,26 +106,26 @@ namespace MMH
             RenderData renderData = new RenderData();
 
             renderData.WorldGameObject = Instantiate(
-                nationPrefabs[eventArgs.citizen.Nation],
-                GridToWorld(eventArgs.citizen.Position),
+                nationPrefabs[eventArgs.Citizen.Nation],
+                GridToWorld(eventArgs.Citizen.Position),
                 Quaternion.identity
             );
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
             renderData.Animator.Play(
-                $"Base Layer.{eventArgs.citizen.Nation}-Idle-{eventArgs.citizen.Direction}"
+                $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
             );
 
-            citizenRenderData[eventArgs.citizen.Id] = renderData;
+            citizenRenderData[eventArgs.Citizen.Id] = renderData;
         }
 
-        private void OnUpdateCitizen(object sender, CitizenSystem.OnUpdateCitizenEventArgs eventArgs)
+        private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionEventArgs eventArgs)
 		{
-            RenderData renderData = citizenRenderData[eventArgs.citizen.Id];
+            RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
 
-            renderData.WorldGameObject.transform.position = GridToWorld(eventArgs.citizen.Position);
+            renderData.WorldGameObject.transform.position = GridToWorld(eventArgs.Citizen.Position);
             renderData.Animator.Play(
-                $"Base Layer.{eventArgs.citizen.Nation}-Idle-{eventArgs.citizen.Direction}"
+                $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
             );
         }
 

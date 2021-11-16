@@ -5,6 +5,9 @@ namespace MMH
 {
 	public class TimeSystem : MonoBehaviour
 	{
+		private static TimeSystem _instance;
+		public static TimeSystem Instance { get { return _instance; } }
+
 		public class OnTickEventArgs : EventArgs
 		{
 			public int tick;
@@ -19,6 +22,15 @@ namespace MMH
 
 		private void Awake()
 		{
+			if (_instance != null && _instance != this)
+			{
+				Destroy(this.gameObject);
+			}
+			else
+			{
+				_instance = this;
+			}
+
 			tick = 0;
 		}
 

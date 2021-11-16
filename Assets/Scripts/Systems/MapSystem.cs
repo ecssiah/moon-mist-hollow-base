@@ -6,12 +6,24 @@ namespace MMH
 {
     public class MapSystem : MonoBehaviour
     {
-        public static Dictionary<Direction, int2> DirectionVectors;
+        private static MapSystem _instance;
+        public static MapSystem Instance { get { return _instance; } }
 
+        public static Dictionary<Direction, int2> DirectionVectors;
+        
         private WorldMap worldMap;
 
         private void Awake()
         {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
             DirectionVectors = new Dictionary<Direction, int2>
             {
                 [Direction.EE] = new int2(+1, +0),

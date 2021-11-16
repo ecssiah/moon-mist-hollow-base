@@ -5,21 +5,34 @@ namespace MMH
 {
 	public class PlayerSystem : MonoBehaviour
 	{
+		private static PlayerSystem _instance;
+		public static PlayerSystem Instance { get { return _instance; } }
+
 		private float panSpeed = 8.0f;
 		private float zoomSpeed = 8.0f;
 
 		private Camera playerCamera;
 
 		private PlayerInputActions playerInputActions;
+
 		private InputAction pan;
 		private InputAction zoom;
 		private InputAction select;
 
 		void Awake()
 		{
-			playerInputActions = new PlayerInputActions();
+			if (_instance != null && _instance != this)
+			{
+				Destroy(this.gameObject);
+			}
+			else
+			{
+				_instance = this;
+			}
 
 			TimeSystem.OnTick += OnTick;
+
+			playerInputActions = new PlayerInputActions();
 		}
 
 		private void Start()
@@ -43,11 +56,11 @@ namespace MMH
 
 		void OnDisable()
 		{
+			TimeSystem.OnTick -= OnTick;
+
 			pan.Disable();
 			zoom.Disable();
 			select.Disable();
-
-			TimeSystem.OnTick -= OnTick;
 		}
 
 		void Update()

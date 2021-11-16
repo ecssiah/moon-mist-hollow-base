@@ -4,16 +4,14 @@ namespace MMH
 {
 	public class CitizenIdle : CitizenState
 	{
-		private CitizenSystem citizenSystem;
-		private MapSystem mapSystem;
+		private Citizen citizen;
 
-		public CitizenIdle(CitizenSystem citizenSystem, MapSystem mapSystem)
+		public CitizenIdle(Citizen citizen)
 		{
-			this.citizenSystem = citizenSystem;
-			this.mapSystem = mapSystem;
+			this.citizen = citizen;
 		}
 
-		public override void Tick(Citizen citizen)
+		public override void Tick()
 		{
 		}
 	}

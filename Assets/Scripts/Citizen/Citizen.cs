@@ -17,7 +17,7 @@ namespace MMH
 		
 		private CitizenState currentState;
 
-		public Citizen(CitizenSystem citizenSystem, MapSystem mapSystem)
+		public Citizen()
 		{
 			TimeSystem.OnTick += OnTick;
 
@@ -25,8 +25,8 @@ namespace MMH
 
 			states = new Dictionary<CitizenStateType, CitizenState>
 			{
-				[CitizenStateType.CitizenIdle] = new CitizenIdle(citizenSystem, mapSystem),
-				[CitizenStateType.CitizenWander] = new CitizenWander(citizenSystem, mapSystem)
+				[CitizenStateType.CitizenIdle] = new CitizenIdle(this),
+				[CitizenStateType.CitizenWander] = new CitizenWander(this)
 			};
 
 			currentState = states[CitizenStateType.CitizenWander];
@@ -39,7 +39,7 @@ namespace MMH
 
 		private void OnTick(object sender, TimeSystem.OnTickEventArgs eventArgs)
 		{
-			currentState.Tick(this);
+			currentState.Tick();
 		}
 	}
 }

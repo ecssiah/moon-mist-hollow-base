@@ -1,24 +1,25 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace MMH
 {
-	public class CitizenWander : CitizenState
+	public partial class CitizenWander : CitizenState
 	{
-		private CitizenSystem citizenSystem;
-		private MapSystem mapSystem;
+		public static event EventHandler<OnUpdateCitizenPositionEventArgs> OnUpdateCitizenPosition;
+
+		private Citizen citizen;
 
 		private int tickCounter;
 
-		public CitizenWander(CitizenSystem citizenSystem, MapSystem mapSystem)
+		public CitizenWander(Citizen citizen)
 		{
-			this.citizenSystem = citizenSystem;
-			this.mapSystem = mapSystem;
+			this.citizen = citizen;
 
 			tickCounter = 0;
 		}
 
-		public override void Tick(Citizen citizen)
+		public override void Tick()
 		{
 			tickCounter++;
 
@@ -34,11 +35,17 @@ namespace MMH
 
 				int2 testPosition = citizen.Position + MapSystem.DirectionVectors[direction];
 
-				if (!mapSystem.IsSolid(testPosition) && mapSystem.OnMap(testPosition))
+				if (!MapSystem.Instance.IsSolid(testPosition) && MapSystem.Instance.OnMap(testPosition))
 				{
+					OnUpdateCitizenPositionEventArgs eventArgs = new OnUpdateCitizenPositionEventArgs
+					{
+						PreviousPosition = citizen.Position,
+						Citizen = citizen
+					};
+
 					citizen.Position = testPosition;
 
-					citizenSystem.UpdateCitizen(citizen);
+					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
 				}
 			}
 		}

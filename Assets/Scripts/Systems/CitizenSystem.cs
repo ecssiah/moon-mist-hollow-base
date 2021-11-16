@@ -7,10 +7,10 @@ namespace MMH
 {
     public class CitizenSystem : MonoBehaviour
     {
+        private static CitizenSystem _instance;
+        public static CitizenSystem Instance { get { return _instance; } }
+        
         public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
-        public static event EventHandler<OnUpdateCitizenEventArgs> OnUpdateCitizen;
-
-        private MapSystem mapSystem;
 
         private int numberOfCitizens;
 
@@ -19,17 +19,19 @@ namespace MMH
 
         public class OnCreateCitizenEventArgs : EventArgs
         {
-            public Citizen citizen;
+            public Citizen Citizen;
         }
-
-        public class OnUpdateCitizenEventArgs : EventArgs
-		{
-            public Citizen citizen;
-		}
 
         private void Awake()
 		{
-            mapSystem = GameObject.Find("MapSystem").GetComponent<MapSystem>();
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
 
             numberOfCitizens = 20;
             
@@ -43,7 +45,7 @@ namespace MMH
 
         void CreateCitizens()
         {
-            Citizen testGuysCitizen = new Citizen(this, mapSystem)
+            Citizen testGuysCitizen = new Citizen()
             {
                 Position = new int2(0, 2),
                 Direction = Direction.SS,
@@ -55,12 +57,12 @@ namespace MMH
                     Speed = 1,
 				}
             };
-
-            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testGuysCitizen });
-
+            
             citizenList.Add(testGuysCitizen);
 
-            Citizen testTaylorCitizen = new Citizen(this, mapSystem)
+            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = testGuysCitizen });
+
+            Citizen testTaylorCitizen = new Citizen()
             {
                 Position = new int2(2, 0),
                 Direction = Direction.WW,
@@ -72,15 +74,10 @@ namespace MMH
                     Speed = 3,
                 }
             };
-
-            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { citizen = testTaylorCitizen });
-
+            
             citizenList.Add(testTaylorCitizen);
-        }
 
-        public void UpdateCitizen(Citizen citizen)
-		{
-            OnUpdateCitizen?.Invoke(this, new OnUpdateCitizenEventArgs { citizen = citizen });
-		}
+            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = testTaylorCitizen });
+        }
     }
 }
