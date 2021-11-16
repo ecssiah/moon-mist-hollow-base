@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -122,8 +123,33 @@ namespace MMH
         private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionEventArgs eventArgs)
 		{
             RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
+            
+            renderData.Animator.Play(
+                $"Base Layer.{eventArgs.Citizen.Nation}-Walk-{eventArgs.Citizen.Direction}"
+            );
+
+            StartCoroutine(MoveCitizen(renderData, eventArgs));
+        }
+
+        private IEnumerator MoveCitizen(RenderData renderData, OnUpdateCitizenPositionEventArgs eventArgs)
+		{
+            float timer = 0;
+            float duration = TimeSystem.TICK_DURATION * eventArgs.Ticks;
+
+            Vector3 startPosition = GridToWorld(eventArgs.PreviousPosition);
+            Vector3 endPosition = GridToWorld(eventArgs.Citizen.Position);
+
+            while (timer < duration)
+			{
+                timer += Time.deltaTime;
+                
+                renderData.WorldGameObject.transform.position = Vector3.Lerp(startPosition, endPosition, timer / duration);
+
+                yield return null;
+			}
 
             renderData.WorldGameObject.transform.position = GridToWorld(eventArgs.Citizen.Position);
+
             renderData.Animator.Play(
                 $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
             );

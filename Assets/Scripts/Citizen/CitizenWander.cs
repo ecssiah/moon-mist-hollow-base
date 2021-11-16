@@ -19,8 +19,6 @@ namespace MMH
 		{
 			if (citizen.Cooldown <= 0)
 			{
-				citizen.Cooldown = 10;
-
 				Direction direction = Utils.RandomEnumValue<Direction>();
 
 				citizen.Direction = direction;
@@ -31,12 +29,13 @@ namespace MMH
 				{
 					OnUpdateCitizenPositionEventArgs eventArgs = new OnUpdateCitizenPositionEventArgs
 					{
+						Ticks = MapSystem.DirectionCosts[direction],
 						PreviousPosition = citizen.Position,
 						Citizen = citizen
 					};
 
 					citizen.Position = testPosition;
-					citizen.Cooldown = MapSystem.DirectionCosts[direction];
+					citizen.Cooldown = eventArgs.Ticks;
 
 					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
 				}

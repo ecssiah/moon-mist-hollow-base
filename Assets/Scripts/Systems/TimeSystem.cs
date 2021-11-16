@@ -15,7 +15,7 @@ namespace MMH
 
 		public static event EventHandler<OnTickEventArgs> OnTick;
 
-		private const float TICK_DURATION = 0.2f;
+		public const float TICK_DURATION = 0.2f;
 
 		private int tick;
 		private float tickTimer;
