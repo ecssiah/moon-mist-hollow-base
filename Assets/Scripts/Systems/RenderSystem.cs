@@ -141,14 +141,14 @@ namespace MMH
 
             while (timer < duration)
 			{
-                timer += Time.deltaTime;
-                
                 renderData.WorldGameObject.transform.position = Vector3.Lerp(startPosition, endPosition, timer / duration);
+
+                timer += Time.deltaTime;
 
                 yield return null;
 			}
 
-            renderData.WorldGameObject.transform.position = GridToWorld(eventArgs.Citizen.Position);
+            renderData.WorldGameObject.transform.position = endPosition;
 
             renderData.Animator.Play(
                 $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
