@@ -45,39 +45,25 @@ namespace MMH
 
         void CreateCitizens()
         {
-            Citizen testGuysCitizen = new Citizen()
-            {
-                Position = new int2(0, 2),
-                Direction = Direction.SS,
-                Nation = Nation.Guys,
-                Attributes = new CitizenAttributes
+            for (int i = 0; i < numberOfCitizens; i++)
+			{
+                Citizen newCitizen = new Citizen()
                 {
-                    Strength = 1,
-                    Intelligence = 1,
-                    Speed = 1,
-				}
-            };
-            
-            citizenList.Add(testGuysCitizen);
+                    Position = MapSystem.Instance.GetRandomCell(),
+                    Direction = Utils.RandomEnumValue<Direction>(),
+                    Nation = Utils.RandomEnumValue<Nation>(),
+                    Attributes = new CitizenAttributes
+                    {
+                        Strength = 1,
+                        Intelligence = 1,
+                        Speed = 1,
+                    }
+                };
 
-            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = testGuysCitizen });
+                citizenList.Add(newCitizen);
 
-            Citizen testTaylorCitizen = new Citizen()
-            {
-                Position = new int2(2, 0),
-                Direction = Direction.WW,
-                Nation = Nation.Taylor,
-                Attributes = new CitizenAttributes
-                {
-                    Strength = 1,
-                    Intelligence = 1,
-                    Speed = 3,
-                }
-            };
-            
-            citizenList.Add(testTaylorCitizen);
-
-            OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = testTaylorCitizen });
+                OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = newCitizen });
+            }
         }
     }
 }

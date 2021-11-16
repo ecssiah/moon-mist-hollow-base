@@ -153,6 +153,8 @@ namespace MMH
 
         public bool IsSolid(int x, int y)
         {
+            if (!OnMap(x, y)) return true;
+
             Cell cell = GetCell(x, y);
 
             return cell.Solid;
@@ -163,11 +165,27 @@ namespace MMH
             return IsSolid(position.x, position.y);
         }
 
+        public int2 GetRandomCell()
+		{
+            int2 cellPosition;
+
+            do
+            {
+                cellPosition = new int2(
+                    UnityEngine.Random.Range(-worldMap.Size, worldMap.Size + 1),
+                    UnityEngine.Random.Range(-worldMap.Size, worldMap.Size + 1)
+                );
+            }
+            while (IsSolid(cellPosition));
+
+            return cellPosition;
+		}
+
         public bool IsPassable(int2 startPosition, Direction direction)
         {
             int2 endPosition = startPosition + DirectionVectors[direction];
 
-            if (!OnMap(endPosition) || IsSolid(endPosition)) return false;
+            if (IsSolid(endPosition)) return false;
 
             bool cardinalMove = direction == Direction.EE || direction == Direction.NN || direction == Direction.WW || direction == Direction.SS;
 
@@ -225,12 +243,17 @@ namespace MMH
             return GetCell(position.x, position.y);
         }
         
-        public bool OnMap(int2 position)
+        public bool OnMap(int x, int y)
 		{
-            bool insideHorizontalLimits = position.x <= worldMap.Size && position.x >= -worldMap.Size;
-            bool insideVerticalLimits = position.y <= worldMap.Size && position.y >= -worldMap.Size;
+            bool insideHorizontalLimits = x <= worldMap.Size && x >= -worldMap.Size;
+            bool insideVerticalLimits = y <= worldMap.Size && y >= -worldMap.Size;
 
             return insideHorizontalLimits && insideVerticalLimits;
+        }
+
+        public bool OnMap(int2 position)
+		{
+            return OnMap(position.x, position.y);
 		}
     }
 }
