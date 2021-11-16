@@ -21,6 +21,8 @@ namespace MMH
 
         private Dictionary<Nation, GameObject> nationPrefabs;
 
+        private GameObject citizenGameObject;
+
         private Dictionary<int, RenderData> citizenRenderData;
 
         private void Awake()
@@ -37,6 +39,8 @@ namespace MMH
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
             groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+
+            citizenGameObject = GameObject.Find("Citizens");
 
             citizenRenderData = new Dictionary<int, RenderData>();
 
@@ -112,6 +116,8 @@ namespace MMH
                 GridToWorld(eventArgs.Citizen.Position),
                 Quaternion.identity
             );
+            
+            renderData.WorldGameObject.transform.parent = citizenGameObject.transform;
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
             renderData.Animator.Play(
