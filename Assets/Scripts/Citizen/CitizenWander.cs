@@ -10,24 +10,16 @@ namespace MMH
 
 		private Citizen citizen;
 
-		private int tickCounter;
-
 		public CitizenWander(Citizen citizen)
 		{
 			this.citizen = citizen;
-
-			tickCounter = 0;
 		}
 
 		public override void Tick()
 		{
-			tickCounter++;
-
-			int tickLimit = (int)math.clamp(20 - citizen.Attributes.Speed, 1, 20);
-
-			if (tickCounter > tickLimit)
+			if (citizen.Cooldown <= 0)
 			{
-				tickCounter = 0;
+				citizen.Cooldown = 10;
 
 				Direction direction = Utils.RandomEnumValue<Direction>();
 
@@ -44,6 +36,7 @@ namespace MMH
 					};
 
 					citizen.Position = testPosition;
+					citizen.Cooldown = MapSystem.DirectionCosts[direction];
 
 					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
 				}

@@ -10,7 +10,8 @@ namespace MMH
         public static MapSystem Instance { get { return _instance; } }
 
         public static Dictionary<Direction, int2> DirectionVectors;
-        
+        public static Dictionary<Direction, int> DirectionCosts;
+
         private WorldMap worldMap;
 
         private void Awake()
@@ -34,6 +35,18 @@ namespace MMH
                 [Direction.SW] = new int2(-1, -1),
                 [Direction.SS] = new int2(+0, -1),
                 [Direction.SE] = new int2(+1, -1),
+            };
+
+            DirectionCosts = new Dictionary<Direction, int>
+            {
+                [Direction.EE] = 10,
+                [Direction.NE] = 14,
+                [Direction.NN] = 10,
+                [Direction.NW] = 14,
+                [Direction.WW] = 10,
+                [Direction.SW] = 14,
+                [Direction.SS] = 10,
+                [Direction.SE] = 14,
             };
 
             GenerateWorldMap();

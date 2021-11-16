@@ -17,6 +17,9 @@ namespace MMH
 		
 		private CitizenState currentState;
 
+		private int cooldown;
+		public int Cooldown { get => cooldown; set => cooldown = value; }
+
 		public Citizen()
 		{
 			TimeSystem.OnTick += OnTick;
@@ -39,6 +42,8 @@ namespace MMH
 
 		private void OnTick(object sender, TimeSystem.OnTickEventArgs eventArgs)
 		{
+			cooldown--;
+
 			currentState.Tick();
 		}
 	}
