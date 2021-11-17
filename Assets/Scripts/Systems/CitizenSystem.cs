@@ -33,7 +33,7 @@ namespace MMH
                 _instance = this;
             }
 
-            numberOfCitizens = 100;
+            numberOfCitizens = 1000;
             
             citizenList = new List<Citizen>(numberOfCitizens);
         }
