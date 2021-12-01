@@ -36,6 +36,8 @@ namespace MMH
             numberOfCitizens = 1000;
             
             citizenList = new List<Citizen>(numberOfCitizens);
+
+            UISystem.OnUpdateRulesDropdown += OnUpdateRulesDropdown;
         }
 		
         void Start()
@@ -65,5 +67,20 @@ namespace MMH
                 OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = newCitizen });
             }
         }
+        
+        public void OnUpdateRulesDropdown(object sender, UISystem.OnUpdateRulesDropownEventArgs eventArgs)
+		{
+            foreach (Citizen citizen in citizenList)
+			{
+                if (eventArgs.RuleName == "CitizenIdle") 
+                { 
+                    citizen.SetState(CitizenStateType.CitizenIdle);
+                } 
+                else if (eventArgs.RuleName == "CitizenWander")
+				{
+                    citizen.SetState(CitizenStateType.CitizenWander);
+				}
+            }
+		}
     }
 }

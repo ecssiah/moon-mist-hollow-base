@@ -88,7 +88,7 @@ namespace MMH
 
 		private void Select(InputAction.CallbackContext obj)
 		{
-			Debug.Log("Select!");
+
 		}
 
 		private void OnTick(object sender, TimeSystem.OnTickEventArgs onTickEventArgs)

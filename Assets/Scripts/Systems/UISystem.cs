@@ -1,32 +1,64 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using MMH;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UISystem : MonoBehaviour
+namespace MMH
 {
-    private static UISystem _instance;
-    public static UISystem Instance { get { return _instance; } }
-
-	private void Awake()
-	{
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
-
-	void Start()
+    public class UISystem : MonoBehaviour
     {
+        private static UISystem _instance;
+        public static UISystem Instance { get { return _instance; } }
+
+        public static event EventHandler<OnUpdateRulesDropownEventArgs> OnUpdateRulesDropdown;
+
+        private TMPro.TMP_Dropdown rulesDropdown;
+
+        public class OnUpdateRulesDropownEventArgs
+        {
+            public string RuleName;
+        }
+
+        private void Awake()
+	    {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
+            rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMPro.TMP_Dropdown>();
+
+            List<string> rules = new List<string>
+            {
+                CitizenStateType.CitizenIdle.ToString(),
+                CitizenStateType.CitizenWander.ToString(),
+            };
+
+            rulesDropdown.AddOptions(rules);
+            rulesDropdown.value = 1;
+
+            rulesDropdown.onValueChanged.AddListener(delegate {
+                RulesDropdownChanged();
+            });
+        }
+
+	    void Start()
+        {
         
+        }
+
+        private void RulesDropdownChanged()
+		{
+            OnUpdateRulesDropdown?.Invoke(this, new OnUpdateRulesDropownEventArgs { RuleName = rulesDropdown.options[rulesDropdown.value].text });
+		}
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	
 }
+

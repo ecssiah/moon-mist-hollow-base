@@ -9,6 +9,7 @@ namespace MMH
 		public CitizenIdle(Citizen citizen)
 		{
 			this.citizen = citizen;
+			citizenStateType = CitizenStateType.CitizenIdle;
 		}
 
 		public override void Tick()

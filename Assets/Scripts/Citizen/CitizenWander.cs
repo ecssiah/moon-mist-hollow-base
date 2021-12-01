@@ -12,6 +12,7 @@ namespace MMH
 		public CitizenWander(Citizen citizen)
 		{
 			this.citizen = citizen;
+			citizenStateType = CitizenStateType.CitizenWander;
 		}
 
 		public override void Tick()

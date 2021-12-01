@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace MMH
 {
@@ -33,6 +34,11 @@ namespace MMH
 			};
 
 			currentState = states[CitizenStateType.CitizenWander];
+		}
+
+		public CitizenStateType GetCitizenStateType()
+		{
+			return currentState.CitizenStateType;
 		}
 
 		public void SetState(CitizenStateType citizenStateType)
