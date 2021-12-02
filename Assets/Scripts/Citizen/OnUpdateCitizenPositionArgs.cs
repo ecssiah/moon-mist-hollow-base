@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MMH
 {
-	public class OnUpdateCitizenPositionEventArgs : EventArgs
+	public class OnUpdateCitizenPositionArgs : EventArgs
 	{
 		public int Ticks;
 		public int2 PreviousPosition;

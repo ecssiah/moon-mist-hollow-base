@@ -4,14 +4,15 @@ namespace MMH
 {
 	public partial class CitizenWander : CitizenState
 	{
-		public static event EventHandler<OnUpdateCitizenDirectionEventArgs> OnUpdateCitizenDirection;
-		public static event EventHandler<OnUpdateCitizenPositionEventArgs> OnUpdateCitizenPosition;
+		public static event EventHandler<OnUpdateCitizenDirectionArgs> OnUpdateCitizenDirection;
+		public static event EventHandler<OnUpdateCitizenPositionArgs> OnUpdateCitizenPosition;
 
 		private Citizen citizen;
 
 		public CitizenWander(Citizen citizen)
 		{
 			this.citizen = citizen;
+
 			citizenStateType = CitizenStateType.CitizenWander;
 		}
 
@@ -23,7 +24,7 @@ namespace MMH
 
 				if (MapSystem.Instance.IsPassable(citizen.Position, citizen.Direction))
 				{
-					OnUpdateCitizenPositionEventArgs eventArgs = new OnUpdateCitizenPositionEventArgs
+					OnUpdateCitizenPositionArgs eventArgs = new OnUpdateCitizenPositionArgs
 					{
 						Ticks = MapSystem.DirectionCosts[citizen.Direction],
 						PreviousPosition = citizen.Position,
@@ -39,7 +40,7 @@ namespace MMH
 				{
 					citizen.Cooldown = 4;
 
-					OnUpdateCitizenDirectionEventArgs eventArgs = new OnUpdateCitizenDirectionEventArgs
+					OnUpdateCitizenDirectionArgs eventArgs = new OnUpdateCitizenDirectionArgs
 					{
 						Citizen = citizen
 					};

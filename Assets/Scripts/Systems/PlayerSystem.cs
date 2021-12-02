@@ -91,7 +91,7 @@ namespace MMH
 
 		}
 
-		private void OnTick(object sender, TimeSystem.OnTickEventArgs onTickEventArgs)
+		private void OnTick(object sender, TimeSystem.OnTickArgs onTickArgs)
 		{
 		}
 	}

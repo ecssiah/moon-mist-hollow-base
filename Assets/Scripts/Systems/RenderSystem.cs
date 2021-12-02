@@ -107,7 +107,7 @@ namespace MMH
             }
         }
 
-        private void OnCreateCitizen(object sender, CitizenSystem.OnCreateCitizenEventArgs eventArgs)
+        private void OnCreateCitizen(object sender, CitizenSystem.OnCreateCitizenArgs eventArgs)
         {
             RenderData renderData = new RenderData();
 
@@ -127,7 +127,7 @@ namespace MMH
             citizenRenderData[eventArgs.Citizen.Id] = renderData;
         }
 
-        private void OnUpdateCitizenDirection(object sender, OnUpdateCitizenDirectionEventArgs eventArgs)
+        private void OnUpdateCitizenDirection(object sender, OnUpdateCitizenDirectionArgs eventArgs)
 		{
             RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
 
@@ -136,12 +136,12 @@ namespace MMH
             );
         }
 
-        private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionEventArgs eventArgs)
+        private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionArgs eventArgs)
 		{
             StartCoroutine(MoveCitizen(eventArgs));
         }
 
-        private IEnumerator MoveCitizen(OnUpdateCitizenPositionEventArgs eventArgs)
+        private IEnumerator MoveCitizen(OnUpdateCitizenPositionArgs eventArgs)
 		{
             RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
 

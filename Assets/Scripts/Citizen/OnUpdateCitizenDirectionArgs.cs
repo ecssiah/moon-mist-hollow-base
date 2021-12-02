@@ -1,6 +1,6 @@
 ﻿namespace MMH
 {
-	public class OnUpdateCitizenDirectionEventArgs
+	public class OnUpdateCitizenDirectionArgs
 	{
 		public Citizen Citizen;
 	}

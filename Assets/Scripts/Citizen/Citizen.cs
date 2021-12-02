@@ -33,7 +33,7 @@ namespace MMH
 				[CitizenStateType.CitizenWander] = new CitizenWander(this)
 			};
 
-			currentState = states[CitizenStateType.CitizenWander];
+			currentState = states[CitizenStateType.CitizenIdle];
 		}
 
 		public CitizenStateType GetCitizenStateType()
@@ -46,7 +46,7 @@ namespace MMH
 			currentState = states[citizenStateType];
 		}
 
-		private void OnTick(object sender, TimeSystem.OnTickEventArgs eventArgs)
+		private void OnTick(object sender, TimeSystem.OnTickArgs eventArgs)
 		{
 			cooldown--;
 

@@ -10,14 +10,14 @@ namespace MMH
         private static CitizenSystem _instance;
         public static CitizenSystem Instance { get { return _instance; } }
         
-        public static event EventHandler<OnCreateCitizenEventArgs> OnCreateCitizen;
+        public static event EventHandler<OnCreateCitizenArgs> OnCreateCitizen;
 
         private int numberOfCitizens;
 
         private List<Citizen> citizenList;
 		public List<Citizen> CitizenList { get => citizenList; }
 
-        public class OnCreateCitizenEventArgs : EventArgs
+        public class OnCreateCitizenArgs : EventArgs
         {
             public Citizen Citizen;
         }
@@ -64,11 +64,11 @@ namespace MMH
 
                 citizenList.Add(newCitizen);
 
-                OnCreateCitizen?.Invoke(this, new OnCreateCitizenEventArgs { Citizen = newCitizen });
+                OnCreateCitizen?.Invoke(this, new OnCreateCitizenArgs { Citizen = newCitizen });
             }
         }
         
-        public void OnUpdateRulesDropdown(object sender, UISystem.OnUpdateRulesDropownEventArgs eventArgs)
+        public void OnUpdateRulesDropdown(object sender, UISystem.OnUpdateRulesDropownArgs eventArgs)
 		{
             foreach (Citizen citizen in citizenList)
 			{

@@ -12,11 +12,11 @@ namespace MMH
         private static UISystem _instance;
         public static UISystem Instance { get { return _instance; } }
 
-        public static event EventHandler<OnUpdateRulesDropownEventArgs> OnUpdateRulesDropdown;
+        public static event EventHandler<OnUpdateRulesDropownArgs> OnUpdateRulesDropdown;
 
         private TMPro.TMP_Dropdown rulesDropdown;
 
-        public class OnUpdateRulesDropownEventArgs
+        public class OnUpdateRulesDropownArgs
         {
             public string RuleName;
         }
@@ -41,7 +41,7 @@ namespace MMH
             };
 
             rulesDropdown.AddOptions(rules);
-            rulesDropdown.value = 1;
+            rulesDropdown.value = 0;
 
             rulesDropdown.onValueChanged.AddListener(delegate {
                 RulesDropdownChanged();
@@ -55,7 +55,12 @@ namespace MMH
 
         private void RulesDropdownChanged()
 		{
-            OnUpdateRulesDropdown?.Invoke(this, new OnUpdateRulesDropownEventArgs { RuleName = rulesDropdown.options[rulesDropdown.value].text });
+            OnUpdateRulesDropdown?.Invoke(
+                this, 
+                new OnUpdateRulesDropownArgs { 
+                    RuleName = rulesDropdown.options[rulesDropdown.value].text 
+                }
+            );
 		}
     }
 

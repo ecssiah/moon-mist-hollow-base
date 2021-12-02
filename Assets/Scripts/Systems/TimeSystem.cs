@@ -8,17 +8,17 @@ namespace MMH
 		private static TimeSystem _instance;
 		public static TimeSystem Instance { get { return _instance; } }
 
-		public class OnTickEventArgs : EventArgs
-		{
-			public int tick;
-		}
-
-		public static event EventHandler<OnTickEventArgs> OnTick;
+		public static event EventHandler<OnTickArgs> OnTick;
 
 		public const float TICK_DURATION = 0.2f;
 
 		private int tick;
 		private float tickTimer;
+
+		public class OnTickArgs : EventArgs
+		{
+			public int tick;
+		}
 
 		private void Awake()
 		{
@@ -43,7 +43,7 @@ namespace MMH
 				tickTimer -= TICK_DURATION;
 				tick++;
 
-				OnTick?.Invoke(this, new OnTickEventArgs { tick = tick });
+				OnTick?.Invoke(this, new OnTickArgs { tick = tick });
 			}
 		}
 	}
