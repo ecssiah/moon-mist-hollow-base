@@ -10,5 +10,9 @@ namespace MMH
 
 		[Header("Citizen")]
 		public int NumberOfCitizens;
+
+		[Header("Camera")]
+		public float PanSpeed;
+		public float ZoomSpeed;
 	}
 }
