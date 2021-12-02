@@ -9,6 +9,8 @@ namespace MMH
         private static MapSystem _instance;
         public static MapSystem Instance { get { return _instance; } }
 
+        private GameSettings gameSettings;
+
         public static Dictionary<Direction, int2> DirectionVectors;
         public static Dictionary<Direction, int> DirectionCosts;
 
@@ -24,6 +26,8 @@ namespace MMH
             {
                 _instance = this;
             }
+
+            gameSettings = Resources.Load<GameSettings>("ScriptableObjects/Game Settings");
 
             DirectionVectors = new Dictionary<Direction, int2>
             {
@@ -58,7 +62,7 @@ namespace MMH
 
         private void GenerateWorldMap()
         {
-            worldMap = new WorldMap(40);
+            worldMap = new WorldMap(gameSettings.WorldMapSize);
 
             for (int id = 0; id < worldMap.Area; id++)
             {
