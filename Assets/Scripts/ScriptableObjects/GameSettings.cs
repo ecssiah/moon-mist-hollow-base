@@ -5,8 +5,10 @@ namespace MMH
 	[CreateAssetMenu(fileName = "New Game Settings", menuName = "Game Settings")]
 	public class GameSettings : ScriptableObject
 	{
-		public int NumberOfCitizens;
-
+		[Header("Map")]
 		public int WorldMapSize;
+
+		[Header("Citizen")]
+		public int NumberOfCitizens;
 	}
 }
