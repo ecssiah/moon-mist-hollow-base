@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: 
   NumberOfCitizens: 200
-  WorldMapSize: 60
+  WorldMapSize: 40
