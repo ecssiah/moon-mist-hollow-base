@@ -8,8 +8,6 @@ namespace MMH
 		private static PlayerSystem _instance;
 		public static PlayerSystem Instance { get { return _instance; } }
 
-		private GameSettings gameSettings;
-
 		private float panSpeed;
 		private float zoomSpeed;
 
@@ -32,18 +30,15 @@ namespace MMH
 				_instance = this;
 			}
 
-			gameSettings = Resources.Load<GameSettings>("ScriptableObjects/Game Settings");
-
-			panSpeed = gameSettings.PanSpeed;
-			zoomSpeed = gameSettings.ZoomSpeed;
+			playerInputActions = new PlayerInputActions();
 
 			TimeSystem.OnTick += OnTick;
-
-			playerInputActions = new PlayerInputActions();
 		}
 
 		private void Start()
 		{
+			panSpeed = ManagerSystem.Settings.PanSpeed;
+			zoomSpeed = ManagerSystem.Settings.ZoomSpeed;
 		}
 
 		void OnEnable()

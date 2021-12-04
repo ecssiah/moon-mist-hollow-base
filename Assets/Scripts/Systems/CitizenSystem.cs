@@ -9,8 +9,6 @@ namespace MMH
         private static CitizenSystem _instance;
         public static CitizenSystem Instance { get { return _instance; } }
 
-        private GameSettings gameSettings;
-        
         public static event EventHandler<OnCreateCitizenArgs> OnCreateCitizen;
 
         private List<Citizen> citizenList;
@@ -32,12 +30,7 @@ namespace MMH
                 _instance = this;
             }
 
-            gameSettings = Resources.Load<GameSettings>("ScriptableObjects/Game Settings");
-
-            citizenList = new List<Citizen>(gameSettings.NumberOfCitizens);
-
             UISystem.OnUpdateRulesDropdown += OnUpdateRulesDropdown;
-
         }
 		
         void Start()
@@ -47,7 +40,9 @@ namespace MMH
 
         void CreateCitizens()
         {
-            for (int i = 0; i < gameSettings.NumberOfCitizens; i++)
+            citizenList = new List<Citizen>(ManagerSystem.Settings.NumberOfCitizens);
+
+            for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
 			{
                 Citizen newCitizen = new Citizen()
                 {
@@ -72,14 +67,7 @@ namespace MMH
 		{
             foreach (Citizen citizen in citizenList)
 			{
-                if (eventArgs.RuleName == "CitizenIdle") 
-                { 
-                    citizen.SetState(CitizenStateType.CitizenIdle);
-                } 
-                else if (eventArgs.RuleName == "CitizenWander")
-				{
-                    citizen.SetState(CitizenStateType.CitizenWander);
-				}
+                citizen.SetState(eventArgs.StateType);
             }
 		}
     }

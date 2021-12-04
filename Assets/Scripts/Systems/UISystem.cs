@@ -15,7 +15,7 @@ namespace MMH
 
         public class OnUpdateRulesDropownArgs
         {
-            public string RuleName;
+            public CitizenStateType StateType;
         }
 
         private void Awake()
@@ -40,9 +40,9 @@ namespace MMH
             rulesDropdown.AddOptions(rules);
             rulesDropdown.value = 0;
 
-            rulesDropdown.onValueChanged.AddListener(delegate {
-                RulesDropdownChanged();
-            });
+            rulesDropdown.onValueChanged.AddListener(
+                delegate { OnRuleChange(); }
+            );
         }
 
 	    void Start()
@@ -50,14 +50,14 @@ namespace MMH
         
         }
 
-        private void RulesDropdownChanged()
+        private void OnRuleChange()
 		{
-            OnUpdateRulesDropdown?.Invoke(
-                this, 
-                new OnUpdateRulesDropownArgs { 
-                    RuleName = rulesDropdown.options[rulesDropdown.value].text 
-                }
-            );
+            OnUpdateRulesDropownArgs eventArgs = new OnUpdateRulesDropownArgs
+            {
+                StateType = (CitizenStateType)rulesDropdown.value
+            };
+
+            OnUpdateRulesDropdown?.Invoke(this, eventArgs);
 		}
     }
 
