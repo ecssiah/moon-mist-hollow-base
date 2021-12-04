@@ -12,6 +12,7 @@ namespace MMH
 
 		public int Id;
 		public int2 Position;
+		public bool Moving;
 		public Direction Direction;
 		public Nation Nation;
 		public CitizenAttributes Attributes;

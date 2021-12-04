@@ -70,21 +70,14 @@ namespace MMH
 
         void Start()
         {
-            Debug.Log(GridToWorld(1, -1));
-
-
             UpdateMapRenderData();
-        }
-
-        void Update()
-        {
-        
         }
 
 		private void OnDisable()
 		{
             CitizenSystem.OnCreateCitizen -= OnCreateCitizen;
-            
+
+            CitizenWander.OnUpdateCitizenDirection -= OnUpdateCitizenDirection;
             CitizenWander.OnUpdateCitizenPosition -= OnUpdateCitizenPosition;
 		}
 
@@ -104,6 +97,8 @@ namespace MMH
         {
             RenderData renderData = new RenderData();
 
+            citizenRenderData[eventArgs.Citizen.Id] = renderData;
+
             renderData.WorldGameObject = Instantiate(
                 nationPrefabs[eventArgs.Citizen.Nation],
                 GridToWorld(eventArgs.Citizen.Position),
@@ -113,20 +108,13 @@ namespace MMH
             renderData.WorldGameObject.transform.parent = citizenGameObject.transform;
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
-            renderData.Animator.Play(
-                $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
-            );
 
-            citizenRenderData[eventArgs.Citizen.Id] = renderData;
+            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
         private void OnUpdateCitizenDirection(object sender, OnUpdateCitizenDirectionArgs eventArgs)
 		{
-            RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
-
-            renderData.Animator.Play(
-                $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
-            );
+            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
         private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionArgs eventArgs)
@@ -144,22 +132,20 @@ namespace MMH
             Vector3 startPosition = GridToWorld(eventArgs.PreviousPosition);
             Vector3 endPosition = GridToWorld(eventArgs.Citizen.Position);
 
-            renderData.Animator.Play(
-                $"Base Layer.{eventArgs.Citizen.Nation}-Walk-{eventArgs.Citizen.Direction}"
-            );
+            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Walk);
 
             while (timer < duration)
 			{
-                renderData.WorldGameObject.transform.position = Vector3.Lerp(startPosition, endPosition, timer / duration);
-
+                Vector3 newPosition = Vector3.Lerp(startPosition, endPosition, timer / duration);
+                
+                renderData.WorldGameObject.transform.position = newPosition;
+                
                 timer += Time.deltaTime;
 
                 yield return null;
 			}
 
-            renderData.Animator.Play(
-                $"Base Layer.{eventArgs.Citizen.Nation}-Idle-{eventArgs.Citizen.Direction}"
-            );
+            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
 
             renderData.WorldGameObject.transform.position = endPosition;
 		}
@@ -175,6 +161,15 @@ namespace MMH
         private Vector3 GridToWorld(int2 gridPosition)
         {
             return GridToWorld(gridPosition.x, gridPosition.y);
+        }
+
+        private void PlayAnimation(Citizen citizen, CitizenAnimationType animationType)
+		{
+            RenderData renderData = citizenRenderData[citizen.Id];
+
+            renderData.Animator.Play(
+                $"Base Layer.{citizen.Nation}-{animationType}-{citizen.Direction}"
+            );
         }
     }
 }
