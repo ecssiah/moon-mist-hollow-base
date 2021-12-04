@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MMH
@@ -32,26 +33,26 @@ namespace MMH
         {
             citizenList = new List<Citizen>(ManagerSystem.Settings.NumberOfCitizens);
 
-            for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
+			for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
 			{
-                Citizen newCitizen = new Citizen()
-                {
-                    Position = MapSystem.Instance.GetRandomCell(),
-                    Direction = Utils.RandomEnumValue<Direction>(),
-                    Nation = Utils.RandomEnumValue<Nation>(),
-                    Attributes = new CitizenAttributes
-                    {
-                        Strength = 1,
-                        Intelligence = 1,
-                        Speed = 1,
-                    }
-                };
+				Citizen newCitizen = new Citizen()
+				{
+					Position = MapSystem.Instance.GetRandomCell(),
+					Direction = Utils.RandomEnumValue<Direction>(),
+					Nation = Utils.RandomEnumValue<Nation>(),
+					Attributes = new CitizenAttributes
+					{
+						Strength = 1,
+						Intelligence = 1,
+						Speed = 1,
+					}
+				};
 
-                citizenList.Add(newCitizen);
+				citizenList.Add(newCitizen);
 
-                OnCreateCitizen?.Invoke(this, new OnCreateCitizenArgs { Citizen = newCitizen });
-            }
-        }
+				OnCreateCitizen?.Invoke(this, new OnCreateCitizenArgs { Citizen = newCitizen });
+			}
+		}
         
         public void OnUpdateRulesDropdown(object sender, UISystem.OnUpdateRulesDropownArgs eventArgs)
 		{

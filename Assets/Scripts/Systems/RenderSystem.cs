@@ -70,6 +70,9 @@ namespace MMH
 
         void Start()
         {
+            Debug.Log(GridToWorld(1, -1));
+
+
             UpdateMapRenderData();
         }
 
@@ -161,16 +164,17 @@ namespace MMH
             renderData.WorldGameObject.transform.position = endPosition;
 		}
 
+        private Vector3 GridToWorld(int x, int y)
+		{
+            Vector3 worldPosition = groundTilemap.layoutGrid.CellToWorld(new Vector3Int(x, y, 0));
+            worldPosition.y += 1 / 4f;
+
+            return worldPosition;
+        }
+
         private Vector3 GridToWorld(int2 gridPosition)
         {
-            Vector3 screenPosition = new Vector3
-            {
-                x = (gridPosition.x - gridPosition.y) * 1/2f,
-                y = (gridPosition.x + gridPosition.y) * 1/4f + 1/4f,
-                z = 0,
-            };
-
-            return screenPosition;
+            return GridToWorld(gridPosition.x, gridPosition.y);
         }
     }
 }

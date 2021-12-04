@@ -38,12 +38,12 @@ namespace MMH
 				}
 				else
 				{
-					citizen.Cooldown = 4;
-
 					OnUpdateCitizenDirectionArgs eventArgs = new OnUpdateCitizenDirectionArgs
 					{
 						Citizen = citizen
 					};
+
+					citizen.Cooldown = 4;
 
 					OnUpdateCitizenDirection?.Invoke(this, eventArgs);
 				}
