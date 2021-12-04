@@ -7,13 +7,13 @@ namespace MMH
     public class UISystem : GameSystem<UISystem>
     {
         public static event EventHandler<OnUpdateRulesDropownArgs> OnUpdateRulesDropdown;
-
-        private TMPro.TMP_Dropdown rulesDropdown;
-
+        
         public class OnUpdateRulesDropownArgs
         {
             public CitizenStateType StateType;
         }
+
+        private TMPro.TMP_Dropdown rulesDropdown;
 
         protected override void Awake()
 	    {
@@ -28,7 +28,6 @@ namespace MMH
             };
 
             rulesDropdown.AddOptions(rules);
-            rulesDropdown.value = 0;
 
             rulesDropdown.onValueChanged.AddListener(
                 delegate { OnRuleChange(); }

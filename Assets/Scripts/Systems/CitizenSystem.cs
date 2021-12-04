@@ -31,7 +31,7 @@ namespace MMH
 
         void CreateCitizens()
         {
-            citizenList = new List<Citizen>(ManagerSystem.Settings.NumberOfCitizens);
+            citizenList = new List<Citizen>();
 
 			for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
 			{

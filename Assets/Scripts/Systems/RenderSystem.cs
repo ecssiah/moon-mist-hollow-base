@@ -111,6 +111,7 @@ namespace MMH
             );
             
             renderData.WorldGameObject.transform.parent = citizenGameObject.transform;
+            renderData.WorldGameObject.layer = LayerMask.NameToLayer("Entities");
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
             renderData.Animator.Play(
