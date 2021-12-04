@@ -6,11 +6,8 @@ using UnityEngine.Tilemaps;
 
 namespace MMH
 {
-    public class RenderSystem : MonoBehaviour
+    public class RenderSystem : GameSystem<RenderSystem>
     {
-        private static RenderSystem _instance;
-        public static RenderSystem Instance { get { return _instance; } }
-
         private Tilemap overlayTilemap;
         private Tilemap structureTilemap;
         private Tilemap groundTilemap;
@@ -25,16 +22,9 @@ namespace MMH
 
         private Dictionary<int, RenderData> citizenRenderData;
 
-        private void Awake()
+        protected override void Awake()
 	    {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
+            base.Awake();
 
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();

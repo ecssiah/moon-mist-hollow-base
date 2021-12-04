@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class UISystem : MonoBehaviour
+    public class UISystem : GameSystem<UISystem>
     {
-        private static UISystem _instance;
-        public static UISystem Instance { get { return _instance; } }
-
         public static event EventHandler<OnUpdateRulesDropownArgs> OnUpdateRulesDropdown;
 
         private TMPro.TMP_Dropdown rulesDropdown;
@@ -18,16 +15,9 @@ namespace MMH
             public CitizenStateType StateType;
         }
 
-        private void Awake()
+        protected override void Awake()
 	    {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
+            base.Awake();
 
             rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMPro.TMP_Dropdown>();
 

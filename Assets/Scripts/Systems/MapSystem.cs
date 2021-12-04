@@ -4,26 +4,16 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class MapSystem : MonoBehaviour
+    public class MapSystem : GameSystem<MapSystem>
     {
-        private static MapSystem _instance;
-        public static MapSystem Instance { get { return _instance; } }
-
         public static Dictionary<Direction, int2> DirectionVectors;
         public static Dictionary<Direction, int> DirectionCosts;
 
         private WorldMap worldMap;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
+            base.Awake();
 
             DirectionVectors = new Dictionary<Direction, int2>
             {

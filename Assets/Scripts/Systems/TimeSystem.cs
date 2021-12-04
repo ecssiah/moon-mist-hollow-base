@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class TimeSystem : MonoBehaviour
+	public class TimeSystem : GameSystem<TimeSystem>
 	{
-		private static TimeSystem _instance;
-		public static TimeSystem Instance { get { return _instance; } }
-
 		public static event EventHandler<OnTickArgs> OnTick;
 
 		public const float TICK_DURATION = 0.2f;
@@ -20,16 +17,9 @@ namespace MMH
 			public int tick;
 		}
 
-		private void Awake()
+		protected override void Awake()
 		{
-			if (_instance != null && _instance != this)
-			{
-				Destroy(this.gameObject);
-			}
-			else
-			{
-				_instance = this;
-			}
+			base.Awake();
 
 			tick = 0;
 		}

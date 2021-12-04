@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   WorldMapSize: 40
-  NumberOfCitizens: 200
+  NumberOfCitizens: 1000
   PanSpeed: 8
   ZoomSpeed: 8

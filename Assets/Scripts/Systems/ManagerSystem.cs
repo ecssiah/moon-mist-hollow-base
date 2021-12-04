@@ -4,24 +4,14 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class ManagerSystem : MonoBehaviour
+    public class ManagerSystem : GameSystem<ManagerSystem>
     {
-        private static ManagerSystem _instance;
-        public static ManagerSystem Instance { get { return _instance; } }
-
         private static GameSettings gameSettings;
         public static GameSettings Settings { get { return gameSettings; } }
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
+            base.Awake();
 
             gameSettings = Resources.Load<GameSettings>("SOInstances/GameSettings");
         }

@@ -3,11 +3,8 @@ using UnityEngine.InputSystem;
 
 namespace MMH
 {
-	public class PlayerSystem : MonoBehaviour
+	public class PlayerSystem : GameSystem<PlayerSystem>
 	{
-		private static PlayerSystem _instance;
-		public static PlayerSystem Instance { get { return _instance; } }
-
 		private float panSpeed;
 		private float zoomSpeed;
 
@@ -19,16 +16,9 @@ namespace MMH
 		private InputAction zoom;
 		private InputAction select;
 
-		void Awake()
+		protected override void Awake()
 		{
-			if (_instance != null && _instance != this)
-			{
-				Destroy(this.gameObject);
-			}
-			else
-			{
-				_instance = this;
-			}
+			base.Awake();
 
 			playerInputActions = new PlayerInputActions();
 

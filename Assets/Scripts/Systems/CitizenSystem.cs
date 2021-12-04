@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class CitizenSystem : MonoBehaviour
+    public class CitizenSystem : GameSystem<CitizenSystem>
     {
-        private static CitizenSystem _instance;
-        public static CitizenSystem Instance { get { return _instance; } }
-
         public static event EventHandler<OnCreateCitizenArgs> OnCreateCitizen;
 
         private List<Citizen> citizenList;
@@ -19,16 +16,9 @@ namespace MMH
             public Citizen Citizen;
         }
 
-        private void Awake()
+        protected override void Awake()
 		{
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
+            base.Awake();
 
             UISystem.OnUpdateRulesDropdown += OnUpdateRulesDropdown;
         }
