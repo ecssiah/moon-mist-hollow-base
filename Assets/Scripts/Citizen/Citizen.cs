@@ -20,7 +20,7 @@ namespace MMH
 		private CitizenState currentState;
 
 		private int cooldown;
-		public int Cooldown { get => cooldown; set => cooldown = value; }
+		public int Cooldown => cooldown;
 
 		public Citizen()
 		{
@@ -45,6 +45,11 @@ namespace MMH
 		public void SetState(CitizenStateType citizenStateType)
 		{
 			currentState = states[citizenStateType];
+		}
+
+		public void SetCooldown(int duration)
+		{
+			cooldown = duration;
 		}
 
 		private void OnTick(object sender, TimeSystem.OnTickArgs eventArgs)
