@@ -1,11 +1,11 @@
-using System;
-
 namespace MMH
 {
 	public abstract class CitizenMovementState
 	{
-		protected CitizenMovementStateType citizenMovementStateType;
-		public CitizenMovementStateType CitizenMovementStateType => citizenMovementStateType;
+		protected Citizen _citizen;
+
+		protected CitizenMovementStateType _citizenMovementStateType;
+		public CitizenMovementStateType CitizenMovementStateType => _citizenMovementStateType;
 
 		public abstract void Tick();
 	}

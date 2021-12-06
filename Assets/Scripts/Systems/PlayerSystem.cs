@@ -5,60 +5,56 @@ namespace MMH
 {
 	public class PlayerSystem : GameSystem<PlayerSystem>
 	{
-		private float panSpeed;
-		private float zoomSpeed;
+		private float _panSpeed;
+		private float _zoomSpeed;
 
-		private Camera playerCamera;
+		private Camera _playerCamera;
 
-		private PlayerInputActions playerInputActions;
+		private PlayerInputActions _playerInputActions;
 
-		private InputAction pan;
-		private InputAction zoom;
-		private InputAction select;
+		private InputAction _pan;
+		private InputAction _zoom;
+		private InputAction _select;
 
 		protected override void Awake()
 		{
 			base.Awake();
 
-			playerInputActions = new PlayerInputActions();
-
-			TimeSystem.OnTick += OnTick;
+			_playerInputActions = new PlayerInputActions();
 		}
 
 		private void Start()
 		{
-			panSpeed = ManagerSystem.Settings.PanSpeed;
-			zoomSpeed = ManagerSystem.Settings.ZoomSpeed;
+			_panSpeed = ManagerSystem.Settings.PanSpeed;
+			_zoomSpeed = ManagerSystem.Settings.ZoomSpeed;
 		}
 
 		void OnEnable()
 		{
-			playerCamera = GetComponentInChildren<Camera>();
+			_playerCamera = GetComponentInChildren<Camera>();
 
-			pan = playerInputActions.Player.Pan;
-			pan.Enable();
+			_pan = _playerInputActions.Player.Pan;
+			_pan.Enable();
 
-			zoom = playerInputActions.Player.Zoom;
-			zoom.Enable();
+			_zoom = _playerInputActions.Player.Zoom;
+			_zoom.Enable();
 
-			select = playerInputActions.Player.Select;
-			select.performed += Select;
-			select.Enable();
+			_select = _playerInputActions.Player.Select;
+			_select.performed += Select;
+			_select.Enable();
 		}
 
 		void OnDisable()
 		{
-			TimeSystem.OnTick -= OnTick;
-
-			pan.Disable();
-			zoom.Disable();
-			select.Disable();
+			_pan.Disable();
+			_zoom.Disable();
+			_select.Disable();
 		}
 
 		void Update()
 		{
-			Vector2 panValue = pan.ReadValue<Vector2>();
-			Vector3 panDisplacement = panSpeed * panValue;
+			Vector2 panValue = _pan.ReadValue<Vector2>();
+			Vector3 panDisplacement = _panSpeed * panValue;
 
 			transform.position = Vector3.Lerp(
 				transform.position,
@@ -66,25 +62,21 @@ namespace MMH
 				Time.deltaTime
 			);
 
-			float zoomValue = zoom.ReadValue<float>();
-			float zoomDisplacement = zoomSpeed * zoomValue;
+			float zoomValue = _zoom.ReadValue<float>();
+			float zoomDisplacement = _zoomSpeed * zoomValue;
 
-			playerCamera.orthographicSize = Mathf.Lerp(
-				playerCamera.orthographicSize,
-				playerCamera.orthographicSize + zoomDisplacement,
+			_playerCamera.orthographicSize = Mathf.Lerp(
+				_playerCamera.orthographicSize,
+				_playerCamera.orthographicSize + zoomDisplacement,
 				Time.deltaTime
 			);
 
-			playerCamera.orthographicSize = Mathf.Clamp(playerCamera.orthographicSize, 2f, 20f);
+			_playerCamera.orthographicSize = Mathf.Clamp(_playerCamera.orthographicSize, 2f, 20f);
 		}
 
 		private void Select(InputAction.CallbackContext obj)
 		{
 
-		}
-
-		private void OnTick(object sender, TimeSystem.OnTickArgs onTickArgs)
-		{
 		}
 	}
 }

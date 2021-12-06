@@ -9,7 +9,7 @@ namespace MMH
         public static Dictionary<Direction, int2> DirectionVectors;
         public static Dictionary<Direction, int> DirectionCosts;
 
-        private WorldMap worldMap;
+        private WorldMap _worldMap;
 
         protected override void Awake()
         {
@@ -48,9 +48,9 @@ namespace MMH
 
         private void GenerateWorldMap()
         {
-            worldMap = new WorldMap(ManagerSystem.Settings.WorldMapSize);
+            _worldMap = new WorldMap(ManagerSystem.Settings.WorldMapSize);
 
-            for (int id = 0; id < worldMap.Area; id++)
+            for (int id = 0; id < _worldMap.Area; id++)
             {
                 Cell cell = new Cell
                 {
@@ -62,7 +62,7 @@ namespace MMH
                     GroundType = GroundType.Floor1,
                 };
 
-                worldMap.Cells.Add(cell);
+                _worldMap.Cells.Add(cell);
             }
 
             SetCell(0, 0, OverlayType.Outline1);
@@ -88,7 +88,7 @@ namespace MMH
 
         public int PositionToId(int x, int y)
         {
-            return (x + worldMap.Size) + worldMap.Width * (y + worldMap.Size);
+            return (x + _worldMap.Size) + _worldMap.Width * (y + _worldMap.Size);
         }
 
         public int PositionToId(int2 position)
@@ -98,7 +98,7 @@ namespace MMH
 
         public int2 IdToPosition(int id)
         {
-            return new int2(id % worldMap.Width - worldMap.Size, id / worldMap.Width - worldMap.Size);
+            return new int2(id % _worldMap.Width - _worldMap.Size, id / _worldMap.Width - _worldMap.Size);
         }
 
         private void SetCell(int x, int y, OverlayType overlayType)
@@ -162,8 +162,8 @@ namespace MMH
             do
             {
                 cellPosition = new int2(
-                    UnityEngine.Random.Range(-worldMap.Size, worldMap.Size + 1),
-                    UnityEngine.Random.Range(-worldMap.Size, worldMap.Size + 1)
+                    UnityEngine.Random.Range(-_worldMap.Size, _worldMap.Size + 1),
+                    UnityEngine.Random.Range(-_worldMap.Size, _worldMap.Size + 1)
                 );
             }
             while (IsSolid(cellPosition));
@@ -213,12 +213,12 @@ namespace MMH
 
         public List<Cell> GetCells()
 		{
-            return worldMap.Cells;
+            return _worldMap.Cells;
 		}
 
         public Cell GetCell(int id)
         {
-            return worldMap.Cells[id];
+            return _worldMap.Cells[id];
         }
 
         public Cell GetCell(int x, int y)
@@ -235,8 +235,8 @@ namespace MMH
         
         public bool OnMap(int x, int y)
 		{
-            bool insideHorizontalLimits = x <= worldMap.Size && x >= -worldMap.Size;
-            bool insideVerticalLimits = y <= worldMap.Size && y >= -worldMap.Size;
+            bool insideHorizontalLimits = x <= _worldMap.Size && x >= -_worldMap.Size;
+            bool insideVerticalLimits = y <= _worldMap.Size && y >= -_worldMap.Size;
 
             return insideHorizontalLimits && insideVerticalLimits;
         }

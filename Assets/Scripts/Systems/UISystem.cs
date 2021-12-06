@@ -13,13 +13,13 @@ namespace MMH
             public CitizenMovementStateType StateType;
         }
 
-        private TMPro.TMP_Dropdown rulesDropdown;
+        private TMPro.TMP_Dropdown _rulesDropdown;
 
         protected override void Awake()
 	    {
             base.Awake();
 
-            rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMPro.TMP_Dropdown>();
+            _rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMPro.TMP_Dropdown>();
 
             List<string> rules = new List<string>
             {
@@ -27,9 +27,9 @@ namespace MMH
                 CitizenMovementStateType.Wander.ToString(),
             };
 
-            rulesDropdown.AddOptions(rules);
+            _rulesDropdown.AddOptions(rules);
 
-            rulesDropdown.onValueChanged.AddListener(
+            _rulesDropdown.onValueChanged.AddListener(
                 delegate { OnRuleChange(); }
             );
         }
@@ -38,7 +38,7 @@ namespace MMH
 		{
             OnUpdateRulesDropownArgs eventArgs = new OnUpdateRulesDropownArgs
             {
-                StateType = (CitizenMovementStateType)rulesDropdown.value
+                StateType = (CitizenMovementStateType)_rulesDropdown.value
             };
 
             OnUpdateRulesDropdown?.Invoke(this, eventArgs);

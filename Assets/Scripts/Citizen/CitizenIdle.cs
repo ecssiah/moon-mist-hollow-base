@@ -2,24 +2,23 @@ namespace MMH
 {
 	public class CitizenIdle : CitizenMovementState
 	{
-		private Citizen citizen;
-
 		public CitizenIdle(Citizen citizen)
 		{
-			this.citizen = citizen;
+			_citizen = citizen;
 
-			citizenMovementStateType = CitizenMovementStateType.Idle;
+			_citizenMovementStateType = CitizenMovementStateType.Idle;
 		}
 
 		public override void Tick()
 		{
-			if (citizen.CanAct())
+			if (_citizen.CanAct())
 			{
 				Direction newDirection = Utils.RandomEnumValue<Direction>();
 
-				citizen.SetCooldown(8);
+				_citizen.Cooldown = 8;
+				_citizen.Direction = newDirection;
 
-				citizen.SetDirection(newDirection);
+				_citizen.UpdateRenderDirection();
 			}
 		}
 	}

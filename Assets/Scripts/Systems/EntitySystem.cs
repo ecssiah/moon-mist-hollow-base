@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MMH
 {
@@ -7,10 +8,7 @@ namespace MMH
     {
         public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
 
-        private int nextCitizenId;
-
-        private List<Citizen> citizenList;
-		public List<Citizen> CitizenList { get => citizenList; }
+        private List<Citizen> _citizenList;
 
         protected override void Awake()
 		{
@@ -26,27 +24,18 @@ namespace MMH
 
         void CreateCitizens()
         {
-            nextCitizenId = 1;
-
-            citizenList = new List<Citizen>();
+            _citizenList = new List<Citizen>();
 
 			for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
 			{
-                Citizen newCitizen = new Citizen()
-                {
-                    Id = nextCitizenId++,
-					Position = MapSystem.Instance.GetRandomCell(),
-					Direction = Utils.RandomEnumValue<Direction>(),
-					Nation = Utils.RandomEnumValue<Nation>(),
-					Attributes = new CitizenAttributes
-					{
-						Strength = 1,
-						Intelligence = 1,
-						Speed = 1,
-					}
+				Citizen newCitizen = new Citizen()
+				{
+                    Nation = Utils.RandomEnumValue<Nation>(),
+                    Direction = Utils.RandomEnumValue<Direction>(),
+					Position = MapSystem.Instance.GetRandomCell()
 				};
 
-				citizenList.Add(newCitizen);
+				_citizenList.Add(newCitizen);
 
 				OnCreateCitizen?.Invoke(this, new OnCitizenEventArgs { Citizen = newCitizen });
 			}
@@ -54,7 +43,7 @@ namespace MMH
         
         public void OnUpdateRulesDropdown(object sender, UISystem.OnUpdateRulesDropownArgs eventArgs)
 		{
-            foreach (Citizen citizen in citizenList)
+            foreach (Citizen citizen in _citizenList)
 			{
                 citizen.SetMovementState(eventArgs.StateType);
             }

@@ -9,31 +9,31 @@ namespace MMH
 
 		public const float TICK_DURATION = 0.2f;
 
-		private int tick;
-		private float tickTimer;
+		private int _tick;
+		private float _tickTimer;
 
 		public class OnTickArgs : EventArgs
 		{
-			public int tick;
+			public int Tick;
 		}
 
 		protected override void Awake()
 		{
 			base.Awake();
 
-			tick = 0;
+			_tick = 0;
 		}
 
 		private void Update()
 		{
-			tickTimer += Time.deltaTime;
+			_tickTimer += Time.deltaTime;
 
-			if (tickTimer >= TICK_DURATION)
+			if (_tickTimer >= TICK_DURATION)
 			{
-				tickTimer -= TICK_DURATION;
-				tick++;
+				_tickTimer -= TICK_DURATION;
+				_tick++;
 
-				OnTick?.Invoke(this, new OnTickArgs { tick = tick });
+				OnTick?.Invoke(this, new OnTickArgs { Tick = _tick });
 			}
 		}
 	}

@@ -10,21 +10,21 @@ namespace MMH
     {
 		private const float Z_OFFSET = 0.001f;
 
-		private Grid grid;
+		private Grid _grid;
 
-        private Tilemap overlayTilemap;
-        private Tilemap structureTilemap;
-        private Tilemap groundTilemap;
+        private Tilemap _overlayTilemap;
+        private Tilemap _structureTilemap;
+        private Tilemap _groundTilemap;
 
-        private Dictionary<OverlayType, Tile> overlayTiles;
-        private Dictionary<StructureType, Tile> structureTiles;
-        private Dictionary<GroundType, Tile> groundTiles;
+        private Dictionary<OverlayType, Tile> _overlayTiles;
+        private Dictionary<StructureType, Tile> _structureTiles;
+        private Dictionary<GroundType, Tile> _groundTiles;
 
-        private GameObject citizenGameObject;
+        private GameObject _citizenGameObject;
 
-        private Dictionary<Nation, GameObject> nationPrefabs;
+        private Dictionary<Nation, GameObject> _nationPrefabs;
 
-        private Dictionary<int, RenderData> citizenRenderData;
+        private Dictionary<int, RenderData> _citizenRenderData;
 
         protected override void Awake()
 	    {
@@ -49,38 +49,38 @@ namespace MMH
 
         private void SetupResources()
 		{
-            grid = GameObject.Find("Grid").GetComponent<Grid>();
+            _grid = GameObject.Find("Grid").GetComponent<Grid>();
 
-            overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
-            structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
-            groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+            _overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
+            _structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
+            _groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
 
-            citizenGameObject = GameObject.Find("Citizens");
+            _citizenGameObject = GameObject.Find("Citizens");
 
-            citizenRenderData = new Dictionary<int, RenderData>();
+            _citizenRenderData = new Dictionary<int, RenderData>();
 
-            nationPrefabs = new Dictionary<Nation, GameObject>
+            _nationPrefabs = new Dictionary<Nation, GameObject>
             {
                 [Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
                 [Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
                 [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
             };
 
-            overlayTiles = new Dictionary<OverlayType, Tile>
+            _overlayTiles = new Dictionary<OverlayType, Tile>
             {
                 [OverlayType.None] = null,
                 [OverlayType.Outline1] = Resources.Load<Tile>("Tiles/outline-1"),
                 [OverlayType.Outline2] = Resources.Load<Tile>("Tiles/outline-2"),
             };
 
-            structureTiles = new Dictionary<StructureType, Tile>
+            _structureTiles = new Dictionary<StructureType, Tile>
             {
                 [StructureType.None] = null,
                 [StructureType.Wall1] = Resources.Load<Tile>("Tiles/wall-1"),
                 [StructureType.Wall2] = Resources.Load<Tile>("Tiles/wall-2"),
             };
 
-            groundTiles = new Dictionary<GroundType, Tile>
+            _groundTiles = new Dictionary<GroundType, Tile>
             {
                 [GroundType.None] = null,
                 [GroundType.Floor1] = Resources.Load<Tile>("Tiles/floor-1"),
@@ -102,9 +102,9 @@ namespace MMH
             {
                 Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
-                overlayTilemap.SetTile(tilemapPosition, overlayTiles[cell.OverlayType]);
-                structureTilemap.SetTile(tilemapPosition, structureTiles[cell.StructureType]);
-                groundTilemap.SetTile(tilemapPosition, groundTiles[cell.GroundType]);
+                _overlayTilemap.SetTile(tilemapPosition, _overlayTiles[cell.OverlayType]);
+                _structureTilemap.SetTile(tilemapPosition, _structureTiles[cell.StructureType]);
+                _groundTilemap.SetTile(tilemapPosition, _groundTiles[cell.GroundType]);
             }
         }
 
@@ -112,16 +112,16 @@ namespace MMH
         {
             RenderData renderData = new RenderData();
 
-            citizenRenderData[eventArgs.Citizen.Id] = renderData;
+            _citizenRenderData[eventArgs.Citizen.Id] = renderData;
 
             Vector3 startPosition = GridToWorld(eventArgs.Citizen.Position);
             startPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
 
             renderData.WorldGameObject = Instantiate(
-                nationPrefabs[eventArgs.Citizen.Nation], startPosition, Quaternion.identity
+                _nationPrefabs[eventArgs.Citizen.Nation], startPosition, Quaternion.identity
             );
             
-            renderData.WorldGameObject.transform.parent = citizenGameObject.transform;
+            renderData.WorldGameObject.transform.parent = _citizenGameObject.transform;
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
 
@@ -140,10 +140,10 @@ namespace MMH
 
         private IEnumerator MoveCitizen(Citizen citizen)
 		{
-            RenderData renderData = citizenRenderData[citizen.Id];
+            RenderData renderData = _citizenRenderData[citizen.Id];
 
             float timer = 0;
-            float duration = TimeSystem.TICK_DURATION * citizen.GetCooldown();
+            float duration = TimeSystem.TICK_DURATION * citizen.Cooldown;
 
             Vector3 startPosition = renderData.WorldGameObject.transform.position;
 
@@ -168,7 +168,7 @@ namespace MMH
 
         private Vector3 GridToWorld(int x, int y)
 		{
-            Vector3 worldPosition = grid.CellToWorld(new Vector3Int(x, y, 0));
+            Vector3 worldPosition = _grid.CellToWorld(new Vector3Int(x, y, 0));
             worldPosition.y += 1 / 4f;
 
             return worldPosition;
@@ -181,7 +181,7 @@ namespace MMH
 
         private void PlayAnimation(Citizen citizen, CitizenAnimationType animationType)
 		{
-            RenderData renderData = citizenRenderData[citizen.Id];
+            RenderData renderData = _citizenRenderData[citizen.Id];
 
             renderData.Animator.Play(
                 $"Base Layer.{citizen.Nation}-{animationType}-{citizen.Direction}"
