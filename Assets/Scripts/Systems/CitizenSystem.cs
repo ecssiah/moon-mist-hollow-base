@@ -38,7 +38,6 @@ namespace MMH
 				Citizen newCitizen = new Citizen()
 				{
 					Position = MapSystem.Instance.GetRandomCell(),
-                    Moving = false,
 					Direction = Utils.RandomEnumValue<Direction>(),
 					Nation = Utils.RandomEnumValue<Nation>(),
 					Attributes = new CitizenAttributes

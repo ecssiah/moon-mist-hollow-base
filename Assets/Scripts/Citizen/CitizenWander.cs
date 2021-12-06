@@ -32,7 +32,7 @@ namespace MMH
 
 					citizen.Position += MapSystem.DirectionVectors[citizen.Direction];
 
-					citizen.SetCooldown(MapSystem.DirectionCosts[citizen.Direction]);
+					citizen.Cooldown = MapSystem.DirectionCosts[citizen.Direction];
 
 					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
 				}
@@ -43,7 +43,7 @@ namespace MMH
 						Citizen = citizen
 					};
 
-					citizen.SetCooldown(4);
+					citizen.Cooldown = 4;
 
 					OnUpdateCitizenDirection?.Invoke(this, eventArgs);
 				}

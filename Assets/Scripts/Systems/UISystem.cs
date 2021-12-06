@@ -34,11 +34,6 @@ namespace MMH
             );
         }
 
-	    void Start()
-        {
-        
-        }
-
         private void OnRuleChange()
 		{
             OnUpdateRulesDropownArgs eventArgs = new OnUpdateRulesDropownArgs

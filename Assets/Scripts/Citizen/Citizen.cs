@@ -12,15 +12,13 @@ namespace MMH
 
 		public int Id;
 		public int2 Position;
-		public bool Moving;
 		public Direction Direction;
 		public Nation Nation;
 		public CitizenAttributes Attributes;
 		
 		private CitizenState currentState;
 
-		private int cooldown;
-		public int Cooldown => cooldown;
+		public int Cooldown;
 
 		public Citizen()
 		{
@@ -47,14 +45,9 @@ namespace MMH
 			currentState = states[citizenStateType];
 		}
 
-		public void SetCooldown(int duration)
-		{
-			cooldown = duration;
-		}
-
 		private void OnTick(object sender, TimeSystem.OnTickArgs eventArgs)
 		{
-			cooldown--;
+			Cooldown--;
 
 			currentState.Tick();
 		}
