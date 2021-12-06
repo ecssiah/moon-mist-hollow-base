@@ -30,6 +30,25 @@ namespace MMH
 	    {
             base.Awake();
 
+            SetupResources();
+            SetupEvents();
+        }
+
+        void Start()
+        {
+            UpdateMapRenderData();
+        }
+
+		private void OnDisable()
+		{
+            EntitySystem.OnCreateCitizen -= OnCreateCitizen;
+
+            Citizen.OnUpdateCitizenDirection -= OnUpdateCitizenDirection;
+            Citizen.OnUpdateCitizenPosition -= OnUpdateCitizenPosition;
+		}
+
+        private void SetupResources()
+		{
             grid = GameObject.Find("Grid").GetComponent<Grid>();
 
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
@@ -40,12 +59,12 @@ namespace MMH
 
             citizenRenderData = new Dictionary<int, RenderData>();
 
-			nationPrefabs = new Dictionary<Nation, GameObject>
-			{
-				[Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
-				[Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
-				[Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
-			};
+            nationPrefabs = new Dictionary<Nation, GameObject>
+            {
+                [Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
+                [Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
+                [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
+            };
 
             overlayTiles = new Dictionary<OverlayType, Tile>
             {
@@ -67,25 +86,15 @@ namespace MMH
                 [GroundType.Floor1] = Resources.Load<Tile>("Tiles/floor-1"),
                 [GroundType.Floor2] = Resources.Load<Tile>("Tiles/floor-2"),
             };
-
-            CitizenSystem.OnCreateCitizen += OnCreateCitizen;
-
-            CitizenWander.OnUpdateCitizenDirection += OnUpdateCitizenDirection;
-            CitizenWander.OnUpdateCitizenPosition += OnUpdateCitizenPosition;
         }
 
-        void Start()
-        {
-            UpdateMapRenderData();
-        }
-
-		private void OnDisable()
+        private void SetupEvents()
 		{
-            CitizenSystem.OnCreateCitizen -= OnCreateCitizen;
+            EntitySystem.OnCreateCitizen += OnCreateCitizen;
 
-            CitizenWander.OnUpdateCitizenDirection -= OnUpdateCitizenDirection;
-            CitizenWander.OnUpdateCitizenPosition -= OnUpdateCitizenPosition;
-		}
+            Citizen.OnUpdateCitizenDirection += OnUpdateCitizenDirection;
+            Citizen.OnUpdateCitizenPosition += OnUpdateCitizenPosition;
+        }
 
 		private void UpdateMapRenderData()
         {
@@ -99,7 +108,7 @@ namespace MMH
             }
         }
 
-        private void OnCreateCitizen(object sender, CitizenSystem.OnCreateCitizenArgs eventArgs)
+        private void OnCreateCitizen(object sender, EntitySystem.OnCreateCitizenArgs eventArgs)
         {
             RenderData renderData = new RenderData();
 
@@ -126,24 +135,23 @@ namespace MMH
 
         private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionArgs eventArgs)
 		{
-            StartCoroutine(MoveCitizen(eventArgs));
+            StartCoroutine(MoveCitizen(eventArgs.Citizen));
         }
 
-        private IEnumerator MoveCitizen(OnUpdateCitizenPositionArgs eventArgs)
+        private IEnumerator MoveCitizen(Citizen citizen)
 		{
-            RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
+            RenderData renderData = citizenRenderData[citizen.Id];
 
             float timer = 0;
-            float duration = TimeSystem.TICK_DURATION * eventArgs.Citizen.Cooldown;
+            float duration = TimeSystem.TICK_DURATION * citizen.GetCooldown();
 
-            Vector3 startPosition = GridToWorld(eventArgs.StartPosition);
-            startPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
+            Vector3 startPosition = renderData.WorldGameObject.transform.position;
 
-            Vector3 endPosition = GridToWorld(eventArgs.Citizen.Position);
-            endPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
+            Vector3 endPosition = GridToWorld(citizen.Position);
+            endPosition.z = citizen.Id * Z_OFFSET;
 
-            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Walk);
-
+            PlayAnimation(citizen, CitizenAnimationType.Walk);
+            
             while (timer < duration)
 			{
                 Vector3 newPosition = Vector3.Lerp(startPosition, endPosition, timer / duration);
@@ -155,10 +163,8 @@ namespace MMH
                 yield return null;
 			}
 
-            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
-
             renderData.WorldGameObject.transform.position = endPosition;
-		}
+        }
 
         private Vector3 GridToWorld(int x, int y)
 		{

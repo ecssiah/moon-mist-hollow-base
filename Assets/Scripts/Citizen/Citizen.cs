@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -6,9 +7,12 @@ namespace MMH
 {
     public class Citizen
     {
+		public static event EventHandler<OnUpdateCitizenDirectionArgs> OnUpdateCitizenDirection;
+		public static event EventHandler<OnUpdateCitizenPositionArgs> OnUpdateCitizenPosition;
+
 		private static int nextID = 1;
 
-		private Dictionary<CitizenStateType, CitizenState> states;
+		private Dictionary<CitizenMovementStateType, CitizenMovementState> states;
 
 		public int Id;
 		public int2 Position;
@@ -16,9 +20,9 @@ namespace MMH
 		public Nation Nation;
 		public CitizenAttributes Attributes;
 		
-		private CitizenState currentState;
+		private CitizenMovementState currentMovementState;
 
-		public int Cooldown;
+		public int cooldown;
 
 		public Citizen()
 		{
@@ -26,30 +30,59 @@ namespace MMH
 
 			Id = nextID++;
 
-			states = new Dictionary<CitizenStateType, CitizenState>
+			states = new Dictionary<CitizenMovementStateType, CitizenMovementState>
 			{
-				[CitizenStateType.CitizenIdle] = new CitizenIdle(this),
-				[CitizenStateType.CitizenWander] = new CitizenWander(this)
+				[CitizenMovementStateType.Idle] = new CitizenIdle(this),
+				[CitizenMovementStateType.Wander] = new CitizenWander(this)
 			};
 
-			currentState = states[CitizenStateType.CitizenIdle];
+			currentMovementState = states[CitizenMovementStateType.Idle];
 		}
 
-		public CitizenStateType GetCitizenStateType()
+		public CitizenMovementStateType GetCitizenMovementStateType()
 		{
-			return currentState.CitizenStateType;
+			return currentMovementState.CitizenMovementStateType;
 		}
 
-		public void SetState(CitizenStateType citizenStateType)
+		public bool CanAct()
 		{
-			currentState = states[citizenStateType];
+			return cooldown <= 0;
+		}
+
+		public int GetCooldown()
+		{
+			return cooldown;
+		}
+
+		public void SetCooldown(int ticks)
+		{
+			cooldown = ticks;
+		}
+
+		public void SetDirection(Direction direction)
+		{
+			Direction = direction;
+
+			OnUpdateCitizenDirection?.Invoke(this, new OnUpdateCitizenDirectionArgs { Citizen = this });
+		}
+
+		public void SetPosition(int2 position)
+		{
+			Position = position;
+
+			OnUpdateCitizenPosition?.Invoke(this, new OnUpdateCitizenPositionArgs { Citizen = this });
+		}
+
+		public void SetMovementState(CitizenMovementStateType citizenMovementStateType)
+		{
+			currentMovementState = states[citizenMovementStateType];
 		}
 
 		private void OnTick(object sender, TimeSystem.OnTickArgs eventArgs)
 		{
-			Cooldown--;
+			cooldown--;
 
-			currentState.Tick();
+			currentMovementState.Tick();
 		}
 	}
 }

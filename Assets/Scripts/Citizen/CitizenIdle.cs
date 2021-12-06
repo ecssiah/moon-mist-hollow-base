@@ -1,8 +1,6 @@
-using UnityEngine;
-
 namespace MMH
 {
-	public class CitizenIdle : CitizenState
+	public class CitizenIdle : CitizenMovementState
 	{
 		private Citizen citizen;
 
@@ -10,11 +8,19 @@ namespace MMH
 		{
 			this.citizen = citizen;
 
-			citizenStateType = CitizenStateType.CitizenIdle;
+			citizenMovementStateType = CitizenMovementStateType.Idle;
 		}
 
 		public override void Tick()
 		{
+			if (citizen.CanAct())
+			{
+				Direction newDirection = Utils.RandomEnumValue<Direction>();
+
+				citizen.SetCooldown(8);
+
+				citizen.SetDirection(newDirection);
+			}
 		}
 	}
 }

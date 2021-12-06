@@ -10,7 +10,7 @@ namespace MMH
         
         public class OnUpdateRulesDropownArgs
         {
-            public CitizenStateType StateType;
+            public CitizenMovementStateType StateType;
         }
 
         private TMPro.TMP_Dropdown rulesDropdown;
@@ -23,8 +23,8 @@ namespace MMH
 
             List<string> rules = new List<string>
             {
-                CitizenStateType.CitizenIdle.ToString(),
-                CitizenStateType.CitizenWander.ToString(),
+                CitizenMovementStateType.Idle.ToString(),
+                CitizenMovementStateType.Wander.ToString(),
             };
 
             rulesDropdown.AddOptions(rules);
@@ -38,13 +38,11 @@ namespace MMH
 		{
             OnUpdateRulesDropownArgs eventArgs = new OnUpdateRulesDropownArgs
             {
-                StateType = (CitizenStateType)rulesDropdown.value
+                StateType = (CitizenMovementStateType)rulesDropdown.value
             };
 
             OnUpdateRulesDropdown?.Invoke(this, eventArgs);
 		}
     }
-
-	
 }
 

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEngine;
 
 namespace MMH
 {
-    public class CitizenSystem : GameSystem<CitizenSystem>
+    public class EntitySystem : GameSystem<EntitySystem>
     {
         public static event EventHandler<OnCreateCitizenArgs> OnCreateCitizen;
 
@@ -58,7 +56,7 @@ namespace MMH
 		{
             foreach (Citizen citizen in citizenList)
 			{
-                citizen.SetState(eventArgs.StateType);
+                citizen.SetMovementState(eventArgs.StateType);
             }
 		}
     }

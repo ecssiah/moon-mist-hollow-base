@@ -2,50 +2,35 @@ using System;
 
 namespace MMH
 {
-	public partial class CitizenWander : CitizenState
+	public class CitizenWander : CitizenMovementState
 	{
-		public static event EventHandler<OnUpdateCitizenDirectionArgs> OnUpdateCitizenDirection;
-		public static event EventHandler<OnUpdateCitizenPositionArgs> OnUpdateCitizenPosition;
-
 		private Citizen citizen;
 
 		public CitizenWander(Citizen citizen)
 		{
 			this.citizen = citizen;
 
-			citizenStateType = CitizenStateType.CitizenWander;
+			citizenMovementStateType = CitizenMovementStateType.Wander;
 		}
 
 		public override void Tick()
 		{
-			if (citizen.Cooldown <= 0)
+			if (citizen.CanAct())
 			{
-				citizen.Direction = Utils.RandomEnumValue<Direction>();
+				Direction newDirection = Utils.RandomEnumValue<Direction>();
 
-				if (MapSystem.Instance.IsPassable(citizen.Position, citizen.Direction))
+				if (MapSystem.Instance.IsPassable(citizen.Position, newDirection))
 				{
-					OnUpdateCitizenPositionArgs eventArgs = new OnUpdateCitizenPositionArgs
-					{
-						Citizen = citizen,
-						StartPosition = citizen.Position,
-					};
+					citizen.SetCooldown(MapSystem.DirectionCosts[newDirection]);
 
-					citizen.Position += MapSystem.DirectionVectors[citizen.Direction];
-
-					citizen.Cooldown = MapSystem.DirectionCosts[citizen.Direction];
-
-					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
+					citizen.SetDirection(newDirection);
+					citizen.SetPosition(citizen.Position + MapSystem.DirectionVectors[newDirection]);
 				}
 				else
 				{
-					OnUpdateCitizenDirectionArgs eventArgs = new OnUpdateCitizenDirectionArgs
-					{
-						Citizen = citizen
-					};
+					citizen.SetCooldown(4);
 
-					citizen.Cooldown = 4;
-
-					OnUpdateCitizenDirection?.Invoke(this, eventArgs);
+					citizen.SetDirection(newDirection);
 				}
 			}
 		}

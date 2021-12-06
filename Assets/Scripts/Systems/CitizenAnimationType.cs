@@ -1,4 +1,4 @@
-namespace MMH
+﻿namespace MMH
 {
 	public enum CitizenAnimationType
 	{
