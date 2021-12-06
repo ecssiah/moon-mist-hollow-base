@@ -26,13 +26,13 @@ namespace MMH
 				{
 					OnUpdateCitizenPositionArgs eventArgs = new OnUpdateCitizenPositionArgs
 					{
-						Ticks = MapSystem.DirectionCosts[citizen.Direction],
-						PreviousPosition = citizen.Position,
-						Citizen = citizen
+						Citizen = citizen,
+						StartPosition = citizen.Position,
 					};
 
 					citizen.Position += MapSystem.DirectionVectors[citizen.Direction];
-					citizen.SetCooldown(eventArgs.Ticks);
+
+					citizen.SetCooldown(MapSystem.DirectionCosts[citizen.Direction]);
 
 					OnUpdateCitizenPosition?.Invoke(this, eventArgs);
 				}

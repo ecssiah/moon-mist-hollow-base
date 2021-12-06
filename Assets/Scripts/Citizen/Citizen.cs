@@ -6,7 +6,7 @@ namespace MMH
 {
     public class Citizen
     {
-		private static int nextID = 0;
+		private static int nextID = 1;
 
 		private Dictionary<CitizenStateType, CitizenState> states;
 

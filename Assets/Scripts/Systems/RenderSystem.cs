@@ -99,10 +99,11 @@ namespace MMH
 
             citizenRenderData[eventArgs.Citizen.Id] = renderData;
 
+            Vector3 startPosition = GridToWorld(eventArgs.Citizen.Position);
+            startPosition.z = -eventArgs.Citizen.Id * 0.001f;
+
             renderData.WorldGameObject = Instantiate(
-                nationPrefabs[eventArgs.Citizen.Nation],
-                GridToWorld(eventArgs.Citizen.Position),
-                Quaternion.identity
+                nationPrefabs[eventArgs.Citizen.Nation], startPosition, Quaternion.identity
             );
             
             renderData.WorldGameObject.transform.parent = citizenGameObject.transform;
@@ -127,10 +128,12 @@ namespace MMH
             RenderData renderData = citizenRenderData[eventArgs.Citizen.Id];
 
             float timer = 0;
-            float duration = TimeSystem.TICK_DURATION * eventArgs.Ticks;
+            float duration = TimeSystem.TICK_DURATION * eventArgs.Citizen.Cooldown;
 
-            Vector3 startPosition = GridToWorld(eventArgs.PreviousPosition);
+            Vector3 startPosition = GridToWorld(eventArgs.StartPosition);
+            startPosition.z = -eventArgs.Citizen.Id * 0.001f;
             Vector3 endPosition = GridToWorld(eventArgs.Citizen.Position);
+            endPosition.z = -eventArgs.Citizen.Id * 0.001f;
 
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Walk);
 

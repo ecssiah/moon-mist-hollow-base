@@ -5,8 +5,8 @@ namespace MMH
 {
 	public class OnUpdateCitizenPositionArgs : EventArgs
 	{
-		public int Ticks;
-		public int2 PreviousPosition;
 		public Citizen Citizen;
+
+		public int2 StartPosition;
 	}
 }
