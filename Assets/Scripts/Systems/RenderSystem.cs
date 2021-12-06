@@ -8,6 +8,10 @@ namespace MMH
 {
     public class RenderSystem : GameSystem<RenderSystem>
     {
+		private const float Z_OFFSET = 0.001f;
+
+		private Grid grid;
+
         private Tilemap overlayTilemap;
         private Tilemap structureTilemap;
         private Tilemap groundTilemap;
@@ -16,15 +20,17 @@ namespace MMH
         private Dictionary<StructureType, Tile> structureTiles;
         private Dictionary<GroundType, Tile> groundTiles;
 
-        private Dictionary<Nation, GameObject> nationPrefabs;
-
         private GameObject citizenGameObject;
+
+        private Dictionary<Nation, GameObject> nationPrefabs;
 
         private Dictionary<int, RenderData> citizenRenderData;
 
         protected override void Awake()
 	    {
             base.Awake();
+
+            grid = GameObject.Find("Grid").GetComponent<Grid>();
 
             overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
@@ -100,7 +106,7 @@ namespace MMH
             citizenRenderData[eventArgs.Citizen.Id] = renderData;
 
             Vector3 startPosition = GridToWorld(eventArgs.Citizen.Position);
-            startPosition.z = eventArgs.Citizen.Id * 0.001f;
+            startPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
 
             renderData.WorldGameObject = Instantiate(
                 nationPrefabs[eventArgs.Citizen.Nation], startPosition, Quaternion.identity
@@ -131,9 +137,10 @@ namespace MMH
             float duration = TimeSystem.TICK_DURATION * eventArgs.Citizen.Cooldown;
 
             Vector3 startPosition = GridToWorld(eventArgs.StartPosition);
-            startPosition.z = eventArgs.Citizen.Id * 0.001f;
+            startPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
+
             Vector3 endPosition = GridToWorld(eventArgs.Citizen.Position);
-            endPosition.z = eventArgs.Citizen.Id * 0.001f;
+            endPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
 
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Walk);
 
@@ -155,15 +162,15 @@ namespace MMH
 
         private Vector3 GridToWorld(int x, int y)
 		{
-            Vector3 worldPosition = groundTilemap.layoutGrid.CellToWorld(new Vector3Int(x, y, 0));
+            Vector3 worldPosition = grid.CellToWorld(new Vector3Int(x, y, 0));
             worldPosition.y += 1 / 4f;
 
             return worldPosition;
         }
 
-        private Vector3 GridToWorld(int2 gridPosition)
+        private Vector3 GridToWorld(int2 position)
         {
-            return GridToWorld(gridPosition.x, gridPosition.y);
+            return GridToWorld(position.x, position.y);
         }
 
         private void PlayAnimation(Citizen citizen, CitizenAnimationType animationType)
