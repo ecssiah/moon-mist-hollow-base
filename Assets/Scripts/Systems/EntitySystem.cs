@@ -3,17 +3,14 @@ using System.Collections.Generic;
 
 namespace MMH
 {
-    public class EntitySystem : GameSystem<EntitySystem>
+	public partial class EntitySystem : GameSystem<EntitySystem>
     {
-        public static event EventHandler<OnCreateCitizenArgs> OnCreateCitizen;
+        public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
+
+        private int nextCitizenId;
 
         private List<Citizen> citizenList;
 		public List<Citizen> CitizenList { get => citizenList; }
-
-        public class OnCreateCitizenArgs : EventArgs
-        {
-            public Citizen Citizen;
-        }
 
         protected override void Awake()
 		{
@@ -29,12 +26,15 @@ namespace MMH
 
         void CreateCitizens()
         {
+            nextCitizenId = 1;
+
             citizenList = new List<Citizen>();
 
 			for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
 			{
-				Citizen newCitizen = new Citizen()
-				{
+                Citizen newCitizen = new Citizen()
+                {
+                    Id = nextCitizenId++,
 					Position = MapSystem.Instance.GetRandomCell(),
 					Direction = Utils.RandomEnumValue<Direction>(),
 					Nation = Utils.RandomEnumValue<Nation>(),
@@ -48,7 +48,7 @@ namespace MMH
 
 				citizenList.Add(newCitizen);
 
-				OnCreateCitizen?.Invoke(this, new OnCreateCitizenArgs { Citizen = newCitizen });
+				OnCreateCitizen?.Invoke(this, new OnCitizenEventArgs { Citizen = newCitizen });
 			}
 		}
         

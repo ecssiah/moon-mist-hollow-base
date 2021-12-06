@@ -7,12 +7,10 @@ namespace MMH
 {
     public class Citizen
     {
-		public static event EventHandler<OnUpdateCitizenDirectionArgs> OnUpdateCitizenDirection;
-		public static event EventHandler<OnUpdateCitizenPositionArgs> OnUpdateCitizenPosition;
+		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenDirection;
+		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenPosition;
 
-		private static int nextID = 1;
-
-		private Dictionary<CitizenMovementStateType, CitizenMovementState> states;
+		private Dictionary<CitizenMovementStateType, CitizenMovementState> movementStates;
 
 		public int Id;
 		public int2 Position;
@@ -28,15 +26,13 @@ namespace MMH
 		{
 			TimeSystem.OnTick += OnTick;
 
-			Id = nextID++;
-
-			states = new Dictionary<CitizenMovementStateType, CitizenMovementState>
+			movementStates = new Dictionary<CitizenMovementStateType, CitizenMovementState>
 			{
 				[CitizenMovementStateType.Idle] = new CitizenIdle(this),
 				[CitizenMovementStateType.Wander] = new CitizenWander(this)
 			};
 
-			currentMovementState = states[CitizenMovementStateType.Idle];
+			currentMovementState = movementStates[CitizenMovementStateType.Idle];
 		}
 
 		public CitizenMovementStateType GetCitizenMovementStateType()
@@ -63,19 +59,19 @@ namespace MMH
 		{
 			Direction = direction;
 
-			OnUpdateCitizenDirection?.Invoke(this, new OnUpdateCitizenDirectionArgs { Citizen = this });
+			OnUpdateCitizenDirection?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
 		}
 
 		public void SetPosition(int2 position)
 		{
 			Position = position;
 
-			OnUpdateCitizenPosition?.Invoke(this, new OnUpdateCitizenPositionArgs { Citizen = this });
+			OnUpdateCitizenPosition?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
 		}
 
 		public void SetMovementState(CitizenMovementStateType citizenMovementStateType)
 		{
-			currentMovementState = states[citizenMovementStateType];
+			currentMovementState = movementStates[citizenMovementStateType];
 		}
 
 		private void OnTick(object sender, TimeSystem.OnTickArgs eventArgs)

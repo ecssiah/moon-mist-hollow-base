@@ -108,7 +108,7 @@ namespace MMH
             }
         }
 
-        private void OnCreateCitizen(object sender, EntitySystem.OnCreateCitizenArgs eventArgs)
+        private void OnCreateCitizen(object sender, OnCitizenEventArgs eventArgs)
         {
             RenderData renderData = new RenderData();
 
@@ -128,12 +128,12 @@ namespace MMH
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
-        private void OnUpdateCitizenDirection(object sender, OnUpdateCitizenDirectionArgs eventArgs)
+        private void OnUpdateCitizenDirection(object sender, OnCitizenEventArgs eventArgs)
 		{
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
-        private void OnUpdateCitizenPosition(object sender, OnUpdateCitizenPositionArgs eventArgs)
+        private void OnUpdateCitizenPosition(object sender, OnCitizenEventArgs eventArgs)
 		{
             StartCoroutine(MoveCitizen(eventArgs.Citizen));
         }
