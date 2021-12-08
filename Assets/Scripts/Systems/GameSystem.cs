@@ -14,9 +14,9 @@ public class GameSystem<T> : MonoBehaviour where T : Component
 
                 if (_instance == null)
 				{
-                    GameObject newGameObject = new GameObject();
+					GameObject systemGameObject = new GameObject();
 
-                    _instance = newGameObject.AddComponent<T>();
+                    _instance = systemGameObject.AddComponent<T>();
 				}
 			}
 
