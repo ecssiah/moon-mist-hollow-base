@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public partial class EntitySystem : GameSystem<EntitySystem>
+	public class EntitySystem : GameSystem<EntitySystem>
     {
         public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
 
@@ -32,7 +32,7 @@ namespace MMH
 				{
                     Nation = Utils.RandomEnumValue<Nation>(),
                     Direction = Utils.RandomEnumValue<Direction>(),
-					Position = MapSystem.Instance.GetRandomCell()
+					Position = MapSystem.Instance.GetOpenCellPosition()
 				};
 
 				_citizenList.Add(newCitizen);

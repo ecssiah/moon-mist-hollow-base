@@ -1,5 +1,3 @@
-using System;
-
 namespace MMH
 {
 	public class CitizenWander : CitizenMovementState
@@ -7,8 +5,6 @@ namespace MMH
 		public CitizenWander(Citizen citizen)
 		{
 			_citizen = citizen;
-
-			_citizenMovementStateType = CitizenMovementStateType.Wander;
 		}
 
 		public override void Tick()
@@ -22,7 +18,7 @@ namespace MMH
 					_citizen.Cooldown = MapSystem.DirectionCosts[newDirection];
 
 					_citizen.Direction = newDirection;
-					_citizen.Position = _citizen.Position + MapSystem.DirectionVectors[newDirection];
+					_citizen.Position += MapSystem.DirectionVectors[newDirection];
 
 					_citizen.UpdateRenderPosition();
 				}

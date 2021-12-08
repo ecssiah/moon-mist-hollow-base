@@ -5,8 +5,6 @@ namespace MMH
 		public CitizenIdle(Citizen citizen)
 		{
 			_citizen = citizen;
-
-			_citizenMovementStateType = CitizenMovementStateType.Idle;
 		}
 
 		public override void Tick()

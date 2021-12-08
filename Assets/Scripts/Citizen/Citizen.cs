@@ -12,7 +12,7 @@ namespace MMH
 		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenDirection;
 		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenPosition;
 
-		private Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
+		private readonly Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
 
 		private CitizenMovementState _currentMovementState;
 
@@ -28,11 +28,11 @@ namespace MMH
 		private Nation _nation;
 		public Nation Nation { get => _nation; set => _nation = value; }
 
-		private CitizenAttributes _attributes;
-		public CitizenAttributes Attributes { get => _attributes; }
-
 		private int _cooldown;
 		public int Cooldown { get => _cooldown; set => _cooldown = value; }
+
+		private CitizenAttributes _attributes;
+		public CitizenAttributes Attributes { get => _attributes; }
 
 		public Citizen()
 		{
@@ -54,11 +54,6 @@ namespace MMH
 			_currentMovementState = _movementStates[CitizenMovementStateType.Idle];
 		
 			TimeSystem.OnTick += OnTick;
-		}
-
-		public CitizenMovementStateType GetCitizenMovementStateType()
-		{
-			return _currentMovementState.CitizenMovementStateType;
 		}
 
 		public bool CanAct()

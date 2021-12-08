@@ -55,8 +55,8 @@ namespace MMH
                 Cell cell = new Cell
                 {
                     Id = id,
-                    Position = IdToPosition(id),
                     Solid = false,
+                    Position = IdToPosition(id),
                     OverlayType = OverlayType.None,
                     StructureType = StructureType.None,
                     GroundType = GroundType.Floor1,
@@ -135,7 +135,7 @@ namespace MMH
             cell.GroundType = groundType;
         }
 
-        private void SetCellSolid(int x, int y, bool solid)
+        private void SetSolid(int x, int y, bool solid)
         {
             Cell cell = GetCell(x, y);
             cell.Solid = solid;
@@ -155,7 +155,7 @@ namespace MMH
             return IsSolid(position.x, position.y);
         }
 
-        public int2 GetRandomCell()
+        public int2 GetOpenCellPosition()
 		{
             int2 cellPosition;
 
@@ -170,6 +170,19 @@ namespace MMH
 
             return cellPosition;
 		}
+        
+        public bool OnMap(int x, int y)
+		{
+            bool insideHorizontalLimits = x >= -_worldMap.Size && x <= _worldMap.Size;
+            bool insideVerticalLimits = y >= -_worldMap.Size && y <= _worldMap.Size;
+
+            return insideHorizontalLimits && insideVerticalLimits;
+        }
+
+        public bool OnMap(int2 position)
+		{
+            return OnMap(position.x, position.y);
+		}
 
         public bool IsPassable(int2 startPosition, Direction direction)
         {
@@ -177,7 +190,12 @@ namespace MMH
 
             if (IsSolid(endPosition)) return false;
 
-            bool cardinalMove = direction == Direction.EE || direction == Direction.NN || direction == Direction.WW || direction == Direction.SS;
+            bool cardinalMove = (
+                direction == Direction.EE || 
+                direction == Direction.NN || 
+                direction == Direction.WW || 
+                direction == Direction.SS
+            );
 
             if (cardinalMove)
 			{
@@ -232,18 +250,5 @@ namespace MMH
         {
             return GetCell(position.x, position.y);
         }
-        
-        public bool OnMap(int x, int y)
-		{
-            bool insideHorizontalLimits = x <= _worldMap.Size && x >= -_worldMap.Size;
-            bool insideVerticalLimits = y <= _worldMap.Size && y >= -_worldMap.Size;
-
-            return insideHorizontalLimits && insideVerticalLimits;
-        }
-
-        public bool OnMap(int2 position)
-		{
-            return OnMap(position.x, position.y);
-		}
     }
 }
