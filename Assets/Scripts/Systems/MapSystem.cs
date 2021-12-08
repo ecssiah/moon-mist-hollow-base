@@ -98,10 +98,10 @@ namespace MMH
 
         public int2 IdToPosition(int id)
         {
-            return new int2(
-                id % _worldMap.Width - _worldMap.Size, 
-                id / _worldMap.Width - _worldMap.Size
-            );
+            int x = id % _worldMap.Width - _worldMap.Size;
+            int y = id / _worldMap.Width - _worldMap.Size;
+
+            return new int2(x, y);
         }
 
         private void SetCell(int x, int y, OverlayType overlayType)
