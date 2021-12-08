@@ -98,48 +98,68 @@ namespace MMH
 
         public int2 IdToPosition(int id)
         {
-            return new int2(id % _worldMap.Width - _worldMap.Size, id / _worldMap.Width - _worldMap.Size);
+            return new int2(
+                id % _worldMap.Width - _worldMap.Size, 
+                id / _worldMap.Width - _worldMap.Size
+            );
         }
 
         private void SetCell(int x, int y, OverlayType overlayType)
         {
-            SetCell(new int2(x, y), overlayType);
+            if (OnMap(x, y))
+			{
+                Cell cell = GetCell(x, y);
+                cell.OverlayType = overlayType;
+			}
         }
 
         private void SetCell(int x, int y, StructureType structureType)
         {
-            SetCell(new int2(x, y), structureType);
+            if (OnMap(x, y))
+            {
+                Cell cell = GetCell(x, y);
+                cell.Solid = true;
+                cell.StructureType = structureType;
+            }
         }
 
         private void SetCell(int x, int y, GroundType groundType)
         {
-            SetCell(new int2(x, y), groundType);
+            if (OnMap(x, y))
+            {
+                Cell cell = GetCell(x, y);
+                cell.GroundType = groundType;
+            }
         }
 
         private void SetCell(int2 position, OverlayType overlayType)
         {
-            Cell cell = GetCell(position);
-            cell.OverlayType = overlayType;
+            SetCell(position.x, position.y, overlayType);
         }
 
         private void SetCell(int2 position, StructureType structureType)
         {
-            Cell cell = GetCell(position);
-            cell.StructureType = structureType;
-            cell.Solid = true;
+            SetCell(position.x, position.y, structureType);
         }
 
         private void SetCell(int2 position, GroundType groundType)
         {
-            Cell cell = GetCell(position);
-            cell.GroundType = groundType;
+            SetCell(position.x, position.y, groundType);
         }
 
         private void SetSolid(int x, int y, bool solid)
         {
-            Cell cell = GetCell(x, y);
-            cell.Solid = solid;
+            if (OnMap(x, y))
+			{
+                Cell cell = GetCell(x, y);
+                cell.Solid = solid;
+			}
         }
+
+        private void SetSolid(int2 position, bool solid)
+		{
+            SetSolid(position.x, position.y, solid);
+		}
 
         public bool IsSolid(int x, int y)
         {
@@ -236,6 +256,8 @@ namespace MMH
 
         public Cell GetCell(int id)
         {
+            if (id >= _worldMap.Area) return null;
+
             return _worldMap.Cells[id];
         }
 

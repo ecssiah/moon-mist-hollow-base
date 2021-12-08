@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3168e3e7f86463947b3be3de2b366821, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  WorldMapSize: 40
-  NumberOfCitizens: 120
+  WorldMapSize: 30
+  NumberOfCitizens: 100
   PanSpeed: 8
   ZoomSpeed: 8
