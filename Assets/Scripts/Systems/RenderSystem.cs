@@ -41,7 +41,7 @@ namespace MMH
 
 		private void OnDisable()
 		{
-            EntitySystem.OnCreateCitizen -= OnCreateCitizen;
+			EntitySystem.OnCreateCitizen -= OnCreateCitizen;
 
             Citizen.OnUpdateCitizenDirection -= OnUpdateCitizenDirection;
             Citizen.OnUpdateCitizenPosition -= OnUpdateCitizenPosition;

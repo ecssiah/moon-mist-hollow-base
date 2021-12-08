@@ -60,7 +60,7 @@ namespace MMH
                     OverlayType = OverlayType.None,
                     StructureType = StructureType.None,
                     GroundType = GroundType.Floor1,
-                };
+				};
 
                 _worldMap.Cells.Add(cell);
             }
