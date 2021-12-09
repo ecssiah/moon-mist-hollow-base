@@ -16,9 +16,9 @@ namespace MMH
 
 					if (_instance == null)
 					{
-						GameObject systemGameObject = new GameObject();
+						GameObject newGameObject = new GameObject();
 
-						_instance = systemGameObject.AddComponent<T>();
+						_instance = newGameObject.AddComponent<T>();
 					}
 				}
 

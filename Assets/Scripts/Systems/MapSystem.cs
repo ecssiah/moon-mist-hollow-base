@@ -38,12 +38,11 @@ namespace MMH
                 [Direction.SS] = 10,
                 [Direction.SE] = 14,
             };
-
-            GenerateWorldMap();
         }
 
         void Start()
         {
+            GenerateWorldMap();
         }
 
         private void GenerateWorldMap()
