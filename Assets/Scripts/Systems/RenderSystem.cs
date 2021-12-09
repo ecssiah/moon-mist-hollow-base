@@ -43,8 +43,8 @@ namespace MMH
 		{
 			EntitySystem.OnCreateCitizen -= OnCreateCitizen;
 
-            Citizen.OnUpdateCitizenDirection -= OnUpdateCitizenDirection;
-            Citizen.OnUpdateCitizenPosition -= OnUpdateCitizenPosition;
+            Citizen.OnUpdateCitizenRenderDirection -= OnUpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition -= OnUpdateCitizenRenderPosition;
 		}
 
         private void SetupResources()
@@ -92,8 +92,8 @@ namespace MMH
 		{
             EntitySystem.OnCreateCitizen += OnCreateCitizen;
 
-            Citizen.OnUpdateCitizenDirection += OnUpdateCitizenDirection;
-            Citizen.OnUpdateCitizenPosition += OnUpdateCitizenPosition;
+            Citizen.OnUpdateCitizenRenderDirection += OnUpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition += OnUpdateCitizenRenderPosition;
         }
 
 		private void UpdateMapRenderData()
@@ -128,12 +128,12 @@ namespace MMH
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
-        private void OnUpdateCitizenDirection(object sender, OnCitizenEventArgs eventArgs)
+        private void OnUpdateCitizenRenderDirection(object sender, OnCitizenEventArgs eventArgs)
 		{
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
-        private void OnUpdateCitizenPosition(object sender, OnCitizenEventArgs eventArgs)
+        private void OnUpdateCitizenRenderPosition(object sender, OnCitizenEventArgs eventArgs)
 		{
             StartCoroutine(MoveCitizen(eventArgs.Citizen));
         }

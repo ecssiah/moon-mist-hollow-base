@@ -9,8 +9,8 @@ namespace MMH
 	{
 		private static int _nextCitizenId = 1;
 
-		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenDirection;
-		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenPosition;
+		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenRenderDirection;
+		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenRenderPosition;
 
 		private readonly Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
 
@@ -63,12 +63,12 @@ namespace MMH
 
 		public void UpdateRenderDirection()
 		{
-			OnUpdateCitizenDirection?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
+			OnUpdateCitizenRenderDirection?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
 		}
 
 		public void UpdateRenderPosition()
 		{
-			OnUpdateCitizenPosition?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
+			OnUpdateCitizenRenderPosition?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
 		}
 
 		public void SetMovementState(CitizenMovementStateType citizenMovementStateType)

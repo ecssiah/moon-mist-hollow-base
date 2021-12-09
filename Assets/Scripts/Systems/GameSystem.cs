@@ -1,31 +1,34 @@
 using UnityEngine;
 
-public class GameSystem<T> : MonoBehaviour where T : Component
+namespace MMH
 {
-    private static T _instance;
-
-    public static T Instance
+	public class GameSystem<T> : MonoBehaviour where T : Component
 	{
-        get
+		private static T _instance;
+
+		public static T Instance
 		{
-            if (_instance == null)
+			get
 			{
-                _instance = FindObjectOfType<T>();
-
-                if (_instance == null)
+				if (_instance == null)
 				{
-					GameObject systemGameObject = new GameObject();
+					_instance = FindObjectOfType<T>();
 
-                    _instance = systemGameObject.AddComponent<T>();
+					if (_instance == null)
+					{
+						GameObject systemGameObject = new GameObject();
+
+						_instance = systemGameObject.AddComponent<T>();
+					}
 				}
+
+				return _instance;
 			}
-
-            return _instance;
 		}
-	}
 
-    protected virtual void Awake()
-	{
-		_instance = this as T;
+		protected virtual void Awake()
+		{
+			_instance = this as T;
+		}
 	}
 }
