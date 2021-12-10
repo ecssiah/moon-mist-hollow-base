@@ -108,22 +108,23 @@ namespace MMH
 
         private void OnCreateCitizen(object sender, OnCitizenEventArgs eventArgs)
         {
+            Citizen citizen = eventArgs.Citizen;
             RenderData renderData = new RenderData();
 
-            _citizenRenderData[eventArgs.Citizen.Id] = renderData;
-
-            Vector3 startPosition = GridToWorld(eventArgs.Citizen.Position);
-            startPosition.z = eventArgs.Citizen.Id * Z_OFFSET;
+            Vector3 startPosition = GridToWorld(citizen.Position);
+            startPosition.z = citizen.Id * Z_OFFSET;
 
             renderData.WorldGameObject = Instantiate(
-                _nationPrefabs[eventArgs.Citizen.Nation], startPosition, Quaternion.identity
+                _nationPrefabs[citizen.Nation], startPosition, Quaternion.identity
             );
             
             renderData.WorldGameObject.transform.parent = _citizenGameObject.transform;
 
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
+            
+            _citizenRenderData[citizen.Id] = renderData;
 
-            PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
+            PlayAnimation(citizen, CitizenAnimationType.Idle);
         }
 
         private void OnUpdateCitizenRenderDirection(object sender, OnCitizenEventArgs eventArgs)
