@@ -15,39 +15,28 @@ namespace MMH
 
 		private CitizenMovementState _currentMovementState;
 
-		private readonly int _id;
-		public int Id { get => _id; }
-
-		private Direction _direction;
-		public Direction Direction { get => _direction; set => _direction = value; }
-
-		private int2 _position;
-		public int2 Position { get => _position; set => _position = value; }
-
-		private Nation _nation;
-		public Nation Nation { get => _nation; set => _nation = value; }
-
-		private int _cooldown;
-		public int Cooldown { get => _cooldown; set => _cooldown = value; }
-
-		private CitizenAttributes _attributes;
-		public CitizenAttributes Attributes { get => _attributes; }
+		public int Id { get; }
+		public Direction Direction { get; set; }
+		public int2 Position { get; set; }
+		public Nation Nation { get; set; }
+		public int Cooldown { get; set; }
+		public CitizenAttributes Attributes { get; }
 
 		public Citizen()
 		{
-			_id = _nextCitizenId++;
+			Id = _nextCitizenId++;
+
+			Attributes = new CitizenAttributes
+			{
+				Strength = 1,
+				Intelligence = 1,
+				Speed = 1,
+			};
 
 			_movementStates = new Dictionary<CitizenMovementStateType, CitizenMovementState>
 			{
 				[CitizenMovementStateType.Idle] = new CitizenIdle(this),
 				[CitizenMovementStateType.Wander] = new CitizenWander(this)
-			};
-
-			_attributes = new CitizenAttributes
-			{
-				Strength = 1,
-				Intelligence = 1,
-				Speed = 1,
 			};
 
 			_currentMovementState = _movementStates[CitizenMovementStateType.Idle];
@@ -57,7 +46,7 @@ namespace MMH
 
 		public bool CanAct()
 		{
-			return _cooldown <= 0;
+			return Cooldown <= 0;
 		}
 
 		public void UpdateRenderDirection()
@@ -77,7 +66,7 @@ namespace MMH
 
 		private void OnTick(object sender, OnTickArgs eventArgs)
 		{
-			_cooldown--;
+			Cooldown--;
 
 			_currentMovementState.Tick();
 		}

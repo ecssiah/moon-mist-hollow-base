@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class UserInterface : MonoBehaviour
+	public class UserInterface : MonoBehaviour
     {
         public static event EventHandler<OnUpdateRulesDropownArgs> OnUpdateRulesDropdown;
-        
-        public class OnUpdateRulesDropownArgs
-        {
-            public CitizenMovementStateType StateType;
-        }
 
         private TMPro.TMP_Dropdown _rulesDropdown;
 

@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace MMH
 {
-    public class Render : MonoBehaviour
+    public class WorldRender : MonoBehaviour
     {
 		private const float Z_OFFSET = 0.001f;
 
@@ -46,7 +46,6 @@ namespace MMH
             _groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
 
             _citizenGameObject = GameObject.Find("Citizens");
-
             _citizenRenderData = new Dictionary<int, RenderData>();
 
             _nationPrefabs = new Dictionary<Nation, GameObject>
@@ -139,10 +138,10 @@ namespace MMH
 
         private IEnumerator MoveCitizen(Citizen citizen)
 		{
-            RenderData renderData = _citizenRenderData[citizen.Id];
-
             float timer = 0;
             float duration = GameManager.Instance.SimulationSettings.TickDuration * citizen.Cooldown;
+
+            RenderData renderData = _citizenRenderData[citizen.Id];
 
             Vector3 startPosition = renderData.WorldGameObject.transform.position;
 

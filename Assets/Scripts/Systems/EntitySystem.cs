@@ -35,7 +35,7 @@ namespace MMH
 			}
 		}
         
-        public void OnUpdateRulesDropdown(object sender, UserInterface.OnUpdateRulesDropownArgs eventArgs)
+        public void OnUpdateRulesDropdown(object sender, OnUpdateRulesDropownArgs eventArgs)
 		{
             foreach (Citizen citizen in _citizenList)
 			{
