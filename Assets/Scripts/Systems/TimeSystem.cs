@@ -9,7 +9,7 @@ namespace MMH
 			_ticks = 0;
 		}
 
-		public override void Tick()
+		public override void Tick(object sender, OnTickArgs eventArgs)
 		{
 			_ticks++;
 		}

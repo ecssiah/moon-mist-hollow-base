@@ -14,6 +14,8 @@ namespace MMH
             UserInterface.OnUpdateMovementState += UpdateMovementState;
         
             CreateCitizens();
+
+            GameManager.OnTick += Tick;
         }
 
         void CreateCitizens()
@@ -41,6 +43,19 @@ namespace MMH
 			{
                 citizen.SetMovementState(eventArgs.CitizenMovementStateType);
             }
+		}
+
+        public override void Tick(object sender, OnTickArgs eventArgs)
+		{
+            foreach (Citizen citizen in _citizenList)
+			{
+                citizen.Tick();
+			}
+		}
+
+        public override void Quit()
+		{
+            GameManager.OnTick -= Tick;
 		}
     }
 }
