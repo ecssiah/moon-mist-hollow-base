@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace MMH
 {
@@ -53,7 +52,7 @@ namespace MMH
 
 			_currentMovementState = _movementStates[CitizenMovementStateType.Idle];
 		
-			TimeSystem.OnTick += OnTick;
+			GameManager.OnTick += OnTick;
 		}
 
 		public bool CanAct()
@@ -76,7 +75,7 @@ namespace MMH
 			_currentMovementState = _movementStates[citizenMovementStateType];
 		}
 
-		private void OnTick(object sender, TimeSystem.OnTickArgs eventArgs)
+		private void OnTick(object sender, OnTickArgs eventArgs)
 		{
 			_cooldown--;
 

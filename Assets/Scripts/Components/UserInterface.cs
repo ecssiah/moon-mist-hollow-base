@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class UISystem : GameSystem<UISystem>
+    public class UserInterface : MonoBehaviour
     {
         public static event EventHandler<OnUpdateRulesDropownArgs> OnUpdateRulesDropdown;
         
@@ -15,10 +15,8 @@ namespace MMH
 
         private TMPro.TMP_Dropdown _rulesDropdown;
 
-        protected override void Awake()
+        void Awake()
 	    {
-            base.Awake();
-
             _rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMPro.TMP_Dropdown>();
 
             List<string> rules = new List<string>

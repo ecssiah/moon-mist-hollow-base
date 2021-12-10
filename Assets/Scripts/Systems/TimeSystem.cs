@@ -1,40 +1,17 @@
-using System;
-using UnityEngine;
-
 namespace MMH
 {
-	public class TimeSystem : GameSystem<TimeSystem>
+	public class TimeSystem : GameSystem
 	{
-		public static event EventHandler<OnTickArgs> OnTick;
+		private int _ticks;
 
-		public const float TICK_DURATION = 0.2f;
-
-		private int _tick;
-		private float _tickTimer;
-
-		public class OnTickArgs : EventArgs
+		public override void Init()
 		{
-			public int Tick;
+			_ticks = 0;
 		}
 
-		protected override void Awake()
+		public override void Tick()
 		{
-			base.Awake();
-
-			_tick = 0;
-		}
-
-		private void Update()
-		{
-			_tickTimer += Time.deltaTime;
-
-			if (_tickTimer >= TICK_DURATION)
-			{
-				_tickTimer -= TICK_DURATION;
-				_tick++;
-
-				OnTick?.Invoke(this, new OnTickArgs { Tick = _tick });
-			}
+			_ticks++;
 		}
 	}
 }

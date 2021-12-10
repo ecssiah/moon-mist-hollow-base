@@ -1,20 +1,17 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace MMH
 {
-    public class MapSystem : GameSystem<MapSystem>
+    public class MapSystem : GameSystem
     {
         public static Dictionary<Direction, int2> DirectionVectors;
         public static Dictionary<Direction, int> DirectionCosts;
 
         private WorldMap _worldMap;
 
-        protected override void Awake()
-        {
-            base.Awake();
-
+		public override void Init()
+		{
             DirectionVectors = new Dictionary<Direction, int2>
             {
                 [Direction.EE] = new int2(+1, +0),
@@ -38,16 +35,13 @@ namespace MMH
                 [Direction.SS] = 10,
                 [Direction.SE] = 14,
             };
-        }
 
-        void Start()
-        {
             GenerateWorldMap();
         }
 
         private void GenerateWorldMap()
         {
-            _worldMap = new WorldMap(ManagerSystem.Settings.WorldMapSize);
+            _worldMap = new WorldMap(GameManager.Instance.SimulationSettings.WorldMapSize);
 
             for (int id = 0; id < _worldMap.Area; id++)
             {

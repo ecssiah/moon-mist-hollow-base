@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace MMH
 {
-    public class RenderSystem : GameSystem<RenderSystem>
+    public class Render : MonoBehaviour
     {
 		private const float Z_OFFSET = 0.001f;
 
@@ -26,10 +26,8 @@ namespace MMH
 
         private Dictionary<int, RenderData> _citizenRenderData;
 
-        protected override void Awake()
+        void Awake()
 	    {
-            base.Awake();
-
             SetupResources();
             SetupEvents();
         }
@@ -38,14 +36,6 @@ namespace MMH
         {
             UpdateMapRenderData();
         }
-
-		private void OnDisable()
-		{
-			EntitySystem.OnCreateCitizen -= OnCreateCitizen;
-
-            Citizen.OnUpdateCitizenRenderDirection -= OnUpdateCitizenRenderDirection;
-            Citizen.OnUpdateCitizenRenderPosition -= OnUpdateCitizenRenderPosition;
-		}
 
         private void SetupResources()
 		{
@@ -98,7 +88,7 @@ namespace MMH
 
 		private void UpdateMapRenderData()
         {
-            foreach (Cell cell in MapSystem.Instance.GetCells())
+            foreach (Cell cell in GameManager.Instance.MapSystem.GetCells())
             {
                 Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
@@ -107,6 +97,14 @@ namespace MMH
                 _groundTilemap.SetTile(tilemapPosition, _groundTiles[cell.GroundType]);
             }
         }
+
+		private void OnDisable()
+		{
+			EntitySystem.OnCreateCitizen -= OnCreateCitizen;
+
+            Citizen.OnUpdateCitizenRenderDirection -= OnUpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition -= OnUpdateCitizenRenderPosition;
+		}
 
         private void OnCreateCitizen(object sender, OnCitizenEventArgs eventArgs)
         {
@@ -143,7 +141,7 @@ namespace MMH
             RenderData renderData = _citizenRenderData[citizen.Id];
 
             float timer = 0;
-            float duration = TimeSystem.TICK_DURATION * citizen.Cooldown;
+            float duration = GameManager.Instance.SimulationSettings.TickDuration * citizen.Cooldown;
 
             Vector3 startPosition = renderData.WorldGameObject.transform.position;
 

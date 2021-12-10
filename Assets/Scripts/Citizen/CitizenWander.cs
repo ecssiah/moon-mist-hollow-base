@@ -13,7 +13,7 @@ namespace MMH
 			{
 				Direction newDirection = Utils.RandomEnumValue<Direction>();
 
-				if (MapSystem.Instance.IsPassable(_citizen.Position, newDirection))
+				if (GameManager.Instance.MapSystem.IsPassable(_citizen.Position, newDirection))
 				{
 					_citizen.Cooldown = MapSystem.DirectionCosts[newDirection];
 

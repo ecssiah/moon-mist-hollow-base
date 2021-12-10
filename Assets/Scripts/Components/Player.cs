@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace MMH
 {
-	public class PlayerSystem : GameSystem<PlayerSystem>
+	public class Player : MonoBehaviour
 	{
 		private float _panSpeed;
 		private float _zoomSpeed;
@@ -16,23 +16,18 @@ namespace MMH
 		private InputAction _zoom;
 		private InputAction _select;
 
-		protected override void Awake()
+		void Awake()
 		{
-			base.Awake();
-
 			_playerInputActions = new PlayerInputActions();
-		}
 
-		private void Start()
-		{
-			_panSpeed = ManagerSystem.Settings.PanSpeed;
-			_zoomSpeed = ManagerSystem.Settings.ZoomSpeed;
+			_playerCamera = GameObject.Find("Player Camera").GetComponent<Camera>();
+
+			_panSpeed = 8.0f;
+			_zoomSpeed = 8.0f;
 		}
 
 		void OnEnable()
 		{
-			_playerCamera = GetComponentInChildren<Camera>();
-
 			_pan = _playerInputActions.Player.Pan;
 			_pan.Enable();
 
@@ -56,9 +51,9 @@ namespace MMH
 			Vector2 panValue = _pan.ReadValue<Vector2>();
 			Vector3 panDisplacement = _panSpeed * panValue;
 
-			transform.position = Vector3.Lerp(
-				transform.position,
-				transform.position + panDisplacement,
+			_playerCamera.transform.position = Vector3.Lerp(
+				_playerCamera.transform.position,
+				_playerCamera.transform.position + panDisplacement,
 				Time.deltaTime
 			);
 

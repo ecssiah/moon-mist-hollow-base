@@ -3,21 +3,16 @@ using System.Collections.Generic;
 
 namespace MMH
 {
-	public class EntitySystem : GameSystem<EntitySystem>
+	public class EntitySystem : GameSystem
     {
         public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
 
         private List<Citizen> _citizenList;
 
-        protected override void Awake()
+		public override void Init()
 		{
-            base.Awake();
-
-            UISystem.OnUpdateRulesDropdown += OnUpdateRulesDropdown;
-        }
-		
-        void Start()
-        {
+            UserInterface.OnUpdateRulesDropdown += OnUpdateRulesDropdown;
+        
             CreateCitizens();
         }
 
@@ -25,13 +20,13 @@ namespace MMH
         {
             _citizenList = new List<Citizen>();
 
-			for (int i = 0; i < ManagerSystem.Settings.NumberOfCitizens; i++)
+			for (int i = 0; i < GameManager.Instance.SimulationSettings.NumberOfCitizens; i++)
 			{
 				Citizen newCitizen = new Citizen()
 				{
                     Nation = Utils.RandomEnumValue<Nation>(),
                     Direction = Utils.RandomEnumValue<Direction>(),
-					Position = MapSystem.Instance.GetOpenCellPosition()
+					Position = GameManager.Instance.MapSystem.GetOpenCellPosition()
 				};
 
 				_citizenList.Add(newCitizen);
@@ -40,7 +35,7 @@ namespace MMH
 			}
 		}
         
-        public void OnUpdateRulesDropdown(object sender, UISystem.OnUpdateRulesDropownArgs eventArgs)
+        public void OnUpdateRulesDropdown(object sender, UserInterface.OnUpdateRulesDropownArgs eventArgs)
 		{
             foreach (Citizen citizen in _citizenList)
 			{
