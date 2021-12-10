@@ -1,14 +1,16 @@
 using System;
-using UnityEngine;
 
-public static class Utils
+namespace MMH
 {
-	static System.Random _R = new System.Random();
-
-	public static T RandomEnumValue<T>()
+	public static class Utils
 	{
-		var valuesArray = Enum.GetValues(typeof(T));
+		static Random _R = new Random();
 
-		return (T)valuesArray.GetValue(_R.Next(valuesArray.Length));
+		public static T RandomEnumValue<T>()
+		{
+			var valuesArray = Enum.GetValues(typeof(T));
+
+			return (T)valuesArray.GetValue(_R.Next(valuesArray.Length));
+		}
 	}
 }

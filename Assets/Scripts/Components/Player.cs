@@ -8,7 +8,7 @@ namespace MMH
 		private float _panSpeed;
 		private float _zoomSpeed;
 
-		private Camera _playerCamera;
+		private Camera _camera;
 
 		private PlayerInputActions _playerInputActions;
 
@@ -20,7 +20,7 @@ namespace MMH
 		{
 			_playerInputActions = new PlayerInputActions();
 
-			_playerCamera = GameObject.Find("Player Camera").GetComponent<Camera>();
+			_camera = GameObject.Find("Player").GetComponentInChildren<Camera>();
 
 			_panSpeed = 8.0f;
 			_zoomSpeed = 8.0f;
@@ -52,22 +52,22 @@ namespace MMH
 			Vector2 panValue = _pan.ReadValue<Vector2>();
 			Vector3 panDisplacement = _panSpeed * panValue;
 
-			_playerCamera.transform.position = Vector3.Lerp(
-				_playerCamera.transform.position,
-				_playerCamera.transform.position + panDisplacement,
+			_camera.transform.position = Vector3.Lerp(
+				_camera.transform.position,
+				_camera.transform.position + panDisplacement,
 				Time.deltaTime
 			);
 
 			float zoomValue = _zoom.ReadValue<float>();
 			float zoomDisplacement = _zoomSpeed * zoomValue;
 
-			_playerCamera.orthographicSize = Mathf.Lerp(
-				_playerCamera.orthographicSize,
-				_playerCamera.orthographicSize + zoomDisplacement,
+			_camera.orthographicSize = Mathf.Lerp(
+				_camera.orthographicSize,
+				_camera.orthographicSize + zoomDisplacement,
 				Time.deltaTime
 			);
 
-			_playerCamera.orthographicSize = Mathf.Clamp(_playerCamera.orthographicSize, 2f, 20f);
+			_camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, 2f, 20f);
 		}
 
 		private void Select(InputAction.CallbackContext obj)
