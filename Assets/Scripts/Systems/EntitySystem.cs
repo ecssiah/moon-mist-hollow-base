@@ -39,7 +39,7 @@ namespace MMH
 		{
             foreach (Citizen citizen in _citizenList)
 			{
-                citizen.SetMovementState(eventArgs.StateType);
+                citizen.SetMovementState(eventArgs.CitizenMovementStateType);
             }
 		}
     }

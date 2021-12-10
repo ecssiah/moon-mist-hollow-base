@@ -46,6 +46,7 @@ namespace MMH
             _groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
 
             _citizenGameObject = GameObject.Find("Citizens");
+
             _citizenRenderData = new Dictionary<int, RenderData>();
 
             _nationPrefabs = new Dictionary<Nation, GameObject>
@@ -114,13 +115,14 @@ namespace MMH
             startPosition.z = citizen.Id * Z_OFFSET;
 
             renderData.WorldGameObject = Instantiate(
-                _nationPrefabs[citizen.Nation], startPosition, Quaternion.identity
+                _nationPrefabs[citizen.Nation], 
+                startPosition, 
+                Quaternion.identity, 
+                _citizenGameObject.transform
             );
             
-            renderData.WorldGameObject.transform.parent = _citizenGameObject.transform;
-
             renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
-            
+
             _citizenRenderData[citizen.Id] = renderData;
 
             PlayAnimation(citizen, CitizenAnimationType.Idle);

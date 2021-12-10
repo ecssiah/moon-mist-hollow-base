@@ -2,7 +2,7 @@
 {
     public class OnUpdateMovementStateArgs
     {
-        public CitizenMovementStateType StateType;
+        public CitizenMovementStateType CitizenMovementStateType;
     }
 }
 

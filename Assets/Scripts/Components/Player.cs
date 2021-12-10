@@ -21,6 +21,7 @@ namespace MMH
 			_playerInputActions = new PlayerInputActions();
 
 			_camera = GameObject.Find("Player").GetComponentInChildren<Camera>();
+			_camera.transform.position = new Vector3(0, 0, -10);
 
 			_panSpeed = 8.0f;
 			_zoomSpeed = 8.0f;
