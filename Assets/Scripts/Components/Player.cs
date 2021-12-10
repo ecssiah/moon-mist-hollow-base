@@ -35,8 +35,9 @@ namespace MMH
 			_zoom.Enable();
 
 			_select = _playerInputActions.Player.Select;
-			_select.performed += Select;
 			_select.Enable();
+
+			_select.performed += Select;
 		}
 
 		void OnDisable()
