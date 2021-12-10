@@ -1,6 +1,6 @@
 ﻿namespace MMH
 {
-    public class OnUpdateRulesDropownArgs
+    public class OnUpdateMovementStateArgs
     {
         public CitizenMovementStateType StateType;
     }

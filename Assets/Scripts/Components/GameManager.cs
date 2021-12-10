@@ -46,11 +46,6 @@ namespace MMH
             EntitySystem.Init();
         }
 
-		void Start()
-		{
-
-        }
-
 		void Update()
         {
             _tickTimer += Time.deltaTime;

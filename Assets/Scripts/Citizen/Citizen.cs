@@ -41,7 +41,7 @@ namespace MMH
 
 			_currentMovementState = _movementStates[CitizenMovementStateType.Idle];
 		
-			GameManager.OnTick += OnTick;
+			GameManager.OnTick += Tick;
 		}
 
 		public bool CanAct()
@@ -64,7 +64,7 @@ namespace MMH
 			_currentMovementState = _movementStates[citizenMovementStateType];
 		}
 
-		private void OnTick(object sender, OnTickArgs eventArgs)
+		private void Tick(object sender, OnTickArgs eventArgs)
 		{
 			Cooldown--;
 

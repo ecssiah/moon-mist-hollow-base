@@ -1,40 +1,43 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using TMPro;
 
 namespace MMH
 {
 	public class UserInterface : MonoBehaviour
     {
-        public static event EventHandler<OnUpdateRulesDropownArgs> OnUpdateRulesDropdown;
+        public static event EventHandler<OnUpdateMovementStateArgs> OnUpdateMovementState;
 
-        private TMPro.TMP_Dropdown _rulesDropdown;
+        private UnityAction<int> _ruleChangeAction;
+
+        private TMP_Dropdown _rulesDropdown;
 
         void Awake()
 	    {
-            _rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMPro.TMP_Dropdown>();
-
-            List<string> rules = new List<string>
+            _ruleChangeAction += OnRuleChange;
+            
+            List<string> rulesOptions = new List<string>
             {
                 CitizenMovementStateType.Idle.ToString(),
                 CitizenMovementStateType.Wander.ToString(),
             };
 
-            _rulesDropdown.AddOptions(rules);
-
-            _rulesDropdown.onValueChanged.AddListener(
-                delegate { OnRuleChange(); }
-            );
+            _rulesDropdown = GameObject.Find("Rules Dropdown").GetComponent<TMP_Dropdown>();
+            
+            _rulesDropdown.AddOptions(rulesOptions);
+            _rulesDropdown.onValueChanged.AddListener(_ruleChangeAction);
         }
 
-        private void OnRuleChange()
+        private void OnRuleChange(int value)
 		{
-            OnUpdateRulesDropownArgs eventArgs = new OnUpdateRulesDropownArgs
+            OnUpdateMovementStateArgs eventArgs = new OnUpdateMovementStateArgs
             {
-                StateType = (CitizenMovementStateType)_rulesDropdown.value
+                StateType = (CitizenMovementStateType)value
             };
 
-            OnUpdateRulesDropdown?.Invoke(this, eventArgs);
+            OnUpdateMovementState?.Invoke(this, eventArgs);
 		}
     }
 }

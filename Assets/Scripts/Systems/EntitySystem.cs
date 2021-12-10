@@ -11,7 +11,7 @@ namespace MMH
 
 		public override void Init()
 		{
-            UserInterface.OnUpdateRulesDropdown += OnUpdateRulesDropdown;
+            UserInterface.OnUpdateMovementState += UpdateMovementState;
         
             CreateCitizens();
         }
@@ -35,7 +35,7 @@ namespace MMH
 			}
 		}
         
-        public void OnUpdateRulesDropdown(object sender, OnUpdateRulesDropownArgs eventArgs)
+        public void UpdateMovementState(object sender, OnUpdateMovementStateArgs eventArgs)
 		{
             foreach (Citizen citizen in _citizenList)
 			{
