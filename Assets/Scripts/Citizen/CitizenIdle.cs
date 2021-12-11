@@ -13,10 +13,8 @@ namespace MMH
 		{
 			if (_citizen.CanAct())
 			{
-				Direction newDirection = Utils.RandomEnumValue<Direction>();
-
-				_citizen.Cooldown = Random.Range(4, 17);
-				_citizen.Direction = newDirection;
+				_citizen.Cooldown = Utils.RandomRange(4, 16);
+				_citizen.Direction = Utils.RandomEnumValue<Direction>();
 
 				_citizen.UpdateRenderDirection();
 			}

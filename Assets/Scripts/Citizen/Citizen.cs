@@ -26,6 +26,8 @@ namespace MMH
 		{
 			Id = _nextCitizenId++;
 
+			Cooldown = Utils.RandomRange(4, 16);
+
 			Attributes = new CitizenAttributes
 			{
 				Strength = 1,
