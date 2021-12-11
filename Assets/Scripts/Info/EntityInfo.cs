@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace MMH
 {
 	public enum Nation
@@ -17,7 +13,7 @@ namespace MMH
 		Wander,
 	}
 
-	public static class EntityConstants
+	public static class EntityInfo
 	{
 
 	}

@@ -110,7 +110,7 @@ namespace MMH
             CitizenRenderData citizenRenderData = new CitizenRenderData();
 
             Vector3 startPosition = GridToWorld(citizen.Position);
-            startPosition.z = citizen.Id * RenderConstants.CitizenZSpacing;
+            startPosition.z = citizen.Id * RenderInfo.CitizenZSpacing;
 
             citizenRenderData.WorldGameObject = Instantiate(
                 _nationPrefabs[citizen.Nation], 
@@ -146,7 +146,7 @@ namespace MMH
             Vector3 startPosition = citizenRenderData.WorldGameObject.transform.position;
 
             Vector3 endPosition = GridToWorld(citizen.Position);
-            endPosition.z = citizen.Id * RenderConstants.CitizenZSpacing;
+            endPosition.z = citizen.Id * RenderInfo.CitizenZSpacing;
 
             PlayAnimation(citizen, CitizenAnimationType.Walk);
             

@@ -36,7 +36,7 @@ namespace MMH
         SE,
     }
 
-	public static class MapConstants
+	public static class MapInfo
 	{
         public static Dictionary<Direction, int2> DirectionVectors = new Dictionary<Direction, int2>
         {

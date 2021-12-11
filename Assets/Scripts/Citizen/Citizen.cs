@@ -19,8 +19,8 @@ namespace MMH
 		public Direction Direction { get; set; }
 		public int2 Position { get; set; }
 		public Nation Nation { get; set; }
-		public int Cooldown { get; set; }
 		public CitizenAttributes Attributes { get; }
+		public int Cooldown { get; set; }
 
 		public Citizen()
 		{
@@ -43,6 +43,7 @@ namespace MMH
 
 			_currentMovementState = _movementStates[CitizenMovementStateType.Idle];
 		}
+
 		public void Tick()
 		{
 			Cooldown--;

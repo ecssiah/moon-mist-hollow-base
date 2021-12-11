@@ -172,7 +172,7 @@ namespace MMH
 
         public bool IsPassable(int2 startPosition, Direction direction)
         {
-            int2 endPosition = startPosition + MapConstants.DirectionVectors[direction];
+            int2 endPosition = startPosition + MapInfo.DirectionVectors[direction];
 
             if (IsSolid(endPosition)) return false;
 
@@ -189,10 +189,10 @@ namespace MMH
 			}
             else
 			{
-                bool eastPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.EE]);
-                bool northPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.NN]);
-                bool westPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.WW]);
-                bool southPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.SS]);
+                bool eastPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.EE]);
+                bool northPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.NN]);
+                bool westPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.WW]);
+                bool southPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.SS]);
 
                 if (direction == Direction.NE)
 				{

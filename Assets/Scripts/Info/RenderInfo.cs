@@ -6,7 +6,7 @@ namespace MMH
         Walk,
     }
 
-    public static class RenderConstants
+    public static class RenderInfo
     {
         public static float CitizenZSpacing = 0.001f;
     }

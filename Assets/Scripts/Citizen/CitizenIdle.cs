@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace MMH
 {
 	public class CitizenIdle : CitizenMovementState
