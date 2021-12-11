@@ -58,8 +58,9 @@ namespace MMH
 
             if (_tickTimer >= SimulationSettings.TickDuration)
             {
-                _tickTimer -= SimulationSettings.TickDuration;
                 _tick++;
+
+                _tickTimer -= SimulationSettings.TickDuration;
 
                 OnTick?.Invoke(this, new OnTickArgs { Tick = _tick });
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 
@@ -5,6 +6,8 @@ namespace MMH
 {
     public class MapSystem : GameSystem
     {
+        public static EventHandler<OnMapEventArgs> OnUpdateMapRender;
+
         private WorldMap _worldMap;
 
 		public override void Init()
@@ -26,7 +29,7 @@ namespace MMH
                     OverlayType = OverlayType.None,
                     StructureType = StructureType.None,
                     GroundType = GroundType.Floor1,
-				};
+                };
 
                 _worldMap.Cells.Add(cell);
             }
@@ -45,12 +48,15 @@ namespace MMH
             SetCell(-4, -2, StructureType.Wall1);
             SetCell(-4, +0, StructureType.Wall2);
             SetCell(-4, +2, StructureType.Wall1);
-            
+
             SetCell(-4, +4, StructureType.Wall2);
             SetCell(-2, +4, StructureType.Wall1);
             SetCell(+0, +4, StructureType.Wall2);
             SetCell(+2, +4, StructureType.Wall1);
+
+            OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
+
         public List<Cell> GetCells()
 		{
             return _worldMap.Cells;

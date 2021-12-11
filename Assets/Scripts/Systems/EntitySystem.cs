@@ -60,7 +60,7 @@ namespace MMH
         public override void Quit()
 		{
             GameManager.OnTick -= Tick;
-            UserInterface.OnUpdateMovementState += UpdateMovementState;
+            UserInterface.OnUpdateMovementState -= UpdateMovementState;
         }
     }
 }

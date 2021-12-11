@@ -30,11 +30,6 @@ namespace MMH
             SetupResources();
         }
 
-        void Start()
-        {
-            UpdateMapRenderData();
-        }
-
         private void SetupResources()
 		{
             _grid = GameObject.Find("Grid").GetComponent<Grid>();
@@ -78,15 +73,16 @@ namespace MMH
 
         private void SetupEvents()
 		{
-            EntitySystem.OnCreateCitizen += OnCreateCitizen;
+            MapSystem.OnUpdateMapRender += UpdateMapRender;
+            EntitySystem.OnCreateCitizen += CreateCitizenRenderData;
 
-            Citizen.OnUpdateCitizenRenderDirection += OnUpdateCitizenRenderDirection;
-            Citizen.OnUpdateCitizenRenderPosition += OnUpdateCitizenRenderPosition;
+            Citizen.OnUpdateCitizenRenderDirection += UpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition += UpdateCitizenRenderPosition;
         }
 
-		private void UpdateMapRenderData()
+		private void UpdateMapRender(object sender, OnMapEventArgs eventArgs)
         {
-            foreach (Cell cell in GameManager.Instance.MapSystem.GetCells())
+            foreach (Cell cell in eventArgs.WorldMap.Cells)
             {
                 Vector3Int tilemapPosition = new Vector3Int(cell.Position.x, cell.Position.y, 0);
 
@@ -98,13 +94,14 @@ namespace MMH
 
 		private void OnDisable()
 		{
-			EntitySystem.OnCreateCitizen -= OnCreateCitizen;
+            MapSystem.OnUpdateMapRender -= UpdateMapRender;
+			EntitySystem.OnCreateCitizen -= CreateCitizenRenderData;
 
-            Citizen.OnUpdateCitizenRenderDirection -= OnUpdateCitizenRenderDirection;
-            Citizen.OnUpdateCitizenRenderPosition -= OnUpdateCitizenRenderPosition;
+            Citizen.OnUpdateCitizenRenderDirection -= UpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition -= UpdateCitizenRenderPosition;
 		}
 
-        private void OnCreateCitizen(object sender, OnCitizenEventArgs eventArgs)
+        private void CreateCitizenRenderData(object sender, OnCitizenEventArgs eventArgs)
         {
             Citizen citizen = eventArgs.Citizen;
             CitizenRenderData citizenRenderData = new CitizenRenderData();
@@ -126,12 +123,12 @@ namespace MMH
             PlayAnimation(citizen, CitizenAnimationType.Idle);
         }
 
-        private void OnUpdateCitizenRenderDirection(object sender, OnCitizenEventArgs eventArgs)
+        private void UpdateCitizenRenderDirection(object sender, OnCitizenEventArgs eventArgs)
 		{
             PlayAnimation(eventArgs.Citizen, CitizenAnimationType.Idle);
         }
 
-        private void OnUpdateCitizenRenderPosition(object sender, OnCitizenEventArgs eventArgs)
+        private void UpdateCitizenRenderPosition(object sender, OnCitizenEventArgs eventArgs)
 		{
             StartCoroutine(MoveCitizen(eventArgs.Citizen));
         }
