@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class RenderData
+	public class CitizenRenderData
 	{
 		public GameObject WorldGameObject;
 		public Animator Animator;

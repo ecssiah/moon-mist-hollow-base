@@ -20,7 +20,7 @@ namespace MMH
 		
         private GameObject _citizenGameObject;
 
-        private Dictionary<int, RenderData> _citizenRenderData;
+        private Dictionary<int, CitizenRenderData> _citizenRenderData;
 
         private Dictionary<Nation, GameObject> _nationPrefabs;
 
@@ -45,7 +45,7 @@ namespace MMH
 
             _citizenGameObject = GameObject.Find("Citizens");
 
-            _citizenRenderData = new Dictionary<int, RenderData>();
+            _citizenRenderData = new Dictionary<int, CitizenRenderData>();
 
             _nationPrefabs = new Dictionary<Nation, GameObject>
             {
@@ -107,21 +107,21 @@ namespace MMH
         private void OnCreateCitizen(object sender, OnCitizenEventArgs eventArgs)
         {
             Citizen citizen = eventArgs.Citizen;
-            RenderData renderData = new RenderData();
+            CitizenRenderData citizenRenderData = new CitizenRenderData();
 
             Vector3 startPosition = GridToWorld(citizen.Position);
             startPosition.z = citizen.Id * RenderConstants.CitizenZSpacing;
 
-            renderData.WorldGameObject = Instantiate(
+            citizenRenderData.WorldGameObject = Instantiate(
                 _nationPrefabs[citizen.Nation], 
                 startPosition, 
                 Quaternion.identity, 
                 _citizenGameObject.transform
             );
             
-            renderData.Animator = renderData.WorldGameObject.GetComponent<Animator>();
+            citizenRenderData.Animator = citizenRenderData.WorldGameObject.GetComponent<Animator>();
 
-            _citizenRenderData[citizen.Id] = renderData;
+            _citizenRenderData[citizen.Id] = citizenRenderData;
 
             PlayAnimation(citizen, CitizenAnimationType.Idle);
         }
@@ -136,14 +136,14 @@ namespace MMH
             StartCoroutine(MoveCitizen(eventArgs.Citizen));
         }
 
-        private IEnumerator MoveCitizen(Citizen citizen)
+		private IEnumerator MoveCitizen(Citizen citizen)
 		{
             float timer = 0;
             float duration = citizen.Cooldown * GameManager.Instance.SimulationSettings.TickDuration;
 
-            RenderData renderData = _citizenRenderData[citizen.Id];
+            CitizenRenderData citizenRenderData = _citizenRenderData[citizen.Id];
 
-            Vector3 startPosition = renderData.WorldGameObject.transform.position;
+            Vector3 startPosition = citizenRenderData.WorldGameObject.transform.position;
 
             Vector3 endPosition = GridToWorld(citizen.Position);
             endPosition.z = citizen.Id * RenderConstants.CitizenZSpacing;
@@ -154,14 +154,23 @@ namespace MMH
 			{
                 Vector3 newPosition = Vector3.Lerp(startPosition, endPosition, timer / duration);
                 
-                renderData.WorldGameObject.transform.position = newPosition;
+                citizenRenderData.WorldGameObject.transform.position = newPosition;
                 
                 timer += Time.deltaTime;
 
                 yield return null;
 			}
 
-            renderData.WorldGameObject.transform.position = endPosition;
+            citizenRenderData.WorldGameObject.transform.position = endPosition;
+        }
+
+        private void PlayAnimation(Citizen citizen, CitizenAnimationType animationType)
+		{
+            CitizenRenderData citizenRenderData = _citizenRenderData[citizen.Id];
+
+            citizenRenderData.Animator.Play(
+                $"Base Layer.{citizen.Nation}-{animationType}-{citizen.Direction}"
+            );
         }
 
         private Vector3 GridToWorld(int x, int y)
@@ -175,15 +184,6 @@ namespace MMH
         private Vector3 GridToWorld(int2 position)
         {
             return GridToWorld(position.x, position.y);
-        }
-
-        private void PlayAnimation(Citizen citizen, CitizenAnimationType animationType)
-		{
-            RenderData renderData = _citizenRenderData[citizen.Id];
-
-            renderData.Animator.Play(
-                $"Base Layer.{citizen.Nation}-{animationType}-{citizen.Direction}"
-            );
         }
     }
 }

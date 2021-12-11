@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace MMH
 {
 	public class CitizenIdle : CitizenMovementState
@@ -13,7 +15,7 @@ namespace MMH
 			{
 				Direction newDirection = Utils.RandomEnumValue<Direction>();
 
-				_citizen.Cooldown = 8;
+				_citizen.Cooldown = Random.Range(4, 17);
 				_citizen.Direction = newDirection;
 
 				_citizen.UpdateRenderDirection();

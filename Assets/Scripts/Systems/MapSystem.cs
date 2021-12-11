@@ -31,22 +31,22 @@ namespace MMH
                 _worldMap.Cells.Add(cell);
             }
 
-            SetCell(+4, +4, StructureType.Wall1);
+            SetCell(+4, +4, StructureType.Wall2);
             SetCell(+4, +2, StructureType.Wall1);
             SetCell(+4, +0, StructureType.Wall2);
             SetCell(+4, -2, StructureType.Wall1);
 
-            SetCell(+4, -4, StructureType.Wall1);
+            SetCell(+4, -4, StructureType.Wall2);
             SetCell(+2, -4, StructureType.Wall1);
             SetCell(+0, -4, StructureType.Wall2);
             SetCell(-2, -4, StructureType.Wall1);
 
-            SetCell(-4, -4, StructureType.Wall1);
+            SetCell(-4, -4, StructureType.Wall2);
             SetCell(-4, -2, StructureType.Wall1);
             SetCell(-4, +0, StructureType.Wall2);
             SetCell(-4, +2, StructureType.Wall1);
             
-            SetCell(-4, +4, StructureType.Wall1);
+            SetCell(-4, +4, StructureType.Wall2);
             SetCell(-2, +4, StructureType.Wall1);
             SetCell(+0, +4, StructureType.Wall2);
             SetCell(+2, +4, StructureType.Wall1);
