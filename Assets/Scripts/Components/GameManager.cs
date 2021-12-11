@@ -5,8 +5,7 @@ namespace MMH
 {
     public class GameManager : MonoBehaviour
     {
-        private static GameManager _instance;
-        public static GameManager Instance { get { return _instance; } }
+        public static GameManager Instance { get; set; }
 
         public static event EventHandler<OnTickArgs> OnTick;
 
@@ -21,13 +20,13 @@ namespace MMH
 
         void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
             }
             else
             {
-                _instance = this;
+                Instance = this;
             }
 
             SimulationSettings = Resources.Load<SimulationSettings>("SOInstances/Simulation Settings");

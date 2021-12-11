@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Simulation Settings
   m_EditorClassIdentifier: 
   TickDuration: 0.2
-  WorldMapSize: 20
-  NumberOfCitizens: 1000
+  WorldMapSize: 24
+  NumberOfCitizens: 340
