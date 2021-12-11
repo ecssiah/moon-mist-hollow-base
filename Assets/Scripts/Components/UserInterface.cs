@@ -24,10 +24,9 @@ namespace MMH
                 CitizenMovementStateType.Wander.ToString(),
             };
 
-            _rulesDropdown.AddOptions(rulesOptions)
-                ;
             _ruleChangeAction += OnRuleChange;
-         
+
+            _rulesDropdown.AddOptions(rulesOptions);
             _rulesDropdown.onValueChanged.AddListener(_ruleChangeAction);
         }
 
