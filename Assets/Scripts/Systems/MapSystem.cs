@@ -5,37 +5,10 @@ namespace MMH
 {
     public class MapSystem : GameSystem
     {
-        public static Dictionary<Direction, int2> DirectionVectors;
-        public static Dictionary<Direction, int> DirectionCosts;
-
         private WorldMap _worldMap;
 
 		public override void Init()
 		{
-            DirectionVectors = new Dictionary<Direction, int2>
-            {
-                [Direction.EE] = new int2(+1, +0),
-                [Direction.NE] = new int2(+1, +1),
-                [Direction.NN] = new int2(+0, +1),
-                [Direction.NW] = new int2(-1, +1),
-                [Direction.WW] = new int2(-1, +0),
-                [Direction.SW] = new int2(-1, -1),
-                [Direction.SS] = new int2(+0, -1),
-                [Direction.SE] = new int2(+1, -1),
-            };
-
-            DirectionCosts = new Dictionary<Direction, int>
-            {
-                [Direction.EE] = 10,
-                [Direction.NE] = 14,
-                [Direction.NN] = 10,
-                [Direction.NW] = 14,
-                [Direction.WW] = 10,
-                [Direction.SW] = 14,
-                [Direction.SS] = 10,
-                [Direction.SE] = 14,
-            };
-
             GenerateWorldMap();
         }
 
@@ -199,7 +172,7 @@ namespace MMH
 
         public bool IsPassable(int2 startPosition, Direction direction)
         {
-            int2 endPosition = startPosition + DirectionVectors[direction];
+            int2 endPosition = startPosition + MapConstants.DirectionVectors[direction];
 
             if (IsSolid(endPosition)) return false;
 
@@ -216,26 +189,26 @@ namespace MMH
 			}
             else
 			{
-                bool eastCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.EE]);
-                bool northCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.NN]);
-                bool westCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.WW]);
-                bool southCellPassable = !IsSolid(startPosition + DirectionVectors[Direction.SS]);
+                bool eastPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.EE]);
+                bool northPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.NN]);
+                bool westPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.WW]);
+                bool southPassable = !IsSolid(startPosition + MapConstants.DirectionVectors[Direction.SS]);
 
                 if (direction == Direction.NE)
 				{
-                    return northCellPassable && eastCellPassable;
+                    return northPassable && eastPassable;
 				}
                 else if (direction == Direction.NW)
 				{
-                    return northCellPassable && westCellPassable;
+                    return northPassable && westPassable;
 				}
                 else if (direction == Direction.SE)
 				{
-                    return southCellPassable && eastCellPassable;
+                    return southPassable && eastPassable;
 				}
                 else if (direction == Direction.SW)
 				{
-                    return southCellPassable && westCellPassable;
+                    return southPassable && westPassable;
 				}
 			}
 

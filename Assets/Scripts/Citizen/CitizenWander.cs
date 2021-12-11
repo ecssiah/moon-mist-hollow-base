@@ -15,10 +15,10 @@ namespace MMH
 
 				if (GameManager.Instance.MapSystem.IsPassable(_citizen.Position, newDirection))
 				{
-					_citizen.Cooldown = MapSystem.DirectionCosts[newDirection];
+					_citizen.Cooldown = MapConstants.DirectionCosts[newDirection];
 
 					_citizen.Direction = newDirection;
-					_citizen.Position += MapSystem.DirectionVectors[newDirection];
+					_citizen.Position += MapConstants.DirectionVectors[newDirection];
 
 					_citizen.UpdateRenderPosition();
 				}

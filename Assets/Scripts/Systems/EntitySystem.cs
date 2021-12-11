@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MMH
 {
@@ -12,11 +11,16 @@ namespace MMH
 
 		public override void Init()
 		{
-            GameManager.OnTick += Tick;
-            UserInterface.OnUpdateMovementState += UpdateMovementState;
-        
+            SetupEvents();
+            
             CreateCitizens();
         }
+
+        private void SetupEvents()
+		{
+            GameManager.OnTick += Tick;
+            UserInterface.OnUpdateMovementState += UpdateMovementState;
+		}
 
         void CreateCitizens()
         {

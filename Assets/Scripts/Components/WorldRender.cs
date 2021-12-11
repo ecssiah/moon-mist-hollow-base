@@ -18,8 +18,6 @@ namespace MMH
         private Dictionary<StructureType, Tile> _structureTiles;
         private Dictionary<GroundType, Tile> _groundTiles;
 		
-        private float _citizenZSpacing;
-
         private GameObject _citizenGameObject;
 
         private Dictionary<int, RenderData> _citizenRenderData;
@@ -28,8 +26,8 @@ namespace MMH
 
         void Awake()
 	    {
-            SetupResources();
             SetupEvents();
+            SetupResources();
         }
 
         void Start()
@@ -44,8 +42,6 @@ namespace MMH
             _overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             _structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
             _groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
-
-            _citizenZSpacing = 0.001f;
 
             _citizenGameObject = GameObject.Find("Citizens");
 
@@ -114,7 +110,7 @@ namespace MMH
             RenderData renderData = new RenderData();
 
             Vector3 startPosition = GridToWorld(citizen.Position);
-            startPosition.z = citizen.Id * _citizenZSpacing;
+            startPosition.z = citizen.Id * RenderConstants.CitizenZSpacing;
 
             renderData.WorldGameObject = Instantiate(
                 _nationPrefabs[citizen.Nation], 
@@ -150,7 +146,7 @@ namespace MMH
             Vector3 startPosition = renderData.WorldGameObject.transform.position;
 
             Vector3 endPosition = GridToWorld(citizen.Position);
-            endPosition.z = citizen.Id * _citizenZSpacing;
+            endPosition.z = citizen.Id * RenderConstants.CitizenZSpacing;
 
             PlayAnimation(citizen, CitizenAnimationType.Walk);
             
