@@ -51,23 +51,28 @@ namespace MMH
             SetCell(+0, +4, StructureType.Wall2);
             SetCell(+2, +4, StructureType.Wall1);
         }
+        public List<Cell> GetCells()
+		{
+            return _worldMap.Cells;
+		}
 
-        public int PositionToId(int x, int y)
+        public Cell GetCell(int id)
         {
-            return (x + _worldMap.Size) + _worldMap.Width * (y + _worldMap.Size);
+            if (id >= _worldMap.Area) return null;
+
+            return _worldMap.Cells[id];
         }
 
-        public int PositionToId(int2 position)
+        public Cell GetCell(int x, int y)
         {
-            return PositionToId(position.x, position.y);
+            int cellId = PositionToId(new int2(x, y));
+
+            return GetCell(cellId);
         }
 
-        public int2 IdToPosition(int id)
+        public Cell GetCell(int2 position)
         {
-            int x = id % _worldMap.Width - _worldMap.Size;
-            int y = id / _worldMap.Width - _worldMap.Size;
-
-            return new int2(x, y);
+            return GetCell(position.x, position.y);
         }
 
         private void SetCell(int x, int y, OverlayType overlayType)
@@ -129,11 +134,16 @@ namespace MMH
 
         public bool IsSolid(int x, int y)
         {
-            if (!OnMap(x, y)) return true;
+            if (OnMap(x, y))
+			{
+                Cell cell = GetCell(x, y);
 
-            Cell cell = GetCell(x, y);
-
-            return cell.Solid;
+                return cell.Solid;
+            } 
+            else
+			{
+                return true;
+			}
         }
 
         public bool IsSolid(int2 position)
@@ -215,28 +225,22 @@ namespace MMH
             return false;
         }
 
-        public List<Cell> GetCells()
-		{
-            return _worldMap.Cells;
-		}
-
-        public Cell GetCell(int id)
+        public int PositionToId(int x, int y)
         {
-            if (id >= _worldMap.Area) return null;
-
-            return _worldMap.Cells[id];
+            return (x + _worldMap.Size) + _worldMap.Width * (y + _worldMap.Size);
         }
 
-        public Cell GetCell(int x, int y)
+        public int PositionToId(int2 position)
         {
-            int cellId = PositionToId(new int2(x, y));
-
-            return GetCell(cellId);
+            return PositionToId(position.x, position.y);
         }
 
-        public Cell GetCell(int2 position)
+        public int2 IdToPosition(int id)
         {
-            return GetCell(position.x, position.y);
+            int x = id % _worldMap.Width - _worldMap.Size;
+            int y = id / _worldMap.Width - _worldMap.Size;
+
+            return new int2(x, y);
         }
     }
 }
