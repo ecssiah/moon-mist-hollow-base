@@ -13,9 +13,7 @@ namespace MMH
         public SimulationSettings SimulationSettings { get; set; }
 
 		public TimeSystem TimeSystem { get; set; }
-        
         public MapSystem MapSystem { get; set; }
-        
         public EntitySystem EntitySystem { get; set; }
 
         private int _tick;
@@ -40,11 +38,14 @@ namespace MMH
             TimeSystem = new TimeSystem();
             MapSystem = new MapSystem();
             EntitySystem = new EntitySystem();
+        }
 
+		void Start()
+		{
             TimeSystem.Init();
             MapSystem.Init();
             EntitySystem.Init();
-        }
+		}
 
 		void Update()
         {

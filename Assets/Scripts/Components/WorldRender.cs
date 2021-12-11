@@ -8,8 +8,6 @@ namespace MMH
 {
     public class WorldRender : MonoBehaviour
     {
-		private const float Z_OFFSET = 0.001f;
-
 		private Grid _grid;
 
         private Tilemap _overlayTilemap;
@@ -19,12 +17,14 @@ namespace MMH
         private Dictionary<OverlayType, Tile> _overlayTiles;
         private Dictionary<StructureType, Tile> _structureTiles;
         private Dictionary<GroundType, Tile> _groundTiles;
+		
+        private float _citizenZSpacing;
 
         private GameObject _citizenGameObject;
 
-        private Dictionary<Nation, GameObject> _nationPrefabs;
-
         private Dictionary<int, RenderData> _citizenRenderData;
+
+        private Dictionary<Nation, GameObject> _nationPrefabs;
 
         void Awake()
 	    {
@@ -44,6 +44,8 @@ namespace MMH
             _overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             _structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
             _groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+
+            _citizenZSpacing = 0.001f;
 
             _citizenGameObject = GameObject.Find("Citizens");
 
@@ -112,7 +114,7 @@ namespace MMH
             RenderData renderData = new RenderData();
 
             Vector3 startPosition = GridToWorld(citizen.Position);
-            startPosition.z = citizen.Id * Z_OFFSET;
+            startPosition.z = citizen.Id * _citizenZSpacing;
 
             renderData.WorldGameObject = Instantiate(
                 _nationPrefabs[citizen.Nation], 
@@ -141,14 +143,14 @@ namespace MMH
         private IEnumerator MoveCitizen(Citizen citizen)
 		{
             float timer = 0;
-            float duration = GameManager.Instance.SimulationSettings.TickDuration * citizen.Cooldown;
+            float duration = citizen.Cooldown * GameManager.Instance.SimulationSettings.TickDuration;
 
             RenderData renderData = _citizenRenderData[citizen.Id];
 
             Vector3 startPosition = renderData.WorldGameObject.transform.position;
 
             Vector3 endPosition = GridToWorld(citizen.Position);
-            endPosition.z = citizen.Id * Z_OFFSET;
+            endPosition.z = citizen.Id * _citizenZSpacing;
 
             PlayAnimation(citizen, CitizenAnimationType.Walk);
             

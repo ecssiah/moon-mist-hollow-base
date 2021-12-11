@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MMH
 {
@@ -11,11 +12,10 @@ namespace MMH
 
 		public override void Init()
 		{
+            GameManager.OnTick += Tick;
             UserInterface.OnUpdateMovementState += UpdateMovementState;
         
             CreateCitizens();
-
-            GameManager.OnTick += Tick;
         }
 
         void CreateCitizens()
@@ -36,6 +36,14 @@ namespace MMH
 				OnCreateCitizen?.Invoke(this, new OnCitizenEventArgs { Citizen = newCitizen });
 			}
 		}
+
+        public override void Tick(object sender, OnTickArgs eventArgs)
+		{
+            foreach (Citizen citizen in _citizenList)
+			{
+                citizen.Tick();
+			}
+		}
         
         public void UpdateMovementState(object sender, OnUpdateMovementStateArgs eventArgs)
 		{
@@ -45,17 +53,10 @@ namespace MMH
             }
 		}
 
-        public override void Tick(object sender, OnTickArgs eventArgs)
-		{
-            foreach (Citizen citizen in _citizenList)
-			{
-                citizen.Tick();
-			}
-		}
-
         public override void Quit()
 		{
             GameManager.OnTick -= Tick;
-		}
+            UserInterface.OnUpdateMovementState += UpdateMovementState;
+        }
     }
 }

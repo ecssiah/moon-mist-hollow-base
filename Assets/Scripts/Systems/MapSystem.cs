@@ -58,25 +58,25 @@ namespace MMH
                 _worldMap.Cells.Add(cell);
             }
 
-            SetCell(0, 0, OverlayType.Outline1);
-            SetCell(0, 20, StructureType.Wall1);
-            SetCell(14, 14, StructureType.Wall2);
-            SetCell(20, 0, StructureType.Wall1);
-            SetCell(14, -14, StructureType.Wall2);
-            SetCell(0, -20, StructureType.Wall1);
-            SetCell(-14, -14, StructureType.Wall2);
-            SetCell(-20, 0, StructureType.Wall1);
-            SetCell(-14, 14, StructureType.Wall2);
+            SetCell(+4, +4, StructureType.Wall1);
+            SetCell(+4, +2, StructureType.Wall1);
+            SetCell(+4, +0, StructureType.Wall2);
+            SetCell(+4, -2, StructureType.Wall1);
 
-            SetCell(4, 4, StructureType.Wall1);
-            SetCell(4, -4, StructureType.Wall1);
-            SetCell(-4, 4, StructureType.Wall1);
+            SetCell(+4, -4, StructureType.Wall1);
+            SetCell(+2, -4, StructureType.Wall1);
+            SetCell(+0, -4, StructureType.Wall2);
+            SetCell(-2, -4, StructureType.Wall1);
+
             SetCell(-4, -4, StructureType.Wall1);
-
-            SetCell(4, 0, StructureType.Wall2);
-            SetCell(-4, 0, StructureType.Wall2);
-            SetCell(0, 4, StructureType.Wall2);
-            SetCell(0, -4, StructureType.Wall2);
+            SetCell(-4, -2, StructureType.Wall1);
+            SetCell(-4, +0, StructureType.Wall2);
+            SetCell(-4, +2, StructureType.Wall1);
+            
+            SetCell(-4, +4, StructureType.Wall1);
+            SetCell(-2, +4, StructureType.Wall1);
+            SetCell(+0, +4, StructureType.Wall2);
+            SetCell(+2, +4, StructureType.Wall1);
         }
 
         public int PositionToId(int x, int y)

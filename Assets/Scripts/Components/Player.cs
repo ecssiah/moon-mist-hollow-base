@@ -5,12 +5,12 @@ namespace MMH
 {
 	public class Player : MonoBehaviour
 	{
-		private float _panSpeed;
-		private float _zoomSpeed;
-
 		private Camera _camera;
 
 		private PlayerInputActions _playerInputActions;
+
+		private float _panSpeed;
+		private float _zoomSpeed;
 
 		private InputAction _pan;
 		private InputAction _zoom;
@@ -22,23 +22,23 @@ namespace MMH
 
 			_camera = GameObject.Find("Player").GetComponentInChildren<Camera>();
 			_camera.transform.position = new Vector3(0, 0, -10);
+			_camera.orthographicSize = 6f;
 
 			_panSpeed = 8.0f;
 			_zoomSpeed = 8.0f;
+
+			_pan = _playerInputActions.Player.Pan;
+			_zoom = _playerInputActions.Player.Zoom;
+			_select = _playerInputActions.Player.Select;
+			
+			_select.performed += Select;
 		}
 
 		void OnEnable()
 		{
-			_pan = _playerInputActions.Player.Pan;
 			_pan.Enable();
-
-			_zoom = _playerInputActions.Player.Zoom;
 			_zoom.Enable();
-
-			_select = _playerInputActions.Player.Select;
 			_select.Enable();
-
-			_select.performed += Select;
 		}
 
 		void OnDisable()
