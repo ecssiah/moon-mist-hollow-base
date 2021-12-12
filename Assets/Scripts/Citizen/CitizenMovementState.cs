@@ -4,7 +4,10 @@ namespace MMH
 	{
 		protected Citizen _citizen;
 
-		public CitizenMovementState(Citizen citizen) => _citizen = citizen;
+		public CitizenMovementState(Citizen citizen)
+		{
+			_citizen = citizen;
+		}
 		
 		public abstract void Tick();
 	}
