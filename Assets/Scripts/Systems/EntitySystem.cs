@@ -42,7 +42,7 @@ namespace MMH
 			}
 		}
 
-        public override void Tick(object sender, OnTickArgs eventArgs)
+        protected override void Tick(object sender, OnTickArgs eventArgs)
         {
             foreach (Citizen citizen in _citizenList)
             {
@@ -56,7 +56,7 @@ namespace MMH
             UserInterface.OnUpdateMovementState -= UpdateMovementState;
         }
         
-        public void UpdateMovementState(object sender, OnUpdateMovementStateArgs eventArgs)
+        private void UpdateMovementState(object sender, OnUpdateMovementStateArgs eventArgs)
 		{
             foreach (Citizen citizen in _citizenList)
 			{

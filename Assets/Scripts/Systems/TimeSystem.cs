@@ -14,7 +14,7 @@ namespace MMH
 			GameManager.OnTick += Tick;
 		}
 
-		public override void Tick(object sender, OnTickArgs eventArgs)
+		protected override void Tick(object sender, OnTickArgs eventArgs)
 		{
 
 		}

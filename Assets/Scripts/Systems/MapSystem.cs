@@ -13,6 +13,7 @@ namespace MMH
 		public override void Init()
 		{
             SetupEvents();
+
             GenerateWorldMap();
         }
 
@@ -20,6 +21,7 @@ namespace MMH
         {
             GameManager.OnTick += Tick;
         }
+
 
         private void GenerateWorldMap()
         {
@@ -63,7 +65,7 @@ namespace MMH
             OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
 
-        public override void Tick(object sender, OnTickArgs eventArgs)
+        protected override void Tick(object sender, OnTickArgs eventArgs)
 		{
 
 		}
@@ -72,7 +74,6 @@ namespace MMH
 		{
             GameManager.OnTick -= Tick;
 		}
-
         
         public Cell GetCell(int id)
         {

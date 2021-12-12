@@ -30,15 +30,6 @@ namespace MMH
             SetupResources();
         }
 
-        private void OnDisable()
-        {
-            MapSystem.OnUpdateMapRender -= UpdateMapRender;
-            EntitySystem.OnCreateCitizen -= CreateCitizenRenderData;
-
-            Citizen.OnUpdateCitizenRenderDirection -= UpdateCitizenRenderDirection;
-            Citizen.OnUpdateCitizenRenderPosition -= UpdateCitizenRenderPosition;
-        }
-
         private void SetupResources()
 		{
             _grid = GameObject.Find("Grid").GetComponent<Grid>();
@@ -87,6 +78,15 @@ namespace MMH
 
             Citizen.OnUpdateCitizenRenderDirection += UpdateCitizenRenderDirection;
             Citizen.OnUpdateCitizenRenderPosition += UpdateCitizenRenderPosition;
+        }
+
+        private void OnDisable()
+        {
+            MapSystem.OnUpdateMapRender -= UpdateMapRender;
+            EntitySystem.OnCreateCitizen -= CreateCitizenRenderData;
+
+            Citizen.OnUpdateCitizenRenderDirection -= UpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition -= UpdateCitizenRenderPosition;
         }
 
 		private void UpdateMapRender(object sender, OnMapEventArgs eventArgs)
