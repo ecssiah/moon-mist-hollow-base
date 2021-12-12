@@ -9,9 +9,9 @@ namespace MMH
 		public float TickDuration = 0.2f;
 
 		[Header("Map")]
-		public int WorldMapSize = 32;
+		public int WorldMapSize = 24;
 
 		[Header("Citizen")]
-		public int NumberOfCitizens = 800;
+		public int NumberOfCitizens = 400;
 	}
 }
