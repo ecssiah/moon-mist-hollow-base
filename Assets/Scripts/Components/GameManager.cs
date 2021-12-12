@@ -33,17 +33,6 @@ namespace MMH
             EntitySystem = new EntitySystem();
         }
 
-        private void EnforceSingleInstance()
-		{
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
-        }
 
 		void Start()
 		{
@@ -71,6 +60,18 @@ namespace MMH
             TimeSystem.Quit();
             MapSystem.Quit();
             EntitySystem.Quit();
+        }
+
+        private void EnforceSingleInstance()
+		{
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
         }
 	}
 }

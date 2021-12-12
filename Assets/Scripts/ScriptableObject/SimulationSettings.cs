@@ -6,12 +6,12 @@ namespace MMH
 	public class SimulationSettings : ScriptableObject
 	{
 		[Header("Time")]
-		public float TickDuration;
+		public float TickDuration = 0.2f;
 
 		[Header("Map")]
-		public int WorldMapSize;
+		public int WorldMapSize = 32;
 
 		[Header("Citizen")]
-		public int NumberOfCitizens;
+		public int NumberOfCitizens = 800;
 	}
 }

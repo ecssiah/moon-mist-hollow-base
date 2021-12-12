@@ -57,11 +57,6 @@ namespace MMH
             OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
 
-        public List<Cell> GetCells()
-		{
-            return _worldMap.Cells;
-		}
-
         public Cell GetCell(int id)
         {
             if (id >= _worldMap.Area) return null;
@@ -172,8 +167,8 @@ namespace MMH
 
             return cellPosition;
 		}
-        
-        public bool OnMap(int x, int y)
+
+		public bool OnMap(int x, int y)
 		{
             bool insideHorizontalLimits = x >= -_worldMap.Size && x <= _worldMap.Size;
             bool insideVerticalLimits = y >= -_worldMap.Size && y <= _worldMap.Size;
@@ -231,6 +226,14 @@ namespace MMH
             return false;
         }
 
+        public int2 IdToPosition(int id)
+        {
+            int x = id % _worldMap.Width - _worldMap.Size;
+            int y = id / _worldMap.Width - _worldMap.Size;
+
+            return new int2(x, y);
+        }
+
         public int PositionToId(int x, int y)
         {
             return (x + _worldMap.Size) + _worldMap.Width * (y + _worldMap.Size);
@@ -239,14 +242,6 @@ namespace MMH
         public int PositionToId(int2 position)
         {
             return PositionToId(position.x, position.y);
-        }
-
-        public int2 IdToPosition(int id)
-        {
-            int x = id % _worldMap.Width - _worldMap.Size;
-            int y = id / _worldMap.Width - _worldMap.Size;
-
-            return new int2(x, y);
         }
     }
 }

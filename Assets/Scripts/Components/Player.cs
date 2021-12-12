@@ -87,12 +87,12 @@ namespace MMH
 
 		private void PrimaryAction(InputAction.CallbackContext callbackContext)
 		{
-			Debug.Log($"Primary Action: {callbackContext}");
+			Debug.Log($"Primary Action Fired");
 		}
 
 		private void SecondaryAction(InputAction.CallbackContext callbackContext)
 		{
-			Debug.Log($"Secondary Action: {callbackContext}");
+			Debug.Log($"Secondary Action Fired");
 		}
 	}
 }

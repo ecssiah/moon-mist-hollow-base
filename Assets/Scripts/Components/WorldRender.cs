@@ -30,6 +30,15 @@ namespace MMH
             SetupResources();
         }
 
+        private void OnDisable()
+        {
+            MapSystem.OnUpdateMapRender -= UpdateMapRender;
+            EntitySystem.OnCreateCitizen -= CreateCitizenRenderData;
+
+            Citizen.OnUpdateCitizenRenderDirection -= UpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition -= UpdateCitizenRenderPosition;
+        }
+
         private void SetupResources()
 		{
             _grid = GameObject.Find("Grid").GetComponent<Grid>();
@@ -91,16 +100,7 @@ namespace MMH
                 _groundTilemap.SetTile(tilemapPosition, _groundTiles[cell.GroundType]);
             }
         }
-
-		private void OnDisable()
-		{
-            MapSystem.OnUpdateMapRender -= UpdateMapRender;
-			EntitySystem.OnCreateCitizen -= CreateCitizenRenderData;
-
-            Citizen.OnUpdateCitizenRenderDirection -= UpdateCitizenRenderDirection;
-            Citizen.OnUpdateCitizenRenderPosition -= UpdateCitizenRenderPosition;
-		}
-
+		
         private void CreateCitizenRenderData(object sender, OnCitizenEventArgs eventArgs)
         {
             Citizen citizen = eventArgs.Citizen;
@@ -149,11 +149,11 @@ namespace MMH
             
             while (timer < duration)
 			{
+                timer += Time.deltaTime;
+
                 Vector3 newPosition = Vector3.Lerp(startPosition, endPosition, timer / duration);
                 
                 citizenRenderData.WorldGameObject.transform.position = newPosition;
-                
-                timer += Time.deltaTime;
 
                 yield return null;
 			}
