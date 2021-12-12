@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace MMH
 {
@@ -12,8 +12,24 @@ namespace MMH
 
 		public override void Init()
 		{
+            SetupEvents();
             GenerateWorldMap();
         }
+
+        public override void Tick(object sender, OnTickArgs eventArgs)
+		{
+
+		}
+
+        public override void Quit()
+		{
+            GameManager.OnTick -= Tick;
+		}
+
+        private void SetupEvents()
+		{
+            GameManager.OnTick += Tick;
+		}
 
         private void GenerateWorldMap()
         {
