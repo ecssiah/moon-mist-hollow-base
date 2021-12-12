@@ -18,7 +18,7 @@ namespace MMH
 	    {
             _rulesDropdown = GameObject.Find("Movement Rules/Dropdown").GetComponent<TMP_Dropdown>();
 
-            List<string> rulesOptions = new List<string>
+            var rulesOptions = new List<string>
             {
                 CitizenMovementStateType.Idle.ToString(),
                 CitizenMovementStateType.Wander.ToString(),
@@ -32,7 +32,7 @@ namespace MMH
 
         private void OnRuleChange(int value)
 		{
-            OnUpdateMovementStateArgs eventArgs = new OnUpdateMovementStateArgs
+            var eventArgs = new OnUpdateMovementStateArgs
             {
                 CitizenMovementStateType = (CitizenMovementStateType)value
             };

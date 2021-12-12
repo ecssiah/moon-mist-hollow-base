@@ -28,7 +28,7 @@ namespace MMH
 
 			for (int i = 0; i < GameManager.Instance.SimulationSettings.NumberOfCitizens; i++)
 			{
-				Citizen newCitizen = new Citizen()
+				var newCitizen = new Citizen()
 				{
                     Nation = Utils.RandomEnumValue<Nation>(),
                     Direction = Utils.RandomEnumValue<Direction>(),

@@ -2,10 +2,7 @@ namespace MMH
 {
 	public class CitizenIdle : CitizenMovementState
 	{
-		public CitizenIdle(Citizen citizen)
-		{
-			_citizen = citizen;
-		}
+		public CitizenIdle(Citizen citizen) : base(citizen) { }
 
 		public override void Tick()
 		{
