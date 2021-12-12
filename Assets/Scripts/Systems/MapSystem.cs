@@ -16,20 +16,10 @@ namespace MMH
             GenerateWorldMap();
         }
 
-        public override void Tick(object sender, OnTickArgs eventArgs)
-		{
-
-		}
-
-        public override void Quit()
-		{
-            GameManager.OnTick -= Tick;
-		}
-
         private void SetupEvents()
-		{
+        {
             GameManager.OnTick += Tick;
-		}
+        }
 
         private void GenerateWorldMap()
         {
@@ -73,6 +63,17 @@ namespace MMH
             OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
 
+        public override void Tick(object sender, OnTickArgs eventArgs)
+		{
+
+		}
+
+        public override void Quit()
+		{
+            GameManager.OnTick -= Tick;
+		}
+
+        
         public Cell GetCell(int id)
         {
             if (id >= _worldMap.Area) return null;

@@ -17,27 +17,13 @@ namespace MMH
             CreateCitizens();
         }
 
-        public override void Tick(object sender, OnTickArgs eventArgs)
-        {
-            foreach (Citizen citizen in _citizenList)
-            {
-                citizen.Tick();
-            }
-        }
-
-        public override void Quit()
-        {
-            GameManager.OnTick -= Tick;
-            UserInterface.OnUpdateMovementState -= UpdateMovementState;
-        }
-
         private void SetupEvents()
 		{
             GameManager.OnTick += Tick;
             UserInterface.OnUpdateMovementState += UpdateMovementState;
 		}
 
-        void CreateCitizens()
+        private void CreateCitizens()
         {
             _citizenList = new List<Citizen>();
 
@@ -56,6 +42,19 @@ namespace MMH
 			}
 		}
 
+        public override void Tick(object sender, OnTickArgs eventArgs)
+        {
+            foreach (Citizen citizen in _citizenList)
+            {
+                citizen.Tick();
+            }
+        }
+
+        public override void Quit()
+        {
+            GameManager.OnTick -= Tick;
+            UserInterface.OnUpdateMovementState -= UpdateMovementState;
+        }
         
         public void UpdateMovementState(object sender, OnUpdateMovementStateArgs eventArgs)
 		{
@@ -64,7 +63,5 @@ namespace MMH
                 citizen.SetMovementState(eventArgs.CitizenMovementStateType);
             }
 		}
-
-        
     }
 }
