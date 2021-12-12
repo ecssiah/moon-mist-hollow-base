@@ -10,11 +10,11 @@ namespace MMH
 
         public static event EventHandler<OnTickArgs> OnTick;
 
-        public SimulationSettings SimulationSettings { get; set; }
+        public SimulationSettings SimulationSettings { get; private set; }
 
-		public TimeSystem TimeSystem { get; set; }
-        public MapSystem MapSystem { get; set; }
-        public EntitySystem EntitySystem { get; set; }
+		public TimeSystem TimeSystem { get; private set; }
+        public MapSystem MapSystem { get; private set; }
+        public EntitySystem EntitySystem { get; private set; }
 
         private int _tick;
         private float _tickTimer;
