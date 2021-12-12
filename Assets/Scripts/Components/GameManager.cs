@@ -5,8 +5,7 @@ namespace MMH
 {
     public class GameManager : MonoBehaviour
     {
-        private static GameManager _instance;
-        public static GameManager Instance { get => _instance; }
+        public static GameManager Instance { get; private set; }
 
         public static event EventHandler<OnTickArgs> OnTick;
 
@@ -33,6 +32,17 @@ namespace MMH
             EntitySystem = new EntitySystem();
         }
 
+        private void EnforceSingleInstance()
+		{
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
 
 		void Start()
 		{
@@ -60,18 +70,6 @@ namespace MMH
             TimeSystem.Quit();
             MapSystem.Quit();
             EntitySystem.Quit();
-        }
-
-        private void EnforceSingleInstance()
-		{
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
         }
 	}
 }
