@@ -27,29 +27,27 @@ namespace MMH
         void Awake()
 	    {
             SetupEvents();
-            SetupResources();
 
-            SetAnimationClipFramerates();
+            SetupTilemapResources();
+            SetupCitizenResources();
+        }
+        
+        private void SetupEvents()
+        {
+            MapSystem.OnUpdateMapRender += UpdateMapRender;
+            EntitySystem.OnCreateCitizen += CreateCitizenRenderData;
+
+            Citizen.OnUpdateCitizenRenderDirection += UpdateCitizenRenderDirection;
+            Citizen.OnUpdateCitizenRenderPosition += UpdateCitizenRenderPosition;
         }
 
-        private void SetupResources()
+        private void SetupTilemapResources()
 		{
             _grid = GameObject.Find("Grid").GetComponent<Grid>();
 
             _overlayTilemap = GameObject.Find("Overlay").GetComponent<Tilemap>();
             _structureTilemap = GameObject.Find("Structures").GetComponent<Tilemap>();
             _groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
-
-            _citizenGameObject = GameObject.Find("Citizens");
-
-            _citizenRenderData = new Dictionary<int, CitizenRenderData>();
-
-            _nationPrefabs = new Dictionary<Nation, GameObject>
-            {
-                [Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
-                [Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
-                [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
-            };
 
             _overlayTiles = new Dictionary<OverlayType, Tile>
             {
@@ -73,8 +71,19 @@ namespace MMH
             };
         }
 
-        private void SetAnimationClipFramerates()
+        private void SetupCitizenResources()
 		{
+            _citizenGameObject = GameObject.Find("Citizens");
+
+            _citizenRenderData = new Dictionary<int, CitizenRenderData>();
+
+            _nationPrefabs = new Dictionary<Nation, GameObject>
+            {
+                [Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
+                [Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
+                [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
+            };
+
             AnimationClip[] guyAnimationClips = _nationPrefabs[Nation.Guys].GetComponent<Animator>().runtimeAnimatorController.animationClips;
 
             foreach (AnimationClip clip in guyAnimationClips)
@@ -95,15 +104,6 @@ namespace MMH
             {
                 clip.frameRate = 16;
             }
-        }
-
-        private void SetupEvents()
-		{
-            MapSystem.OnUpdateMapRender += UpdateMapRender;
-            EntitySystem.OnCreateCitizen += CreateCitizenRenderData;
-
-            Citizen.OnUpdateCitizenRenderDirection += UpdateCitizenRenderDirection;
-            Citizen.OnUpdateCitizenRenderPosition += UpdateCitizenRenderPosition;
         }
 
         private void OnDisable()
