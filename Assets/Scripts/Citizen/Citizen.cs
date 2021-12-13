@@ -11,16 +11,16 @@ namespace MMH
 		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenRenderDirection;
 		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenRenderPosition;
 
-		private readonly Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
-
-		private CitizenMovementState _currentMovementState;
-
 		public int Id { get; }
+		public int Cooldown { get; set; }
 		public Direction Direction { get; set; }
 		public int2 Position { get; set; }
 		public Nation Nation { get; set; }
-		public CitizenAttributes Attributes { get; }
-		public int Cooldown { get; set; }
+		public CitizenAttributes Attributes { get; set; }
+		
+		private readonly Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
+
+		private CitizenMovementState _currentMovementState;
 
 		public Citizen()
 		{
@@ -56,6 +56,11 @@ namespace MMH
 			return Cooldown <= 0;
 		}
 
+		public void SetMovementState(CitizenMovementStateType citizenMovementStateType)
+		{
+			_currentMovementState = _movementStates[citizenMovementStateType];
+		}
+
 		public void UpdateRenderDirection()
 		{
 			OnUpdateCitizenRenderDirection?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
@@ -64,11 +69,6 @@ namespace MMH
 		public void UpdateRenderPosition()
 		{
 			OnUpdateCitizenRenderPosition?.Invoke(this, new OnCitizenEventArgs { Citizen = this });
-		}
-
-		public void SetMovementState(CitizenMovementStateType citizenMovementStateType)
-		{
-			_currentMovementState = _movementStates[citizenMovementStateType];
 		}
 	}
 }

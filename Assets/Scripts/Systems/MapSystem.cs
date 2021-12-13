@@ -19,13 +19,13 @@ namespace MMH
 
         private void SetupEvents()
         {
-            GameManager.OnTick += Tick;
+            SimulationManager.OnTick += Tick;
         }
 
 
         private void GenerateWorldMap()
         {
-            _worldMap = new WorldMap(GameManager.Instance.SimulationSettings.WorldMapSize);
+            _worldMap = new WorldMap(SimulationManager.Instance.SimulationSettings.WorldMapSize);
 
             for (int id = 0; id < _worldMap.Area; id++)
             {
@@ -72,7 +72,7 @@ namespace MMH
 
         public override void Quit()
 		{
-            GameManager.OnTick -= Tick;
+            SimulationManager.OnTick -= Tick;
 		}
         
         public Cell GetCell(int id)

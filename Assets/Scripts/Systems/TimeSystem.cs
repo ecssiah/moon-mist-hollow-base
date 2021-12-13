@@ -11,7 +11,7 @@ namespace MMH
 
 		private void SetupEvents()
 		{
-			GameManager.OnTick += Tick;
+			SimulationManager.OnTick += Tick;
 		}
 
 		protected override void Tick(object sender, OnTickArgs eventArgs)
@@ -21,7 +21,7 @@ namespace MMH
 
 		public override void Quit()
 		{
-			GameManager.OnTick -= Tick;
+			SimulationManager.OnTick -= Tick;
 		}
 	}
 }

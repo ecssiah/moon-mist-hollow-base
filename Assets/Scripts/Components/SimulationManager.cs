@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class GameManager : MonoBehaviour
+    public class SimulationManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
+        public static SimulationManager Instance { get; private set; }
 
         public static event EventHandler<OnTickArgs> OnTick;
 

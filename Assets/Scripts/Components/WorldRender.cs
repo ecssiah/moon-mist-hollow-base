@@ -162,7 +162,7 @@ namespace MMH
 		private IEnumerator MoveCitizen(Citizen citizen)
 		{
             float timer = 0;
-            float duration = citizen.Cooldown * GameManager.Instance.SimulationSettings.TickDuration;
+            float duration = citizen.Cooldown * SimulationManager.Instance.SimulationSettings.TickDuration;
 
             CitizenRenderData citizenRenderData = _citizenRenderData[citizen.Id];
 

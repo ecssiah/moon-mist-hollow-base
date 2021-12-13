@@ -19,7 +19,7 @@ namespace MMH
 
         private void SetupEvents()
 		{
-            GameManager.OnTick += Tick;
+            SimulationManager.OnTick += Tick;
             UserInterface.OnUpdateMovementState += UpdateMovementState;
 		}
 
@@ -27,13 +27,13 @@ namespace MMH
         {
             _citizenList = new List<Citizen>();
 
-			for (int i = 0; i < GameManager.Instance.SimulationSettings.NumberOfCitizens; i++)
+			for (int i = 0; i < SimulationManager.Instance.SimulationSettings.NumberOfCitizens; i++)
 			{
 				var newCitizen = new Citizen()
 				{
                     Nation = Utils.RandomEnumValue<Nation>(),
                     Direction = Utils.RandomEnumValue<Direction>(),
-					Position = GameManager.Instance.MapSystem.GetOpenCellPosition()
+					Position = SimulationManager.Instance.MapSystem.GetOpenCellPosition()
 				};
 
 				_citizenList.Add(newCitizen);
@@ -52,7 +52,7 @@ namespace MMH
 
         public override void Quit()
         {
-            GameManager.OnTick -= Tick;
+            SimulationManager.OnTick -= Tick;
             UserInterface.OnUpdateMovementState -= UpdateMovementState;
         }
         
