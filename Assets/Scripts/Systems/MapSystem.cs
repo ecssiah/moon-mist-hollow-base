@@ -212,33 +212,28 @@ namespace MMH
                 direction == Direction.SS
             );
 
-            if (cardinalMove)
-			{
-                return true;
-			}
-            else
-			{
-                bool eastPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.EE]);
-                bool northPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.NN]);
-                bool westPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.WW]);
-                bool southPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.SS]);
+			if (cardinalMove) return true;
+            
+            bool eastPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.EE]);
+            bool northPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.NN]);
+            bool westPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.WW]);
+            bool southPassable = !IsSolid(startPosition + MapInfo.DirectionVectors[Direction.SS]);
 
-                if (direction == Direction.NE)
-				{
-                    return northPassable && eastPassable;
-				}
-                else if (direction == Direction.NW)
-				{
-                    return northPassable && westPassable;
-				}
-                else if (direction == Direction.SE)
-				{
-                    return southPassable && eastPassable;
-				}
-                else if (direction == Direction.SW)
-				{
-                    return southPassable && westPassable;
-				}
+            if (direction == Direction.NE)
+			{
+                return northPassable && eastPassable;
+			}
+            else if (direction == Direction.NW)
+			{
+                return northPassable && westPassable;
+			}
+            else if (direction == Direction.SE)
+			{
+                return southPassable && eastPassable;
+			}
+            else if (direction == Direction.SW)
+			{
+                return southPassable && westPassable;
 			}
 
             return false;

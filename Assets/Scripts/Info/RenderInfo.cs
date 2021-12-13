@@ -8,6 +8,6 @@ namespace MMH
 
     public static class RenderInfo
     {
-        public static float CitizenZSpacing = 0.001f;
+        public static float CitizenZSpacing = 0.00001f;
     }
 }
