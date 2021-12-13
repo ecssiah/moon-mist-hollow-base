@@ -170,22 +170,6 @@ namespace MMH
             return IsSolid(position.x, position.y);
         }
 
-        public int2 GetOpenCellPosition()
-		{
-            int2 cellPosition;
-
-            do
-            {
-                cellPosition = new int2(
-                    UnityEngine.Random.Range(-_worldMap.Size, _worldMap.Size + 1),
-                    UnityEngine.Random.Range(-_worldMap.Size, _worldMap.Size + 1)
-                );
-            }
-            while (IsSolid(cellPosition));
-
-            return cellPosition;
-		}
-
 		public bool OnMap(int x, int y)
 		{
             bool insideHorizontalLimits = x >= -_worldMap.Size && x <= _worldMap.Size;
@@ -255,6 +239,22 @@ namespace MMH
         public int PositionToId(int2 position)
         {
             return PositionToId(position.x, position.y);
+        }
+
+        public int2 GetOpenCellPosition()
+        {
+            int2 cellPosition;
+
+            do
+            {
+                cellPosition = new int2(
+                    Utils.RandomRange(-_worldMap.Size, _worldMap.Size),
+                    Utils.RandomRange(-_worldMap.Size, _worldMap.Size)
+                );
+            }
+            while (IsSolid(cellPosition));
+
+            return cellPosition;
         }
     }
 }
