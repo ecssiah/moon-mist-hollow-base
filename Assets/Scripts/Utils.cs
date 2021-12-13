@@ -13,9 +13,11 @@ namespace MMH
 
 		public static T RandomEnumValue<T>()
 		{
-			var valuesArray = Enum.GetValues(typeof(T));
+			Array valuesArray = Enum.GetValues(typeof(T));
 
-			return (T)valuesArray.GetValue(_RandomInstance.Next(valuesArray.Length));
+			int randomEnumIndex = _RandomInstance.Next(valuesArray.Length);
+
+			return (T)valuesArray.GetValue(randomEnumIndex);
 		}
 	}
 }
