@@ -6,9 +6,17 @@ using UnityEngine.Tilemaps;
 
 namespace MMH
 {
+    public enum CitizenAnimationType
+    {
+        Idle,
+        Walk,
+    }
+
     public class WorldRender : MonoBehaviour
     {
-		private Grid _grid;
+        private RenderSettings _renderSettings;
+
+        private Grid _grid;
 
         private Tilemap _overlayTilemap;
         private Tilemap _structureTilemap;
@@ -26,6 +34,8 @@ namespace MMH
 
         void Awake()
 	    {
+            _renderSettings = Resources.Load<RenderSettings>("SOInstances/Render Settings");
+
             SetupEvents();
 
             SetupTilemapResources();
@@ -133,7 +143,7 @@ namespace MMH
             CitizenRenderData citizenRenderData = new CitizenRenderData();
 
             Vector3 startPosition = GridToWorld(citizen.Position);
-            startPosition.z = citizen.Id * RenderInfo.CitizenZSpacing;
+            startPosition.z = citizen.Id * _renderSettings.CitizenSpacing;
 
             citizenRenderData.WorldGameObject = Instantiate(
                 _nationPrefabs[citizen.Nation], 
@@ -169,7 +179,7 @@ namespace MMH
             Vector3 startPosition = citizenRenderData.WorldGameObject.transform.position;
 
             Vector3 endPosition = GridToWorld(citizen.Position);
-            endPosition.z = citizen.Id * RenderInfo.CitizenZSpacing;
+            endPosition.z = citizen.Id * _renderSettings.CitizenSpacing;
 
             PlayAnimation(citizen, CitizenAnimationType.Walk);
             

@@ -3,41 +3,10 @@ using Unity.Mathematics;
 
 namespace MMH
 {
-    public enum GroundType
-    {
-        None,
-        Floor1,
-        Floor2,
-    }
-
-    public enum StructureType
-    {
-        None,
-        Wall1,
-        Wall2,
-    }
-
-    public enum OverlayType
-    {
-        None,
-        Outline1,
-        Outline2,
-    }
-
-    public enum Direction
-    {
-        EE,
-        NE,
-        NN,
-        NW,
-        WW,
-        SW,
-        SS,
-        SE,
-    }
-
 	public static class MapInfo
 	{
+        public static int WorldMapSize = 24;
+
         public static Dictionary<Direction, int2> DirectionVectors = new Dictionary<Direction, int2>
         {
             [Direction.EE] = new int2(+1, +0),
