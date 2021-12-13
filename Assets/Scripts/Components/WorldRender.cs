@@ -84,9 +84,9 @@ namespace MMH
                 [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
             };
 
-            Animator guyAnimator = _nationPrefabs[Nation.Guys].GetComponent<Animator>();
+            Animator guysAnimator = _nationPrefabs[Nation.Guys].GetComponent<Animator>();
 
-            foreach (AnimationClip clip in guyAnimator.runtimeAnimatorController.animationClips)
+            foreach (AnimationClip clip in guysAnimator.runtimeAnimatorController.animationClips)
             {
                 clip.frameRate = 16;
             }
