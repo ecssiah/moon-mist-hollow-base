@@ -5,10 +5,12 @@ namespace MMH
 {
 	public class Player : MonoBehaviour
 	{
-		private Camera _camera;
+		private RenderSettings _renderSettings;
 
 		private float _panSpeed;
 		private float _zoomSpeed;
+
+		private Camera _camera;
 
 		private PlayerInputActions _playerInputActions;
 
@@ -19,22 +21,21 @@ namespace MMH
 
 		void Awake()
 		{
+			_renderSettings = Resources.Load<RenderSettings>("SOInstances/Render Settings");
+
+			_panSpeed = _renderSettings.PanSpeed;
+			_zoomSpeed = _renderSettings.ZoomSpeed;
+			
 			_camera = GameObject.Find("Player").GetComponentInChildren<Camera>();
 			_camera.transform.position = new Vector3(0, 0, -10);
-			_camera.orthographicSize = 6f;
+			_camera.orthographicSize = _renderSettings.DefaultZoom;
 
-			_panSpeed = 8.0f;
-			_zoomSpeed = 8.0f;
-			
 			_playerInputActions = new PlayerInputActions();
 
 			_pan = _playerInputActions.Player.Pan;
 			_zoom = _playerInputActions.Player.Zoom;
 			_primary = _playerInputActions.Player.Primary;
 			_secondary = _playerInputActions.Player.Secondary;
-			
-			_primary.performed += PrimaryAction;
-			_secondary.performed += SecondaryAction;
 		}
 
 		void OnEnable()
@@ -43,14 +44,9 @@ namespace MMH
 			_zoom.Enable();
 			_primary.Enable();
 			_secondary.Enable();
-		}
 
-		void OnDisable()
-		{
-			_pan.Disable();
-			_zoom.Disable();
-			_primary.Disable();
-			_secondary.Disable();
+			_primary.performed += PrimaryAction;
+			_secondary.performed += SecondaryAction;
 		}
 
 		void Update()
@@ -82,7 +78,19 @@ namespace MMH
 				Time.deltaTime
 			);
 
-			_camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, 2f, 20f);
+			_camera.orthographicSize = Mathf.Clamp(
+				_camera.orthographicSize, 
+				_renderSettings.MinZoom, 
+				_renderSettings.MaxZoom
+			);
+		}
+
+		void OnDisable()
+		{
+			_pan.Disable();
+			_zoom.Disable();
+			_primary.Disable();
+			_secondary.Disable();
 		}
 
 		private void PrimaryAction(InputAction.CallbackContext callbackContext)
