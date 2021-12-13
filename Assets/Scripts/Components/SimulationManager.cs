@@ -9,8 +9,6 @@ namespace MMH
 
         public static event EventHandler<OnTickArgs> OnTick;
 
-        public SimulationSettings SimulationSettings { get; private set; }
-
 		public TimeSystem TimeSystem { get; private set; }
         public MapSystem MapSystem { get; private set; }
         public EntitySystem EntitySystem { get; private set; }
@@ -21,8 +19,6 @@ namespace MMH
         void Awake()
         {
             EnforceSingleInstance();
-
-            SimulationSettings = Resources.Load<SimulationSettings>("SOInstances/Simulation Settings");
 
             _tick = 0;
             _tickTimer = 0f;
@@ -55,11 +51,11 @@ namespace MMH
         {
             _tickTimer += Time.deltaTime;
 
-            if (_tickTimer >= SimulationSettings.TickDuration)
+            if (_tickTimer >= SimulationInfo.TickDuration)
             {
                 _tick++;
 
-                _tickTimer -= SimulationSettings.TickDuration;
+                _tickTimer -= SimulationInfo.TickDuration;
 
                 OnTick?.Invoke(this, new OnTickArgs { Tick = _tick });
             }

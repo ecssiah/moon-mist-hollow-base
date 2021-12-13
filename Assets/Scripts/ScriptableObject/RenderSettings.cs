@@ -9,9 +9,14 @@ namespace MMH
 		public float PanSpeed = 8f;
 		public float ZoomSpeed = 8f;
 
-		public float MaxZoom = 20f;
-		public float MinZoom = 2f;
-
+		[Space()]
+		
 		public float DefaultZoom = 6f;
+
+		[Space()]
+
+		public float MinZoom = 2f;
+		public float MaxZoom = 20f;
+
 	}
 }

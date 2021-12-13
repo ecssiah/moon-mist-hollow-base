@@ -25,7 +25,7 @@ namespace MMH
 
         private void GenerateWorldMap()
         {
-            _worldMap = new WorldMap(SimulationManager.Instance.SimulationSettings.WorldMapSize);
+            _worldMap = new WorldMap(SimulationInfo.WorldMapSize);
 
             for (int id = 0; id < _worldMap.Area; id++)
             {

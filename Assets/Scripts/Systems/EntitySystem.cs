@@ -27,7 +27,7 @@ namespace MMH
         {
             _citizenList = new List<Citizen>();
 
-			for (int i = 0; i < SimulationManager.Instance.SimulationSettings.NumberOfCitizens; i++)
+			for (int i = 0; i < SimulationInfo.TotalCitizens; i++)
 			{
 				var newCitizen = new Citizen()
 				{
