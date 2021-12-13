@@ -73,7 +73,7 @@ namespace MMH
 
         private void SetupCitizenResources()
 		{
-            _citizenGameObject = GameObject.Find("Citizens");
+            _citizenGameObject = GameObject.Find("World/Citizens");
 
             _citizenRenderData = new Dictionary<int, CitizenRenderData>();
 
@@ -84,23 +84,23 @@ namespace MMH
                 [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
             };
 
-            AnimationClip[] guyAnimationClips = _nationPrefabs[Nation.Guys].GetComponent<Animator>().runtimeAnimatorController.animationClips;
+            Animator guyAnimator = _nationPrefabs[Nation.Guys].GetComponent<Animator>();
 
-            foreach (AnimationClip clip in guyAnimationClips)
+            foreach (AnimationClip clip in guyAnimator.runtimeAnimatorController.animationClips)
             {
                 clip.frameRate = 16;
             }
 
-            AnimationClip[] kailtAnimationClips = _nationPrefabs[Nation.Kailt].GetComponent<Animator>().runtimeAnimatorController.animationClips;
+            Animator kailtAnimator = _nationPrefabs[Nation.Kailt].GetComponent<Animator>();
 
-            foreach (AnimationClip clip in kailtAnimationClips)
+            foreach (AnimationClip clip in kailtAnimator.runtimeAnimatorController.animationClips)
             {
                 clip.frameRate = 16;
             }
 
-            AnimationClip[] taylorAnimationClips = _nationPrefabs[Nation.Taylor].GetComponent<Animator>().runtimeAnimatorController.animationClips;
+            Animator taylorAnimator = _nationPrefabs[Nation.Taylor].GetComponent<Animator>();
 
-            foreach (AnimationClip clip in taylorAnimationClips)
+            foreach (AnimationClip clip in taylorAnimator.runtimeAnimatorController.animationClips)
             {
                 clip.frameRate = 16;
             }
@@ -191,9 +191,7 @@ namespace MMH
 		{
             CitizenRenderData citizenRenderData = _citizenRenderData[citizen.Id];
 
-            citizenRenderData.Animator.Play(
-                $"Base Layer.{citizen.Nation}-{animationType}-{citizen.Direction}"
-            );
+            citizenRenderData.Animator.Play($"Base Layer.{citizen.Nation}-{animationType}-{citizen.Direction}");
         }
 
         private Vector3 GridToWorld(int x, int y)
