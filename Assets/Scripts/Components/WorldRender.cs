@@ -28,6 +28,8 @@ namespace MMH
 	    {
             SetupEvents();
             SetupResources();
+
+            SetAnimationClipFramerates();
         }
 
         private void SetupResources()
@@ -69,6 +71,30 @@ namespace MMH
                 [GroundType.Floor1] = Resources.Load<Tile>("Tiles/floor-1"),
                 [GroundType.Floor2] = Resources.Load<Tile>("Tiles/floor-2"),
             };
+        }
+
+        private void SetAnimationClipFramerates()
+		{
+            AnimationClip[] guyAnimationClips = _nationPrefabs[Nation.Guys].GetComponent<Animator>().runtimeAnimatorController.animationClips;
+
+            foreach (AnimationClip clip in guyAnimationClips)
+            {
+                clip.frameRate = 16;
+            }
+
+            AnimationClip[] kailtAnimationClips = _nationPrefabs[Nation.Kailt].GetComponent<Animator>().runtimeAnimatorController.animationClips;
+
+            foreach (AnimationClip clip in kailtAnimationClips)
+            {
+                clip.frameRate = 16;
+            }
+
+            AnimationClip[] taylorAnimationClips = _nationPrefabs[Nation.Taylor].GetComponent<Animator>().runtimeAnimatorController.animationClips;
+
+            foreach (AnimationClip clip in taylorAnimationClips)
+            {
+                clip.frameRate = 16;
+            }
         }
 
         private void SetupEvents()
