@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class EntitySystem : GameSystem
+	public class EntitySystem : SimulationSystem
     {
         public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
 

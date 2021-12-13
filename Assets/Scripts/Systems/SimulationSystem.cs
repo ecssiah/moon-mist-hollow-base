@@ -1,6 +1,6 @@
 namespace MMH
 {
-	public class GameSystem
+	public class SimulationSystem
 	{
 		public virtual void Init() { }
 		protected virtual void Tick(object sender, OnTickArgs eventArgs) { }

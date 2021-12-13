@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MMH
 {
-    public class MapSystem : GameSystem
+    public class MapSystem : SimulationSystem
     {
         public static EventHandler<OnMapEventArgs> OnUpdateMapRender;
 

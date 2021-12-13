@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	public class TimeSystem : GameSystem
+	public class TimeSystem : SimulationSystem
 	{
 		public override void Init()
 		{
