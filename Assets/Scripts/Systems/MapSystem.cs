@@ -22,7 +22,6 @@ namespace MMH
             SimulationManager.OnTick += Tick;
         }
 
-
         private void GenerateWorldMap()
         {
             _worldMap = new WorldMap(MapInfo.WorldMapSize);
