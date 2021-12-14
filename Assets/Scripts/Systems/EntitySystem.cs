@@ -21,7 +21,7 @@ namespace MMH
         private void SetupEvents()
 		{
             SimulationManager.OnTick += Tick;
-            UserInterface.OnUpdateMovementState += UpdateMovementState;
+            Interface.OnUpdateMovementState += UpdateMovementState;
 		}
 
         private void CreateCitizens()
@@ -54,7 +54,7 @@ namespace MMH
         public override void Quit()
         {
             SimulationManager.OnTick -= Tick;
-            UserInterface.OnUpdateMovementState -= UpdateMovementState;
+            Interface.OnUpdateMovementState -= UpdateMovementState;
         }
         
         private void UpdateMovementState(object sender, OnUpdateMovementStateArgs eventArgs)

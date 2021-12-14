@@ -6,7 +6,7 @@ using TMPro;
 
 namespace MMH
 {
-	public class UserInterface : MonoBehaviour
+	public class Interface : MonoBehaviour
     {
         public static event EventHandler<OnUpdateMovementStateArgs> OnUpdateMovementState;
 

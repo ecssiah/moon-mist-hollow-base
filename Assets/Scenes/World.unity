@@ -1479,7 +1479,7 @@ GameObject:
   - component: {fileID: 862011854}
   - component: {fileID: 862011855}
   m_Layer: 0
-  m_Name: UserInterface
+  m_Name: Interface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
