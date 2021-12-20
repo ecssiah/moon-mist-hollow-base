@@ -43,11 +43,16 @@ namespace MMH
 
             SetCell(+0, +0, GroundType.Floor2);
 
-            SetCellLine(+4, +3, +4, -3, StructureType.Wall1);
-            SetCellLine(-4, +3, -4, -3, StructureType.Wall1);
-            SetCellLine(-3, +4, +3, +4, StructureType.Wall1);
-            SetCellLine(-3, -4, +3, -4, StructureType.Wall1);
-            
+            SetCell(+6, +6, StructureType.Wall2);
+            SetCell(+6, -6, StructureType.Wall2);
+            SetCell(-6, -6, StructureType.Wall2);
+            SetCell(-6, +6, StructureType.Wall2);
+
+            SetCellLine(-6, +3, -6, -3, StructureType.Wall1);
+            SetCellLine(+6, +3, +6, -3, StructureType.Wall1);
+            SetCellLine(-3, +6, +3, +6, StructureType.Wall1);
+            SetCellLine(+3, -6, -3, -6, StructureType.Wall1);
+
             OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
 
@@ -125,6 +130,20 @@ namespace MMH
 
         private void SetCellLine(int x1, int y1, int x2, int y2, GroundType groundType)
 		{
+            if (x1 > x2)
+			{
+                var temp = x1;
+                x1 = x2;
+                x2 = temp;
+			}
+
+            if (y1 > y2)
+			{
+                var temp = y1;
+                y1 = y2;
+                y2 = temp;
+			}
+
             for (int x = x1; x <= x2; x++)
 			{
                 for (int y = y1; y <= y2; y++)
@@ -136,6 +155,20 @@ namespace MMH
 
         private void SetCellLine(int x1, int y1, int x2, int y2, StructureType structureType)
         {
+            if (x1 > x2)
+            {
+                var temp = x1;
+                x1 = x2;
+                x2 = temp;
+            }
+
+            if (y1 > y2)
+            {
+                var temp = y1;
+                y1 = y2;
+                y2 = temp;
+            }
+
             for (int x = x1; x <= x2; x++)
             {
                 for (int y = y1; y <= y2; y++)
@@ -147,6 +180,20 @@ namespace MMH
 
         private void SetCellLine(int x1, int y1, int x2, int y2, OverlayType overlayType)
         {
+            if (x1 > x2)
+            {
+                var temp = x1;
+                x1 = x2;
+                x2 = temp;
+            }
+
+            if (y1 > y2)
+            {
+                var temp = y1;
+                y1 = y2;
+                y2 = temp;
+            }
+
             for (int x = x1; x <= x2; x++)
             {
                 for (int y = y1; y <= y2; y++)

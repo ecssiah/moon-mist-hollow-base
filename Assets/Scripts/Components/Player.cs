@@ -21,7 +21,7 @@ namespace MMH
 
 		void Awake()
 		{
-			_renderSettings = Resources.Load<RenderSettings>("SOInstances/Render Settings");
+			_renderSettings = Resources.Load<RenderSettings>("Settings/RenderSettings");
 
 			_panSpeed = _renderSettings.PanSpeed;
 			_zoomSpeed = _renderSettings.ZoomSpeed;
