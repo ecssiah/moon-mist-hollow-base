@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace MMH
 {
-	public class Player : MonoBehaviour
+	public class User : MonoBehaviour
 	{
 		private RenderSettings _renderSettings;
 
@@ -26,7 +26,7 @@ namespace MMH
 			_panSpeed = _renderSettings.PanSpeed;
 			_zoomSpeed = _renderSettings.ZoomSpeed;
 			
-			_camera = GameObject.Find("Player").GetComponentInChildren<Camera>();
+			_camera = GameObject.Find("User").GetComponentInChildren<Camera>();
 			_camera.transform.position = new Vector3(0, 0, -10);
 			_camera.orthographicSize = _renderSettings.DefaultZoom;
 
