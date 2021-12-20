@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 488452714}
   - component: {fileID: 488452713}
   m_Layer: 0
-  m_Name: Global Light
+  m_Name: GlobalLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1523,7 +1523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1070941962}
   m_Layer: 0
-  m_Name: Movement Rules
+  m_Name: MovementRules
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2367,7 +2367,7 @@ GameObject:
   - component: {fileID: 1803052491}
   - component: {fileID: 1803052490}
   m_Layer: 0
-  m_Name: Lower Right
+  m_Name: LowerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

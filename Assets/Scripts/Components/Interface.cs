@@ -16,7 +16,7 @@ namespace MMH
 
         void Awake()
 	    {
-            _rulesDropdown = GameObject.Find("Movement Rules/Dropdown").GetComponent<TMP_Dropdown>();
+            _rulesDropdown = GameObject.Find("MovementRules/Dropdown").GetComponent<TMP_Dropdown>();
 
             var rulesOptions = new List<string>
             {

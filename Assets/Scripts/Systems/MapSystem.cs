@@ -41,26 +41,13 @@ namespace MMH
                 _worldMap.Cells.Add(cell);
             }
 
-            SetCell(+4, +4, StructureType.Wall2);
-            SetCell(+4, +2, StructureType.Wall1);
-            SetCell(+4, +0, StructureType.Wall2);
-            SetCell(+4, -2, StructureType.Wall1);
+            SetCell(+0, +0, GroundType.Floor2);
 
-            SetCell(+4, -4, StructureType.Wall2);
-            SetCell(+2, -4, StructureType.Wall1);
-            SetCell(+0, -4, StructureType.Wall2);
-            SetCell(-2, -4, StructureType.Wall1);
-
-            SetCell(-4, -4, StructureType.Wall2);
-            SetCell(-4, -2, StructureType.Wall1);
-            SetCell(-4, +0, StructureType.Wall2);
-            SetCell(-4, +2, StructureType.Wall1);
-
-            SetCell(-4, +4, StructureType.Wall2);
-            SetCell(-2, +4, StructureType.Wall1);
-            SetCell(+0, +4, StructureType.Wall2);
-            SetCell(+2, +4, StructureType.Wall1);
-
+            SetCellLine(+4, +3, +4, -3, StructureType.Wall1);
+            SetCellLine(-4, +3, -4, -3, StructureType.Wall1);
+            SetCellLine(-3, +4, +3, +4, StructureType.Wall1);
+            SetCellLine(-3, -4, +3, -4, StructureType.Wall1);
+            
             OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
 
@@ -134,6 +121,54 @@ namespace MMH
         private void SetCell(int2 position, GroundType groundType)
         {
             SetCell(position.x, position.y, groundType);
+        }
+
+        private void SetCellLine(int x1, int y1, int x2, int y2, GroundType groundType)
+		{
+            for (int x = x1; x <= x2; x++)
+			{
+                for (int y = y1; y <= y2; y++)
+				{
+                    SetCell(x, y, groundType);
+				}
+			}
+		}
+
+        private void SetCellLine(int x1, int y1, int x2, int y2, StructureType structureType)
+        {
+            for (int x = x1; x <= x2; x++)
+            {
+                for (int y = y1; y <= y2; y++)
+                {
+                    SetCell(x, y, structureType);
+                }
+            }
+        }
+
+        private void SetCellLine(int x1, int y1, int x2, int y2, OverlayType overlayType)
+        {
+            for (int x = x1; x <= x2; x++)
+            {
+                for (int y = y1; y <= y2; y++)
+                {
+                    SetCell(x, y, overlayType);
+                }
+            }
+        }
+
+        private void SetCellLine(int2 position1, int2 position2, GroundType groundType)
+		{
+            SetCellLine(position1.x, position1.y, position2.x, position2.y, groundType);
+		}
+
+        private void SetCellLine(int2 position1, int2 position2, StructureType structureType)
+        {
+            SetCellLine(position1.x, position1.y, position2.x, position2.y, structureType);
+        }
+
+        private void SetCellLine(int2 position1, int2 position2, OverlayType overlayType)
+        {
+            SetCellLine(position1.x, position1.y, position2.x, position2.y, overlayType);
         }
 
         private void SetSolid(int x, int y, bool solid)
