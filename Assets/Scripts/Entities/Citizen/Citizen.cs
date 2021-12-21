@@ -11,11 +11,13 @@ namespace MMH
 		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenRenderDirection;
 		public static event EventHandler<OnCitizenEventArgs> OnUpdateCitizenRenderPosition;
 
-		public int Id { get; }
-		public int Cooldown { get; set; }
+		public int Id { get; private set; }
 		public Direction Direction { get; set; }
 		public int2 Position { get; set; }
 		public Nation Nation { get; set; }
+		
+		public int Cooldown { get; set; }
+
 		public CitizenAttributes Attributes { get; set; }
 		
 		private readonly Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
@@ -37,8 +39,8 @@ namespace MMH
 
 			_movementStates = new Dictionary<CitizenMovementStateType, CitizenMovementState>
 			{
-				[CitizenMovementStateType.Idle] = new CitizenIdle(this),
-				[CitizenMovementStateType.Wander] = new CitizenWander(this)
+				[CitizenMovementStateType.Idle] = new CitizenIdleState(this),
+				[CitizenMovementStateType.Wander] = new CitizenWanderState(this)
 			};
 
 			_currentMovementState = _movementStates[CitizenMovementStateType.Idle];

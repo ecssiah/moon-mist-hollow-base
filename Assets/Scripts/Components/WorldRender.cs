@@ -95,20 +95,18 @@ namespace MMH
             };
 
             Animator guysAnimator = _nationPrefabs[Nation.Guys].GetComponent<Animator>();
+            Animator kailtAnimator = _nationPrefabs[Nation.Kailt].GetComponent<Animator>();
+            Animator taylorAnimator = _nationPrefabs[Nation.Taylor].GetComponent<Animator>();
 
             foreach (AnimationClip clip in guysAnimator.runtimeAnimatorController.animationClips)
             {
                 clip.frameRate = 16;
             }
 
-            Animator kailtAnimator = _nationPrefabs[Nation.Kailt].GetComponent<Animator>();
-
             foreach (AnimationClip clip in kailtAnimator.runtimeAnimatorController.animationClips)
             {
                 clip.frameRate = 16;
             }
-
-            Animator taylorAnimator = _nationPrefabs[Nation.Taylor].GetComponent<Animator>();
 
             foreach (AnimationClip clip in taylorAnimator.runtimeAnimatorController.animationClips)
             {
@@ -143,7 +141,7 @@ namespace MMH
             CitizenRenderData citizenRenderData = new CitizenRenderData();
 
             Vector3 startPosition = GridToWorld(citizen.Position);
-            startPosition.z = citizen.Id * _renderSettings.CitizenSpacing;
+            startPosition.z = citizen.Id * _renderSettings.EntitySpacing;
 
             citizenRenderData.WorldGameObject = Instantiate(
                 _nationPrefabs[citizen.Nation], 
@@ -179,7 +177,7 @@ namespace MMH
             Vector3 startPosition = citizenRenderData.WorldGameObject.transform.position;
 
             Vector3 endPosition = GridToWorld(citizen.Position);
-            endPosition.z = citizen.Id * _renderSettings.CitizenSpacing;
+            endPosition.z = citizen.Id * _renderSettings.EntitySpacing;
 
             PlayAnimation(citizen, CitizenAnimationType.Walk);
             

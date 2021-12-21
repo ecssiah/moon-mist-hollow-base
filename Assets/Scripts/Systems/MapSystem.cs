@@ -28,9 +28,8 @@ namespace MMH
 
             for (int id = 0; id < _worldMap.Area; id++)
             {
-                Cell cell = new Cell
+                Cell cell = new Cell(id)
                 {
-                    Id = id,
                     Solid = false,
                     Position = IdToPosition(id),
                     OverlayType = OverlayType.None,
@@ -253,10 +252,10 @@ namespace MMH
 
 		public bool OnMap(int x, int y)
 		{
-            bool insideHorizontalLimits = x >= -_worldMap.Size && x <= _worldMap.Size;
-            bool insideVerticalLimits = y >= -_worldMap.Size && y <= _worldMap.Size;
+            bool insideHorizontalBounds = x >= -_worldMap.Size && x <= _worldMap.Size;
+            bool insideVerticalBounds = y >= -_worldMap.Size && y <= _worldMap.Size;
 
-            return insideHorizontalLimits && insideVerticalLimits;
+            return insideHorizontalBounds && insideVerticalBounds;
         }
 
         public bool OnMap(int2 position)

@@ -12,12 +12,12 @@ namespace MMH
 
 		private Camera _camera;
 
-		private PlayerInputActions _playerInputActions;
+		private UserInputActions _userInputActions;
 
-		private InputAction _pan;
-		private InputAction _zoom;
-		private InputAction _primary;
-		private InputAction _secondary;
+		private InputAction _panAction;
+		private InputAction _zoomAction;
+		private InputAction _primaryAction;
+		private InputAction _secondaryAction;
 
 		void Awake()
 		{
@@ -30,23 +30,23 @@ namespace MMH
 			_camera.transform.position = new Vector3(0, 0, -10);
 			_camera.orthographicSize = _renderSettings.DefaultZoom;
 
-			_playerInputActions = new PlayerInputActions();
+			_userInputActions = new UserInputActions();
 
-			_pan = _playerInputActions.Player.Pan;
-			_zoom = _playerInputActions.Player.Zoom;
-			_primary = _playerInputActions.Player.Primary;
-			_secondary = _playerInputActions.Player.Secondary;
+			_panAction = _userInputActions.Player.Pan;
+			_zoomAction = _userInputActions.Player.Zoom;
+			_primaryAction = _userInputActions.Player.Primary;
+			_secondaryAction = _userInputActions.Player.Secondary;
 		}
 
 		void OnEnable()
 		{
-			_pan.Enable();
-			_zoom.Enable();
-			_primary.Enable();
-			_secondary.Enable();
+			_panAction.Enable();
+			_zoomAction.Enable();
+			_primaryAction.Enable();
+			_secondaryAction.Enable();
 
-			_primary.performed += PrimaryAction;
-			_secondary.performed += SecondaryAction;
+			_primaryAction.performed += PrimaryAction;
+			_secondaryAction.performed += SecondaryAction;
 		}
 
 		void Update()
@@ -57,7 +57,7 @@ namespace MMH
 
 		private void UpdatePan()
 		{
-			Vector2 panValue = _pan.ReadValue<Vector2>();
+			Vector2 panValue = _panAction.ReadValue<Vector2>();
 			Vector3 panDisplacement = _panSpeed * panValue;
 
 			_camera.transform.position = Vector3.Lerp(
@@ -69,7 +69,7 @@ namespace MMH
 
 		private void UpdateZoom()
 		{
-			float zoomValue = _zoom.ReadValue<float>();
+			float zoomValue = _zoomAction.ReadValue<float>();
 			float zoomDisplacement = _zoomSpeed * zoomValue;
 
 			_camera.orthographicSize = Mathf.Lerp(
@@ -87,10 +87,10 @@ namespace MMH
 
 		void OnDisable()
 		{
-			_pan.Disable();
-			_zoom.Disable();
-			_primary.Disable();
-			_secondary.Disable();
+			_panAction.Disable();
+			_zoomAction.Disable();
+			_primaryAction.Disable();
+			_secondaryAction.Disable();
 		}
 
 		private void PrimaryAction(InputAction.CallbackContext callbackContext)

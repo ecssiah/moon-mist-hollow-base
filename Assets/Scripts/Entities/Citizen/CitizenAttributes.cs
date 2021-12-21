@@ -2,8 +2,8 @@ namespace MMH
 {
 	public class CitizenAttributes
 	{
-		public float Strength;
-		public float Intelligence;
-		public float Speed;
+		public float Strength { get; set; }
+		public float Intelligence { get; set; }
+		public float Speed { get; set; }
 	}
 }

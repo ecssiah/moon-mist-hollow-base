@@ -8,7 +8,7 @@ namespace MMH
 {
 	public class Interface : MonoBehaviour
     {
-        public static event EventHandler<OnUpdateMovementStateArgs> OnUpdateMovementState;
+        public static event EventHandler<OnUpdateCitizenMovementStateArgs> OnUpdateMovementState;
 
         private UnityAction<int> _ruleChangeAction;
 
@@ -32,7 +32,7 @@ namespace MMH
 
         private void OnRuleChange(int value)
 		{
-            var eventArgs = new OnUpdateMovementStateArgs
+            var eventArgs = new OnUpdateCitizenMovementStateArgs
             {
                 CitizenMovementStateType = (CitizenMovementStateType)value
             };

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MMH
 {
-	[CreateAssetMenu(fileName = "New Render Settings", menuName = "Render Settings")]
+	[CreateAssetMenu(fileName = "RenderSettings", menuName = "Render Settings")]
 	public class RenderSettings : ScriptableObject
 	{
 		[Header("Camera")]
@@ -17,6 +17,6 @@ namespace MMH
 		public float MaxZoom = 20f;
 
 		[Header("Entities")]
-		public float CitizenSpacing = 0.00001f;
+		public float EntitySpacing = 0.00001f;
 	}
 }

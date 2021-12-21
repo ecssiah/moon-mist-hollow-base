@@ -1,8 +1,8 @@
 namespace MMH
 {
-	public class CitizenWander : CitizenMovementState
+	public class CitizenWanderState : CitizenMovementState
 	{
-		public CitizenWander(Citizen citizen) : base(citizen) { }
+		public CitizenWanderState(Citizen citizen) : base(citizen) { }
 
 		public override void Tick()
 		{
@@ -10,11 +10,11 @@ namespace MMH
 			{
 				Direction newDirection = Utils.RandomEnumValue<Direction>();
 
+				_citizen.Direction = newDirection;
+
 				if (SimulationManager.Instance.MapSystem.IsPassable(_citizen.Position, newDirection))
 				{
 					_citizen.Cooldown = MapInfo.DirectionCosts[newDirection];
-
-					_citizen.Direction = newDirection;
 					_citizen.Position += MapInfo.DirectionVectors[newDirection];
 
 					_citizen.UpdateRenderPosition();
@@ -22,8 +22,6 @@ namespace MMH
 				else
 				{
 					_citizen.Cooldown = 4;
-
-					_citizen.Direction = newDirection;
 
 					_citizen.UpdateRenderDirection();
 				}

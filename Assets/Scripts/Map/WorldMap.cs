@@ -4,11 +4,11 @@ namespace MMH
 {
 	public class WorldMap
 	{
-		public int Size;
+		public int Size { get; private set; }
 		public int Width => 2 * Size + 1;
 		public int Area => Width * Width;
 
-		public List<Cell> Cells;
+		public List<Cell> Cells { get; private set; }
 
 		public WorldMap(int size)
 		{

@@ -4,7 +4,7 @@ namespace MMH
 {
 	public class CitizenRenderData
 	{
-		public GameObject WorldGameObject;
-		public Animator Animator;
+		public GameObject WorldGameObject { get; set; }
+		public Animator Animator { get; set; }
 	}
 }
