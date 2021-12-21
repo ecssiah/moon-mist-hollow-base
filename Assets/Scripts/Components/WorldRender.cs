@@ -83,7 +83,7 @@ namespace MMH
 
         private void SetupCitizenResources()
 		{
-            _citizenGameObject = GameObject.Find("World/Citizens");
+            _citizenGameObject = GameObject.Find("World/Entities/Citizens");
 
             _citizenRenderData = new Dictionary<int, CitizenRenderData>();
 
