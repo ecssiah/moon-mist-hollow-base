@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace MMH
 {
-
 	public class EntitySystem : SimulationSystem
     {
         public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
@@ -27,7 +26,7 @@ namespace MMH
 
         private void CreateCitizens()
         {
-            _citizenList = new List<Citizen>();
+            _citizenList = new List<Citizen>(EntityInfo.TotalCitizens);
 
 			for (int i = 0; i < EntityInfo.TotalCitizens; i++)
 			{
