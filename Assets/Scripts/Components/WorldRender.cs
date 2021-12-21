@@ -26,7 +26,7 @@ namespace MMH
         private Dictionary<StructureType, Tile> _structureTiles;
         private Dictionary<GroundType, Tile> _groundTiles;
 		
-        private GameObject _citizenGameObject;
+        private GameObject _citizensGameObject;
 
         private Dictionary<int, CitizenRenderData> _citizenRenderData;
 
@@ -83,7 +83,7 @@ namespace MMH
 
         private void SetupCitizenResources()
 		{
-            _citizenGameObject = GameObject.Find("World/Entities/Citizens");
+            _citizensGameObject = GameObject.Find("World/Entities/Citizens");
 
             _citizenRenderData = new Dictionary<int, CitizenRenderData>();
 
@@ -147,7 +147,7 @@ namespace MMH
                 _nationPrefabs[citizen.Nation], 
                 startPosition, 
                 Quaternion.identity, 
-                _citizenGameObject.transform
+                _citizensGameObject.transform
             );
             
             citizenRenderData.Animator = citizenRenderData.WorldGameObject.GetComponent<Animator>();
