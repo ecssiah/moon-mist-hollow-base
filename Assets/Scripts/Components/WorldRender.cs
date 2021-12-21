@@ -89,9 +89,9 @@ namespace MMH
 
             _nationPrefabs = new Dictionary<Nation, GameObject>
             {
-                [Nation.Guys] = Resources.Load<GameObject>("Prefabs/Guys"),
-                [Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Kailt"),
-                [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Taylor"),
+                [Nation.Guys] = Resources.Load<GameObject>("Prefabs/Entities/Citizen/GuysPrefab"),
+                [Nation.Kailt] = Resources.Load<GameObject>("Prefabs/Entities/Citizen/KailtPrefab"),
+                [Nation.Taylor] = Resources.Load<GameObject>("Prefabs/Entities/Citizen/TaylorPrefab"),
             };
 
             Animator guysAnimator = _nationPrefabs[Nation.Guys].GetComponent<Animator>();
