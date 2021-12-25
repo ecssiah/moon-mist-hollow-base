@@ -1,6 +1,8 @@
-﻿namespace MMH
+﻿using System;
+
+namespace MMH
 {
-	public class OnMapEventArgs
+	public class OnMapEventArgs : EventArgs
 	{
 		public WorldMap WorldMap;
 	}
