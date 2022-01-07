@@ -145,14 +145,12 @@ namespace MMH
             {
                 for (int y = y1; y <= y2; y++)
                 {
-                    if (fill)
+                    bool onEdge = x == x1 || y == y1 || x == x2 || y == y2;
+
+                    if (fill || onEdge)
 					{
                         SetCell(x, y, groundType);
 					}
-					else if ((x == x1 || x == x2) && (y == y1 || y == y2))
-					{
-                        SetCell(x, y, groundType);
-                    }
                 }
             }
         }
@@ -177,11 +175,9 @@ namespace MMH
             {
                 for (int y = y1; y <= y2; y++)
                 {
-                    if (fill)
-                    {
-                        SetCell(x, y, structureType);
-                    }
-                    else if (x == x1 || x == x2 || y == y1 || y == y2)
+                    bool onEdge = x == x1 || y == y1 || x == x2 || y == y2;
+
+                    if (fill || onEdge)
                     {
                         SetCell(x, y, structureType);
                     }
@@ -209,11 +205,9 @@ namespace MMH
             {
                 for (int y = y1; y <= y2; y++)
                 {
-                    if (fill)
-                    {
-                        SetCell(x, y, overlayType);
-                    }
-                    else if (x == x1 || x == x2 || y == y1 || y == y2)
+                    bool onEdge = x == x1 || y == y1 || x == x2 || y == y2;
+
+                    if (fill || onEdge)
                     {
                         SetCell(x, y, overlayType);
                     }
@@ -221,19 +215,19 @@ namespace MMH
             }
         }
 
-        private void SetCellBox(int2 position1, int2 position2, GroundType groundType)
+        private void SetCellBox(int2 position1, int2 position2, GroundType groundType, bool fill = false)
 		{
-            SetCellBox(position1.x, position1.y, position2.x, position2.y, groundType);
+            SetCellBox(position1.x, position1.y, position2.x, position2.y, groundType, fill);
 		}
 
-        private void SetCellBox(int2 position1, int2 position2, StructureType structureType)
+        private void SetCellBox(int2 position1, int2 position2, StructureType structureType, bool fill = false)
         {
-            SetCellBox(position1.x, position1.y, position2.x, position2.y, structureType);
+            SetCellBox(position1.x, position1.y, position2.x, position2.y, structureType, fill);
         }
 
-        private void SetCellBox(int2 position1, int2 position2, OverlayType overlayType)
+        private void SetCellBox(int2 position1, int2 position2, OverlayType overlayType, bool fill = false)
         {
-            SetCellBox(position1.x, position1.y, position2.x, position2.y, overlayType);
+            SetCellBox(position1.x, position1.y, position2.x, position2.y, overlayType, fill);
         }
 
         private void SetSolid(int x, int y, bool solid)
