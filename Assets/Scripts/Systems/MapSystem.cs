@@ -47,10 +47,8 @@ namespace MMH
             SetCell(-6, -6, StructureType.Wall2);
             SetCell(-6, +6, StructureType.Wall2);
 
-            SetCellLine(-6, +3, -6, -3, StructureType.Wall1);
-            SetCellLine(+6, +3, +6, -3, StructureType.Wall1);
-            SetCellLine(-3, +6, +3, +6, StructureType.Wall1);
-            SetCellLine(+3, -6, -3, -6, StructureType.Wall1);
+            SetCellBox(+3, +3, -3, -3, GroundType.Floor2, true);
+            SetCellBox(-3, -3, +3, +3, StructureType.Wall1);
 
             OnUpdateMapRender?.Invoke(this, new OnMapEventArgs { WorldMap = _worldMap });
         }
@@ -127,32 +125,39 @@ namespace MMH
             SetCell(position.x, position.y, groundType);
         }
 
-        private void SetCellLine(int x1, int y1, int x2, int y2, GroundType groundType)
+        private void SetCellBox(int x1, int y1, int x2, int y2, GroundType groundType, bool fill = false)
 		{
             if (x1 > x2)
-			{
+            {
                 var temp = x1;
                 x1 = x2;
                 x2 = temp;
-			}
+            }
 
             if (y1 > y2)
-			{
+            {
                 var temp = y1;
                 y1 = y2;
                 y2 = temp;
-			}
+            }
 
             for (int x = x1; x <= x2; x++)
-			{
+            {
                 for (int y = y1; y <= y2; y++)
-				{
-                    SetCell(x, y, groundType);
-				}
-			}
-		}
+                {
+                    if (fill)
+					{
+                        SetCell(x, y, groundType);
+					}
+					else if ((x == x1 || x == x2) && (y == y1 || y == y2))
+					{
+                        SetCell(x, y, groundType);
+                    }
+                }
+            }
+        }
 
-        private void SetCellLine(int x1, int y1, int x2, int y2, StructureType structureType)
+        private void SetCellBox(int x1, int y1, int x2, int y2, StructureType structureType, bool fill = false)
         {
             if (x1 > x2)
             {
@@ -172,12 +177,19 @@ namespace MMH
             {
                 for (int y = y1; y <= y2; y++)
                 {
-                    SetCell(x, y, structureType);
+                    if (fill)
+                    {
+                        SetCell(x, y, structureType);
+                    }
+                    else if (x == x1 || x == x2 || y == y1 || y == y2)
+                    {
+                        SetCell(x, y, structureType);
+                    }
                 }
             }
         }
 
-        private void SetCellLine(int x1, int y1, int x2, int y2, OverlayType overlayType)
+        private void SetCellBox(int x1, int y1, int x2, int y2, OverlayType overlayType, bool fill = false)
         {
             if (x1 > x2)
             {
@@ -197,24 +209,31 @@ namespace MMH
             {
                 for (int y = y1; y <= y2; y++)
                 {
-                    SetCell(x, y, overlayType);
+                    if (fill)
+                    {
+                        SetCell(x, y, overlayType);
+                    }
+                    else if (x == x1 || x == x2 || y == y1 || y == y2)
+                    {
+                        SetCell(x, y, overlayType);
+                    }
                 }
             }
         }
 
-        private void SetCellLine(int2 position1, int2 position2, GroundType groundType)
+        private void SetCellBox(int2 position1, int2 position2, GroundType groundType)
 		{
-            SetCellLine(position1.x, position1.y, position2.x, position2.y, groundType);
+            SetCellBox(position1.x, position1.y, position2.x, position2.y, groundType);
 		}
 
-        private void SetCellLine(int2 position1, int2 position2, StructureType structureType)
+        private void SetCellBox(int2 position1, int2 position2, StructureType structureType)
         {
-            SetCellLine(position1.x, position1.y, position2.x, position2.y, structureType);
+            SetCellBox(position1.x, position1.y, position2.x, position2.y, structureType);
         }
 
-        private void SetCellLine(int2 position1, int2 position2, OverlayType overlayType)
+        private void SetCellBox(int2 position1, int2 position2, OverlayType overlayType)
         {
-            SetCellLine(position1.x, position1.y, position2.x, position2.y, overlayType);
+            SetCellBox(position1.x, position1.y, position2.x, position2.y, overlayType);
         }
 
         private void SetSolid(int x, int y, bool solid)
