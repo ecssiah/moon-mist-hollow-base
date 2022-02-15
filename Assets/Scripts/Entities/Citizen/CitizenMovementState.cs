@@ -8,7 +8,7 @@ namespace MMH
 		{
 			_citizen = citizen;
 		}
-		
+
 		public abstract void Tick();
 	}
 }

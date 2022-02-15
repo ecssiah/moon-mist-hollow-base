@@ -25,7 +25,7 @@ namespace MMH
 
 			_panSpeed = _renderSettings.PanSpeed;
 			_zoomSpeed = _renderSettings.ZoomSpeed;
-			
+
 			_camera = GameObject.Find("User").GetComponentInChildren<Camera>();
 			_camera.transform.position = new Vector3(0, 0, -10);
 			_camera.orthographicSize = _renderSettings.DefaultZoom;
@@ -79,8 +79,8 @@ namespace MMH
 			);
 
 			_camera.orthographicSize = Mathf.Clamp(
-				_camera.orthographicSize, 
-				_renderSettings.MinZoom, 
+				_camera.orthographicSize,
+				_renderSettings.MinZoom,
 				_renderSettings.MaxZoom
 			);
 		}

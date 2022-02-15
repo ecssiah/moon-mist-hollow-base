@@ -15,11 +15,11 @@ namespace MMH
 		public Direction Direction { get; set; }
 		public int2 Position { get; set; }
 		public Nation Nation { get; set; }
-		
+
 		public int Cooldown { get; set; }
 
 		public CitizenAttributes Attributes { get; set; }
-		
+
 		private readonly Dictionary<CitizenMovementStateType, CitizenMovementState> _movementStates;
 
 		private CitizenMovementState _currentMovementState;

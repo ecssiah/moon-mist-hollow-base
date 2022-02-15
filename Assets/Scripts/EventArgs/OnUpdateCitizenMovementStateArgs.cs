@@ -2,9 +2,9 @@
 
 namespace MMH
 {
-    public class OnUpdateCitizenMovementStateArgs : EventArgs
-    {
-        public CitizenMovementStateType CitizenMovementStateType;
-    }
+	public class OnUpdateCitizenMovementStateArgs : EventArgs
+	{
+		public CitizenMovementStateType CitizenMovementStateType;
+	}
 }
 

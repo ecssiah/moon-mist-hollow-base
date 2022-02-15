@@ -5,35 +5,35 @@ using UnityEngine;
 namespace MMH
 {
 	public class EntitySystem : SimulationSystem
-    {
-        public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
+	{
+		public static event EventHandler<OnCitizenEventArgs> OnCreateCitizen;
 
-        private List<Citizen> _citizenList;
+		private List<Citizen> _citizenList;
 
 		public override void Init()
 		{
-            SetupEvents();
-            
-            CreateCitizens();
-        }
+			SetupEvents();
 
-        private void SetupEvents()
-		{
-            SimulationManager.OnTick += Tick;
-
-            Interface.OnUpdateMovementState += UpdateMovementState;
+			CreateCitizens();
 		}
 
-        private void CreateCitizens()
-        {
-            _citizenList = new List<Citizen>(EntityInfo.TotalCitizens);
+		private void SetupEvents()
+		{
+			SimulationManager.OnTick += Tick;
+
+			Interface.OnUpdateMovementState += UpdateMovementState;
+		}
+
+		private void CreateCitizens()
+		{
+			_citizenList = new List<Citizen>(EntityInfo.TotalCitizens);
 
 			for (int i = 0; i < EntityInfo.TotalCitizens; i++)
 			{
 				var newCitizen = new Citizen()
 				{
-                    Nation = Utils.RandomEnumValue<Nation>(),
-                    Direction = Utils.RandomEnumValue<Direction>(),
+					Nation = Utils.RandomEnumValue<Nation>(),
+					Direction = Utils.RandomEnumValue<Direction>(),
 					Position = SimulationManager.Instance.MapSystem.GetOpenCellPosition()
 				};
 
@@ -43,27 +43,27 @@ namespace MMH
 			}
 		}
 
-        protected override void Tick(object sender, OnTickArgs eventArgs)
-        {
-            foreach (Citizen citizen in _citizenList)
-            {
-                citizen.Tick();
-            }
-        }
-
-        public override void Quit()
-        {
-            SimulationManager.OnTick -= Tick;
-
-            Interface.OnUpdateMovementState -= UpdateMovementState;
-        }
-        
-        private void UpdateMovementState(object sender, OnUpdateCitizenMovementStateArgs eventArgs)
+		protected override void Tick(object sender, OnTickArgs eventArgs)
 		{
-            foreach (Citizen citizen in _citizenList)
+			foreach (Citizen citizen in _citizenList)
 			{
-                citizen.SetMovementState(eventArgs.CitizenMovementStateType);
-            }
+				citizen.Tick();
+			}
 		}
-    }
+
+		public override void Quit()
+		{
+			SimulationManager.OnTick -= Tick;
+
+			Interface.OnUpdateMovementState -= UpdateMovementState;
+		}
+
+		private void UpdateMovementState(object sender, OnUpdateCitizenMovementStateArgs eventArgs)
+		{
+			foreach (Citizen citizen in _citizenList)
+			{
+				citizen.SetMovementState(eventArgs.CitizenMovementStateType);
+			}
+		}
+	}
 }

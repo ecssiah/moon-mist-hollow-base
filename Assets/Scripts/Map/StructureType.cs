@@ -1,9 +1,9 @@
 ﻿namespace MMH
 {
 	public enum StructureType
-    {
-        None,
-        Wall1,
-        Wall2,
-    }
+	{
+		None,
+		Wall1,
+		Wall2,
+	}
 }

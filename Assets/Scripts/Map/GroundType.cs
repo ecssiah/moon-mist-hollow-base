@@ -1,9 +1,9 @@
 ﻿namespace MMH
 {
 	public enum GroundType
-    {
-        None,
-        Floor1,
-        Floor2,
-    }
+	{
+		None,
+		Floor1,
+		Floor2,
+	}
 }

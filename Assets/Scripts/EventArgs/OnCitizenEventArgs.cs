@@ -3,7 +3,7 @@
 namespace MMH
 {
 	public class OnCitizenEventArgs : EventArgs
-    {
-        public Citizen Citizen;
-    }
+	{
+		public Citizen Citizen;
+	}
 }
